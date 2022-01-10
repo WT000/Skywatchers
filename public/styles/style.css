@@ -1,0 +1,56 @@
+p, h1, h2, h3, h4, h5, h6{
+    color: rgb(211, 211, 211);
+}
+
+a {
+    color: white;
+}
+
+main{
+    background-color: #31373d;
+}
+
+.bg-lightdark{
+    background-color: #31373d;
+}
+
+h2{
+    margin-bottom: 15px;
+}
+
+.bd-placeholder-img {
+    font-size: 1.125rem;
+    text-anchor: middle;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+  }
+
+.nav-item{
+    padding-left: 30px;
+    padding-right: 30px;
+}
+
+.navbar-brand{
+    padding-left: 30px;
+    padding-right: 30px;
+    margin-right: 0;
+}
+
+#main-logo{
+    width: 30%;
+}
+
+.card-body{
+    padding-top: 5px;
+}
+
+.card-title{
+    margin-bottom: 5px;
+}
+
+@media (min-width: 768px) {
+    .bd-placeholder-img-lg {
+      font-size: 3.5rem;
+    }
+}
