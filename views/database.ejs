@@ -6,18 +6,28 @@
         </section>
         
         <div class="container pt-3 px-4 bg-dark search-area">
-            <p class="text-center">Object Filter</p>
+            <h4 class="text-center">Object Filter</h4>
             <form>
                 <div class="row">
                   <div class="col">
-                    <input class="form-control" placeholder="Object name" name="objectName">
+                    <label for="object-name">Object Name</label>
+                    <input class="form-control" id="object-name" name="objectName">
                   </div>
                   <div class="col">
-                    <select class="form-select" name="objectType">
+                    <label for="object-type">Object Type</label>
+                    <select class="form-select" id="object-type" name="objectType">
                         <option>All</option>
                         <option>(type)</option>
                         <option>(type)</option>
                         <option>(type)</option>
+                    </select>
+                  </div>
+                  <div class="col">
+                    <label for="object-order">Object Order</label>
+                    <select class="form-select" id="object-order" name="objectOrder">
+                        <option>A-Z</option>
+                        <option>Z-A</option>
+                        <option>Date Added</option>
                     </select>
                   </div>
                 </div>
