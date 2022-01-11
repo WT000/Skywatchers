@@ -1,5 +1,5 @@
 {
-  "name": "DatabasesAE1",
+  "name": "database-ae1",
   "version": "1.0.0",
   "description": "My program for Advanced Database System's AE1, a web app used to track astronomical objects.",
   "main": "app.js",
