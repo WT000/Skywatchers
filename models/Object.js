@@ -3,7 +3,7 @@ const { Schema } = mongoose;
 
 const objectSchema = new Schema(
     /*
-    name - The name of the object - Not given a unique check as this will only be performed when making an object public (to ensure people can keep personal objects)
+    name - The name of the object - Not given a unique check as this will only be performed when making an object public, to ensure it's publicly unique (so people can keep unlimited personal objects and records) and not part of the Other category.
     otherNames - Other names given to the object
     type - What ObjectType the object is
     description - A short description on what the object is
