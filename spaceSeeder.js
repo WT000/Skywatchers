@@ -101,30 +101,47 @@ async function main() {
         // Attempt to connect to the database and find if it's already populated
         await client.connect();
         const db = client.db();
+        
+        // Strangely dropping the entire database at once sometimes runs into an error, 
+        // so collections are dropped individually to ensure this doesn't happen
         const types = await db.collection("objectTypes").find({}).count();
         const ranks = await db.collection("userRanks").find({}).count();
+        const users = await db.collection("users").find({}).count();
+        const objects = await db.collection("objects").find({}).count();
 
-        // Types or Ranks (which are seeded) exist, reset the database
-        if (types || ranks) {
-            // Strangely dropping the entire database at once sometimes runs into an error, 
-            // so collections are dropped individually to ensure this doesn't happen
+        // Something exist, reset the collection(s)
+        if (types || ranks || users || objects) {
             if (types) {
                 console.log("Clearing old object types...");
                 await db.collection("objectTypes").drop();
-            }
+            };
             if (ranks) {
                 console.log("Clearing old user ranks...");
                 await db.collection("userRanks").drop();
-            }
+            };
+            if (users) {
+                console.log("Clearing old users...");
+                await db.collection("users").drop();
+            };
+            if (objects) {
+                console.log("Clearing old objects...");
+                await db.collection("objects").drop();
+            };
         }
 
-        console.log("Inserting object types...");
+        console.log("Inserting object types into objectTypes collection...");
         await db.collection("objectTypes").insertMany(objectTypes);
 
-        console.log("Inserting user ranks...");
+        console.log("Inserting user ranks into userRanks collection...");
         await db.collection("userRanks").insertMany(userRanks);
 
-        console.log("Object Types and User Ranks imported!");
+        console.log("Creating users collection...")
+        await db.createCollection("users");
+
+        console.log("Creating objects collection...");
+        await db.createCollection("objects");
+
+        console.log("Database ready!");
         process.exit();
 
     } catch (e) {
