@@ -1,8 +1,18 @@
-// Ordered by how likely a user will see one of these in the sky
+// Ordered by how likely an astronomer will see one of these in the sky when looking through a telescope
 const objectTypes = [
     {
         name: "Star",
         description: "A massive ball of hydrogen and helium, reaching temperatures which turn it into plasma.",
+        rankScore: 1,
+    },
+    {
+        name: "Planet",
+        description: "Spherical objects made from rock, water, gas or ice which usually orbit a star.",
+        rankScore: 1,
+    },
+    {
+        name: "Moon",
+        description: "Objects usually made from rock in orbit around a planet.",
         rankScore: 1,
     },
     {
@@ -14,16 +24,6 @@ const objectTypes = [
         name: "Galaxy",
         description: "Huge collections of stars ranging from dwarf galaxies to giant elliptical galaxies.",
         rankScore: 3,
-    },
-    {
-        name: "Planet",
-        description: "Spherical objects made from rock, water, gas or ice which usually orbit a star.",
-        rankScore: 1,
-    },
-    {
-        name: "Moon",
-        description: "Objects usually made from rock in orbit around a planet.",
-        rankScore: 1,
     },
     {
         name: "Dwarf Planet",
