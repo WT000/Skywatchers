@@ -1,7 +1,7 @@
 {
   "name": "database-ae1",
   "version": "1.0.0",
-  "description": "My program for Advanced Database System's AE1, a web app used to track astronomical objects.",
+  "description": "My prototype program for Advanced Database System's AE1, a web app used to track astronomical objects.",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
