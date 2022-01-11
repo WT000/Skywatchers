@@ -84,3 +84,9 @@ hr{
       font-size: 3.5rem;
     }
 }
+
+@media screen and (max-width: 768px) {
+    .carousel-indicators {
+        bottom: -50px;
+    }
+}
