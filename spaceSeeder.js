@@ -50,6 +50,11 @@ const objectTypes = [
         description: "The gigantic black holes found at the core of galaxies.",
         rankScore: 10,
     },
+    {
+        name: "Other",
+        description: "Something which doesn't match any of the given types.",
+        rankScore: 0,
+    },
 ];
 
 // Ordered by rankScoreNeeded
@@ -106,11 +111,9 @@ async function main() {
         // so collections are dropped individually to ensure this doesn't happen
         const types = await db.collection("objectTypes").find({}).count();
         const ranks = await db.collection("userRanks").find({}).count();
-        const users = await db.collection("users").find({}).count();
-        const objects = await db.collection("objects").find({}).count();
 
-        // Something exist, reset the collection(s)
-        if (types || ranks || users || objects) {
+        // The database already exists, reset the collection(s)
+        if (types || ranks) {
             if (types) {
                 console.log("Clearing old object types...");
                 await db.collection("objectTypes").drop();
@@ -119,15 +122,13 @@ async function main() {
                 console.log("Clearing old user ranks...");
                 await db.collection("userRanks").drop();
             };
-            if (users) {
-                console.log("Clearing old users...");
-                await db.collection("users").drop();
-            };
-            if (objects) {
-                console.log("Clearing old objects...");
-                await db.collection("objects").drop();
-            };
-        }
+            
+            console.log("Clearing old users...");
+            await db.collection("users").drop();
+
+            console.log("Clearing old objects...");
+            await db.collection("objects").drop();
+        };
 
         console.log("Inserting object types into objectTypes collection...");
         await db.collection("objectTypes").insertMany(objectTypes);
@@ -146,7 +147,7 @@ async function main() {
 
     } catch (e) {
         // An error occurred...
-        console.error("Encountered an error: ", error)
+        console.error("Encountered an error: ", e)
         process.exit();
     }
 }
