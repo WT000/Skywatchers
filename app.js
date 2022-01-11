@@ -20,12 +20,16 @@ app.get("/statistics", (req, res) => {
     res.render("statistics");
 });
 
+app.get("/login", (req, res) => {
+    res.render("login");
+});
+
 app.get("/register", (req, res) => {
     res.render("register");
 });
 
-app.get("/login", (req, res) => {
-    res.render("login");
+app.get("/api", (req, res) => {
+    res.render("api");
 });
 
 // Start the app
