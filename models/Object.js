@@ -3,7 +3,7 @@ const { Schema } = mongoose;
 
 const objectSchema = new Schema(
     /*
-    name - The name of the object
+    name - The name of the object - Not given a unique check as this will only be performed when making an object public (to ensure people can keep personal objects)
     otherNames - Other names given to the object
     type - What ObjectType the object is
     description - A short description on what the object is
@@ -13,7 +13,7 @@ const objectSchema = new Schema(
     imagePath - The path to the image of the object
     */
     {
-        name: { type: String, required: [true, "Name is required"], unique: true, maxlength: [50, "Name too long"] },
+        name: { type: String, required: [true, "Name is required"], maxlength: [50, "Name too long"] },
         otherNames: [{ type: String, unique: true, maxlength: [50, "Other Name too long"] }],
         type: { type: mongoose.Schema.Types.ObjectId, ref: "ObjectType", required: [true, "Object Type is required"] },
         description: { type: String, maxlength: [100, "Description too long"] },
