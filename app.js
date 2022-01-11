@@ -8,12 +8,21 @@ app.use(express.static(path.join(__dirname, "public")));
 app.set("view engine", "ejs");
 
 // Setup the routes across the app
+// ALL USERS
 app.get("/", (req, res) => {
     res.render("index");
 });
 
 app.get("/database", (req, res) => {
     res.render("database");
+});
+
+app.get("/viewObject", (req, res) => {
+    res.render("viewObject");
+});
+
+app.get("/viewProfile", (req, res) => {
+    res.render("viewProfile");
 });
 
 app.get("/statistics", (req, res) => {
