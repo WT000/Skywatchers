@@ -15,6 +15,14 @@
                 </script>
             </div>
         <% } %>
+        <% if (message) { %>
+            <div class="alert alert-success text-center fade show" role="alert">
+                <%= message %>
+                <script type="text/javascript">
+                    setTimeout(e=> {$('.alert').alert('close');}, 4000);
+                </script>
+            </div>
+        <% } %>
         
         <section class="py-5 text-center container bg-lightdark">
             <h1>Login</h1>

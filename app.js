@@ -62,8 +62,7 @@ mongoose.connection.on("error", e => {
 // Setup the routes across the app
 // ALL USERS
 app.get("/", (req, res) => {
-    console.log(req.session.cookie);
-    res.render("index", { message: req.query.message });
+    res.render("index", { message: req.query.message, error: req.query.message });
 });
 
 app.get("/database", (req, res) => {
@@ -74,9 +73,7 @@ app.get("/viewObject", (req, res) => {
     res.render("viewObject");
 });
 
-app.get("/viewProfile", (req, res) => {
-    res.render("viewProfile");
-});
+app.get("/profile/view/:username", userController.view);
 
 app.get("/statistics", (req, res) => {
     res.render("statistics");
@@ -88,7 +85,7 @@ app.get("/register", (req, res) => {
 app.post("/register", userController.create);
 
 app.get("/login", (req, res) => {
-    res.render("login", { errors: {} });
+    res.render("login", { errors: {}, message: req.query.message });
 });
 app.post("/login", userController.login);
 

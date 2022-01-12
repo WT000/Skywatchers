@@ -5,11 +5,11 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="images/favicon.png">
+    <link rel="icon" href="/images/favicon.png">
     <title>Skywatchers - Document the Cosmos</title>
 
-    <link rel="stylesheet" href="styles/bootstrap.min.css">
-    <link rel="stylesheet" href="styles/style.css">
+    <link rel="stylesheet" href="/styles/bootstrap.min.css">
+    <link rel="stylesheet" href="/styles/style.css">
 </head>
 
 <body>
@@ -20,20 +20,20 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
-                <a class="navbar-brand" href="./">Skywatchers</a>
+                <a class="navbar-brand" href="/">Skywatchers</a>
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="./database">Object Database</a>
+                        <a class="nav-link" href="/database">Object Database</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="./statistics">Object Statistics</a>
+                        <a class="nav-link" href="/statistics">Object Statistics</a>
                     </li>
                     <% if (user) { %>
                     <li class="nav-item">
-                        <a class="nav-link" href="./database">Your Objects</a>
+                        <a class="nav-link" href="/database">Your Objects</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="./statistics">Your Statistics</a>
+                        <a class="nav-link" href="/statistics">Your Statistics</a>
                     </li>
                     <% } %>
                 </ul>
@@ -41,14 +41,14 @@
                 <ul class="navbar-nav ms-auto">
                     <% if (user) { %>
                     <li class="nav-item">
-                        <a class="nav-link" href="./viewProfile">Your Profile</a>
+                        <a class="nav-link" href="/profile/view/<%= user.username %>">Your Profile</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="./logout">Logout</a>
+                        <a class="nav-link" href="/logout">Logout</a>
                     </li>
                     <% } else if (!user) { %>
                     <li class="nav-item">
-                        <a class="nav-link" href="./login">Login</a>
+                        <a class="nav-link" href="/login">Login</a>
                     </li>
                     <% } %>
                 </ul>
