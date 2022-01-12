@@ -88,6 +88,10 @@ hr{
     width: 100%;
 }
 
+.user-rank{
+    margin-right: 5px;
+}
+
 @media (min-width: 768px) {
     .bd-placeholder-img-lg {
       font-size: 3.5rem;

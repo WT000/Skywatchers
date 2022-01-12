@@ -22,12 +22,12 @@
         
                               <tr>
                                 <th>Rank</th>
-                                <td><%= foundUserrank.name %> (<%= foundUser.rankScore %>)</td>
+                                <td><span class="user-rank"><%= foundUserrank.name %></span><span data-toggle="tooltip" title="<%= foundUserrank.description %>"><img src="/icons/question-circle.svg" alt="Bootstrap" width="16" height="16"></span></td>
                               </tr>
         
                               <tr>
                                 <th>Last Active</th>
-                                <td><%= foundUser.updatedAt %></td>
+                                <td><%= foundUserUpdated %></td>
                               </tr>
                             </tbody>
                         </table>
