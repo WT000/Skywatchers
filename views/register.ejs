@@ -1,40 +1,48 @@
 <%- include("common/header") %>
 
-<main>
-    <section class="py-5 text-center container bg-lightdark">
-        <h1>Register</h1>
-    </section>
-    
-    <div class="py-4 bg-dark">
-        <h2 class="text-center">Ready to start your adventure?</h2>
-        <div class="container">
-            <form action="/register" method="post">
-                <div class="row justify-content-center">
-                    <div class="col-4 bg-lightdark">
-                        <input class="mt-3 form-control" name="username" placeholder="Username" required>
-                        <input type="email" class="mt-3 form-control" name="email" placeholder="Email" required>
-                        <input type="password" class="my-3 form-control" name="password" placeholder="Password" required>
-                    </div>
-                </div>
-                <div class="row justify-content-center">
-                    <div class="col-4 bg-lightdark text-center">
-                        <button class="w-100 mb-3 btn btn-lg btn-primary" type="submit">Sign up</button>
-                        <% if (errors["username"]) { %>
-                        <p><%= errors["username"].message %></p>
-                        <% } %>
+    <main>
+        <% if (errors["username"] || errors["email"] || errors["password"]) { %>
+            <div class="alert alert-danger text-center fade show" role="alert">
+                <% if (errors["username"]) { %>
+                <%= errors["username"].message %>
+                <% } %>
 
-                        <% if (errors["email"]) { %>
-                        <p><%= errors["email"].message %></p>
-                        <% } %>
+                <% if (errors["email"]) { %>
+                <%= errors["email"].message %>
+                <% } %>
 
-                        <% if (errors["password"]) { %>
-                        <p><%= errors["password"].message %></p>
-                        <% } %>
+                <% if (errors["password"]) { %>
+                <%= errors["password"].message %>
+                <% } %>
+                <script type="text/javascript">
+                    setTimeout(e=> {$('.alert').alert('close');}, 4000);
+                </script>
+            </div>
+        <% } %>
+        
+        <section class="py-5 text-center container bg-lightdark">
+            <h1>Register</h1>
+        </section>
+        
+        <div class="py-4 bg-dark">
+            <h2 class="text-center">Ready to start your adventure?</h2>
+            <div class="container">
+                <form action="/register" method="post">
+                    <div class="row justify-content-center">
+                        <div class="col-4 bg-lightdark">
+                            <input class="mt-3 form-control" name="username" placeholder="Username" required>
+                            <input type="email" class="mt-3 form-control" name="email" placeholder="Email" required>
+                            <input type="password" class="my-3 form-control" name="password" placeholder="Password" required>
+                        </div>
                     </div>
-                </div>
-            </form>
+                    <div class="row justify-content-center">
+                        <div class="col-4 bg-lightdark text-center">
+                            <button class="w-100 mb-3 btn btn-lg btn-primary" type="submit">Sign up</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
         </div>
-    </div>
-</main>
+    </main>
 
 <%- include("common/footer") %>

@@ -28,11 +28,29 @@
                     <li class="nav-item">
                         <a class="nav-link" href="./statistics">Object Statistics</a>
                     </li>
+                    <% if (user) { %>
+                    <li class="nav-item">
+                        <a class="nav-link" href="./database">Your Objects</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="./statistics">Your Statistics</a>
+                    </li>
+                    <% } %>
                 </ul>
+                
                 <ul class="navbar-nav ms-auto">
+                    <% if (user) { %>
+                    <li class="nav-item">
+                        <a class="nav-link" href="./viewProfile">Your Profile</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="./logout">Logout</a>
+                    </li>
+                    <% } else if (!user) { %>
                     <li class="nav-item">
                         <a class="nav-link" href="./login">Login</a>
                     </li>
+                    <% } %>
                 </ul>
             </div>
         </div>

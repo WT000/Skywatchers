@@ -4,6 +4,7 @@
   "description": "My prototype program for Advanced Database System's AE1, a web app used to track astronomical objects.",
   "main": "app.js",
   "scripts": {
+    "start": "node app.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon app.js",
     "seedProduction": "cross-env NODE_ENV=production node spaceSeeder.js",
