@@ -14,11 +14,11 @@ exports.create = async (req, res) => {
         };
         
         // Attempt to create the user and save, this will only work if the username and email are unique
-        const user = new User({ username: req.body.username, email: req.body.email, password: req.body.password, rankScore: 0, rank: defaultRank});
+        const user = new User({ username: req.body.username, email: req.body.email, password: req.body.password, bio:"Not given", rankScore: 0, rank: defaultRank});
         await user.save();
 
         console.log(`${req.body.username} has been registered`);
-        res.redirect(`/?message=Welcome to Skywatchers, ${req.body.username}!`);
+        res.redirect(`/login?message=Your account has been created, ${req.body.username}! You can now login through the form below.`);
 
     } catch (e) {
         // Something went wrong, the username or email may be taken
@@ -37,10 +37,8 @@ exports.create = async (req, res) => {
                 internalErrors[variable] = newEntry;
             };
 
-            console.log({ errors: { username: { message: "test" } } });
             console.log({ errors: internalErrors });
 
-            // res.render("register", { errors: e.keyValue });
             res.render("register", { errors: internalErrors } );
             return;
             
@@ -52,6 +50,7 @@ exports.create = async (req, res) => {
     };
 };
 
+
 // Login - attempt to login with a user account
 exports.login = async (req, res) => {
     try {
@@ -59,7 +58,7 @@ exports.login = async (req, res) => {
         const foundUser = await User.findOne({ username: req.body.username });
         if (!foundUser) {
             console.log(`Couldn't find username ${req.body.username}`);
-            res.render("login", { errors: { username: { message: `The user "${req.body.username}" doesn't exist.` } } });
+            res.render("login", { errors: { username: { message: `The user "${req.body.username}" doesn't exist.` } }, message: false });
             return;
         };
         
@@ -71,11 +70,11 @@ exports.login = async (req, res) => {
                 req.session.cookie.maxAge = 1000 * 60 * 60 * 24 * 15;
             };
 
-            res.redirect(`/?message=Welcome back to Skywatchers, ${req.body.username}!`);
+            res.redirect(`/?message=Welcome to Skywatchers, ${req.body.username}!`);
             return;
         };
 
-        res.render("login", { errors: { username: { message: `Incorrect password for user ${req.body.username}.` } } });
+        res.render("login", { errors: { username: { message: `Incorrect password for user ${req.body.username}.` } }, message: false });
 
     } catch (e) {
         // Something went wrong, the username or email may be taken
@@ -102,5 +101,32 @@ exports.login = async (req, res) => {
             res.render("register", { errors: e.errors });
             return;
         };
+    };
+};
+
+// View - attempt to view a user account
+exports.view = async (req, res) => {
+    const usernameToFind = req.params.username;
+    
+    try {
+        // Attempt to find the user
+        const foundUser = await User.findOne({ username: usernameToFind });
+        const foundUserrank = await Rank.findById(foundUser.rank._id);
+        if (!foundUser) {
+            console.log(`Couldn't find username ${req.body.username}`);
+            res.redirect("/", { error: `The user "${req.body.username}" doesn't exist.` });
+            return;
+        };
+        
+        // The user was found
+        res.render("viewProfile", {foundUser: foundUser, foundUserrank: foundUserrank});
+
+    } catch (e) {
+        // Something went wrong, the username or email may be taken
+        console.log(`Encountered an error when viewing user: ${e}`);
+        console.log(e.message);
+
+        res.redirect("/", { error: "Sorry, we ran into an error :(" });
+        return;
     };
 };

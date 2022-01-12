@@ -6,7 +6,7 @@
         </section>
 
         <div class="py-4 bg-dark">
-            <h2 class="text-center">(name)</h2>
+            <h2 class="text-center" style="color:<%= foundUserrank.colour %>"><%= foundUser.username %></h2>
             
             <div class="container">
                 <div class="row justify-content-center">
@@ -17,17 +17,17 @@
                             <tbody>
                               <tr>
                                 <th>Bio</th>
-                                <td>...</td>
+                                <td><%= foundUser.bio %></td>
                               </tr>
         
                               <tr>
-                                <th>Rank and Rank Score</th>
-                                <td>...</td>
+                                <th>Rank</th>
+                                <td><%= foundUserrank.name %> (<%= foundUser.rankScore %>)</td>
                               </tr>
         
                               <tr>
                                 <th>Last Active</th>
-                                <td>...</td>
+                                <td><%= foundUser.updatedAt %></td>
                               </tr>
                             </tbody>
                         </table>
@@ -35,7 +35,7 @@
                 </div>
             </div>
 
-            <h2 class="text-center">(name)'s statistics</h2>
+            <h2 class="text-center"><%= foundUser.username %>'s statistics</h2>
         </div>
     </main>
 
