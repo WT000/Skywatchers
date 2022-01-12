@@ -13,13 +13,13 @@ const userSchema = new Schema(
     rank - The current UserRank of the user
     */
     {
-        username: { type: String, required: [true, "Name is required"], unique: true, maxlength: [25, "Username too long"] },
+        username: { type: String, required: [true, "Username is required"], unique: true, maxlength: [25, "Username too long"] },
         email: { type: String, required: [true, "Email is required"], unique: true, maxlength: [100, "Email too long"] },
         password: { type: String, required: [true, "Password is required"], minlength: [8, "Password needs a minimum of 8 characters"] },
         createdObjects: [{ type: mongoose.Schema.Types.ObjectId, ref: "Object" }],
         bio: { type: String, maxlength: [100, "Bio too long"] },
         rankScore: { type: Number, required: [true, "Rank Score is required"] },
-        rank: { type: mongoose.Schema.Types.ObjectId, ref: "UserRank", required: [true, "User Rank is required"] },
+        rank: { type: mongoose.Schema.Types.ObjectId, ref: "Rank", required: [true, "User Rank is required"] },
     },
     { timestamps: true }
 );
@@ -27,12 +27,12 @@ const userSchema = new Schema(
 // Ensure passwords are hashed BEFORE saving the password
 userSchema.pre("save", async function (next) {
     try {
-        // Hash with a salt of 42, that number is no coincidence...
-        this.password = await bcrypt.hash(this.password, 42);
+        // Hash with a salt of 10, that number is no coincidence...
+        this.password = await bcrypt.hash(this.password, 10);
         next();
     } catch (e) {
-        throw Error("Something went wrong hashing the password")
-    }
+        throw Error("Something went wrong hashing the password");
+    };
 });
 
 module.exports = mongoose.model("User", userSchema);

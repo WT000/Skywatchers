@@ -1,12 +1,63 @@
-// Setup the requirements
+/*
+    REQUIRED CONSTANTS
+*/
+// Requirements
 const express = require("express");
 const path = require("path");
+const mongoose = require("mongoose");
+const expressSession = require("express-session");
+const User = require("./models/User");
 
-// Create the app to run on port 3000 and load static resources
+// Controllers
+const userController = require("./controllers/user");
+
+/*
+    APP SETUP
+*/
+// Create the app and configure what it needs to use (e.g. public folder and cookies)
+// Note that body-parser now comes with Express by default
 const app = express();
 app.use(express.static(path.join(__dirname, "public")));
+app.use(express.json());
+app.use(express.urlencoded({
+    extended: true
+}));
+app.use(expressSession({
+    secret: "Space is very cool!",
+    cookie: { expires: new Date(253402300000000) },
+    resave: true,
+    saveUninitialized: true,
+}));
 app.set("view engine", "ejs");
 
+// Create the user session
+app.use("*", async (req, res, next) => {
+    global.user = false;
+    // If userID exists in the session, sign the user in
+    if (req.session.userID && !global.user) {
+        const user = await User.findById(req.session.userID);
+        global.user = user;
+    }
+    next();
+});
+
+/*
+    DB CONNECTION
+*/
+// Connect to the configured database
+require("dotenv").config();
+const { PORT, MONGODB_URI } = process.env;
+
+mongoose.connect(MONGODB_URI, { useNewUrlParser: true });
+mongoose.connection.on("error", e => {
+    console.error(e);
+    console.log("Failed to connect to the database, is MongoDB running?");
+    process.exit();
+});
+
+/*
+    SETUP ROUTES
+*/
 // Setup the routes across the app
 // ALL USERS
 app.get("/", (req, res) => {
@@ -34,15 +85,17 @@ app.get("/login", (req, res) => {
 });
 
 app.get("/register", (req, res) => {
-    res.render("register");
+    res.render("register", { errors: {} });
 });
+app.post("/register", userController.create);
 
 app.get("/api", (req, res) => {
     res.render("api");
 });
 
-// Start the app
-const port = 3000;
-app.listen(port, () => {
-    console.log(`Running the Space Object application at http://localhost:${port}`);
+/*
+    START THE APP
+*/
+app.listen(PORT, () => {
+    console.log(`Running the Space Object application at http://localhost:${PORT}`);
 });

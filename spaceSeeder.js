@@ -1,5 +1,5 @@
 // Ordered by how likely an astronomer will see one of these in the sky when looking through a telescope
-const objectTypes = [
+const typesInsert = [
     {
         name: "Star",
         description: "A massive ball of hydrogen and helium, reaching temperatures which turn it into plasma.",
@@ -58,7 +58,7 @@ const objectTypes = [
 ];
 
 // Ordered by rankScoreNeeded
-const userRanks = [
+const ranksInsert = [
     {
         name: "Newcomer",
         description: "This user has less than 10 rank score.",
@@ -109,18 +109,18 @@ async function main() {
         
         // Strangely dropping the entire database at once sometimes runs into an error, 
         // so collections are dropped individually to ensure this doesn't happen
-        const types = await db.collection("objectTypes").find({}).count();
-        const ranks = await db.collection("userRanks").find({}).count();
+        const types = await db.collection("types").find({}).count();
+        const ranks = await db.collection("ranks").find({}).count();
 
         // The database already exists, reset the collection(s)
         if (types || ranks) {
             if (types) {
-                console.log("Clearing old object types...");
-                await db.collection("objectTypes").drop();
+                console.log("Clearing old types...");
+                await db.collection("types").drop();
             };
             if (ranks) {
-                console.log("Clearing old user ranks...");
-                await db.collection("userRanks").drop();
+                console.log("Clearing old ranks...");
+                await db.collection("ranks").drop();
             };
             
             console.log("Clearing old users...");
@@ -130,11 +130,11 @@ async function main() {
             await db.collection("objects").drop();
         };
 
-        console.log("Inserting object types into objectTypes collection...");
-        await db.collection("objectTypes").insertMany(objectTypes);
+        console.log("Inserting object types into the types collection...");
+        await db.collection("types").insertMany(typesInsert);
 
-        console.log("Inserting user ranks into userRanks collection...");
-        await db.collection("userRanks").insertMany(userRanks);
+        console.log("Inserting user ranks into the ranks collection...");
+        await db.collection("ranks").insertMany(ranksInsert);
 
         console.log("Creating users collection...")
         await db.createCollection("users");

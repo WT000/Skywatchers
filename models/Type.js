@@ -3,7 +3,7 @@ const { Schema } = mongoose;
 
 // Object Types cannot be created by users, no timestamps or min max validation needed
 
-const objectTypeSchema = new Schema(
+const typeSchema = new Schema(
     /*
     name - The name of the type
     description - A short description on what the type is
@@ -14,4 +14,4 @@ const objectTypeSchema = new Schema(
     }
 );
 
-module.exports = mongoose.model("ObjectType", objectTypeSchema);
+module.exports = mongoose.model("Type", typeSchema);
