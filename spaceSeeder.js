@@ -130,10 +130,10 @@ async function main() {
             await db.collection("objects").drop();
         };
 
-        console.log("Inserting object types into the types collection...");
+        console.log("Inserting types into the types collection...");
         await db.collection("types").insertMany(typesInsert);
 
-        console.log("Inserting user ranks into the ranks collection...");
+        console.log("Inserting ranks into the ranks collection...");
         await db.collection("ranks").insertMany(ranksInsert);
 
         console.log("Creating users collection...")

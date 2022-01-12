@@ -24,7 +24,8 @@ app.use(express.urlencoded({
 }));
 app.use(expressSession({
     secret: "Space is very cool!",
-    cookie: { expires: new Date(253402300000000) },
+    // Lats for 1 day, extends to 30 days if remember me is checked
+    cookie: { maxAge: 1000 * 60 * 60 * 24 },
     resave: true,
     saveUninitialized: true,
 }));
@@ -61,7 +62,8 @@ mongoose.connection.on("error", e => {
 // Setup the routes across the app
 // ALL USERS
 app.get("/", (req, res) => {
-    res.render("index");
+    console.log(req.session.cookie);
+    res.render("index", { message: req.query.message });
 });
 
 app.get("/database", (req, res) => {
@@ -80,14 +82,21 @@ app.get("/statistics", (req, res) => {
     res.render("statistics");
 });
 
-app.get("/login", (req, res) => {
-    res.render("login");
-});
-
 app.get("/register", (req, res) => {
     res.render("register", { errors: {} });
 });
 app.post("/register", userController.create);
+
+app.get("/login", (req, res) => {
+    res.render("login", { errors: {} });
+});
+app.post("/login", userController.login);
+
+app.get("/logout", async (req, res) => {
+    req.session.destroy();
+    global.user = false;
+    res.redirect("/?message=You've successfully logged out.")
+});
 
 app.get("/api", (req, res) => {
     res.render("api");
