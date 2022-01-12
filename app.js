@@ -62,7 +62,7 @@ mongoose.connection.on("error", e => {
 // Setup the routes across the app
 // ALL USERS
 app.get("/", (req, res) => {
-    res.render("index", { message: req.query.message, error: req.query.message });
+    res.render("index", { message: req.query.message, error: req.query.error });
 });
 
 app.get("/database", (req, res) => {

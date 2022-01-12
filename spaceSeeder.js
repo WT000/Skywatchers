@@ -61,31 +61,31 @@ const typesInsert = [
 const ranksInsert = [
     {
         name: "Newcomer",
-        description: "This user has less than 10 rank score.",
+        description: "Less than 10 Rank Score.",
         colour: "#d3d3d3",
         rankScoreNeeded: 0,
     },
     {
         name: "Scientist",
-        description: "This user has 10 or more rank score, nice!",
+        description: "10 or more Rank Score.",
         colour: "#41b2f0",
         rankScoreNeeded: 10,
     },
     {
         name: "Astronaut",
-        description: "This user has 20 or more rank score, brilliant!",
+        description: "20 or more Rank Score.",
         colour: "#4141f0",
         rankScoreNeeded: 20,
     },
     {
         name: "Robot",
-        description: "This user has 40 or more rank score, amazing!",
+        description: "40 or more Rank Score.",
         colour: "#f05b41",
         rankScoreNeeded: 40,
     },
     {
         name: "Alien",
-        description: "This user 80 or more rank score, INCREDIBLE!",
+        description: "80 or more Rank Score.",
         colour: "#76f041",
         rankScoreNeeded: 80,
     },

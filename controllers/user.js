@@ -111,22 +111,25 @@ exports.view = async (req, res) => {
     try {
         // Attempt to find the user
         const foundUser = await User.findOne({ username: usernameToFind });
-        const foundUserrank = await Rank.findById(foundUser.rank._id);
+
         if (!foundUser) {
-            console.log(`Couldn't find username ${req.body.username}`);
-            res.redirect("/", { error: `The user "${req.body.username}" doesn't exist.` });
+            console.log(`Couldn't find username ${usernameToFind}`);
+            res.redirect(`/?error=Couldn't find ${usernameToFind}.`);
             return;
         };
+
+        const foundUserrank = await Rank.findById(foundUser.rank._id);
+        const foundUserUpdated = new Date(foundUser.updatedAt);
         
         // The user was found
-        res.render("viewProfile", {foundUser: foundUser, foundUserrank: foundUserrank});
+        res.render("viewProfile", {foundUser: foundUser, foundUserrank: foundUserrank, foundUserUpdated: foundUserUpdated.toDateString()});
 
     } catch (e) {
         // Something went wrong, the username or email may be taken
         console.log(`Encountered an error when viewing user: ${e}`);
         console.log(e.message);
 
-        res.redirect("/", { error: "Sorry, we ran into an error :(" });
+        res.redirect("/?error=An error happened when trying to view the profile (roles might be messged up), contact an admin.");
         return;
     };
 };

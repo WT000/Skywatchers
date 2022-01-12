@@ -1,6 +1,14 @@
 <%- include("common/header") %>
 
     <main>
+        <% if (error) { %>
+            <div class="alert alert-danger text-center fade show" role="alert">
+                <%= error %>
+                <script type="text/javascript">
+                    setTimeout(e=> {$('.alert').alert('close');}, 4000);
+                </script>
+            </div>
+        <% } %>
         <% if (message) { %>
             <div class="alert alert-success text-center fade show" role="alert">
                 <%= message %>
