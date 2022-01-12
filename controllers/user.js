@@ -22,11 +22,9 @@ exports.create = async (req, res) => {
 
     } catch (e) {
         // Something went wrong, the username or email may be taken
-        console.log(`Encountered an error when making a user: ${e}`);
+        console.log(`Encountered an error when making a user: ${e.message}`);
 
         if (e.code === 11000) {
-            console.log(e.message);
-
             let internalErrors = {};
 
             for (variable in e.keyValue) {
@@ -37,13 +35,10 @@ exports.create = async (req, res) => {
                 internalErrors[variable] = newEntry;
             };
 
-            console.log({ errors: internalErrors });
-
             res.render("register", { errors: internalErrors } );
             return;
             
         } else {
-            console.log(e.message);
             res.render("register", { errors: e.errors });
             return;
         };
