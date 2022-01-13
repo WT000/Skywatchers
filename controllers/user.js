@@ -114,11 +114,10 @@ exports.view = async (req, res) => {
 // Edit - attempt to edit a user account (currently just their bio)
 exports.edit = async (req, res) => {
     const bioToSet = req.body.bio;
+    const foundUser = await User.findById(req.session.userID);
     
     try {
         // Firstly, ensure the user editing the profile is the user themselves
-        const foundUser = await User.findById(req.session.userID);
-
         if (!foundUser) {
             console.log(`Couldn't edit user ${req.session.userID}`);
             res.redirect(`/?error=Couldn't edit your account (not found).`);
@@ -134,7 +133,7 @@ exports.edit = async (req, res) => {
         // Something went wrong, the bio was most likely too long (this will be replaced with AJAX)
         console.log(`Encountered an error when editing user: ${e}`);
 
-        res.redirect(`/?error=Your bio couldn't be updated, it might be too long.`);
+        res.redirect(`/profile/view/${foundUser.username}?error=Your bio couldn't be updated, it might be too long.`);
         return;
     };
 };
@@ -155,6 +154,8 @@ exports.delete = async (req, res) => {
         await Objects.deleteMany({ _id: { $in: foundUser.createdObjects } });
         await User.deleteOne(foundUser);
         req.session.destroy();
+
+        console.log(`${foundUser.username} has been deleted`);
         
         res.redirect(`/?message=Your account has been deleted.`);
 
