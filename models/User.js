@@ -35,4 +35,6 @@ userSchema.pre("save", async function (next) {
     };
 });
 
+// Numbers represent sort order
+userSchema.index({ name: 1, email: -1 });
 module.exports = mongoose.model("User", userSchema);

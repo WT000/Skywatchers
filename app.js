@@ -12,6 +12,7 @@ const User = require("./models/User");
 
 // Controllers
 const userController = require("./controllers/user");
+const apiUserController = require("./controllers/api/user");
 
 /*
     APP SETUP - Setting up the application, such as json configuration, cookies, etc
@@ -109,6 +110,7 @@ app.get("/register", signedInMiddleware, (req, res) => {
     res.render("register", { errors: {} });
 });
 app.post("/register", signedInMiddleware, userController.create);
+app.get("/api/validate/register", apiUserController.validate);
 
 app.get("/login", signedInMiddleware, (req, res) => {
     res.render("login", { errors: {}, message: req.query.message });

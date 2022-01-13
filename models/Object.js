@@ -25,4 +25,6 @@ const objectSchema = new Schema(
     { timestamps: true }
 );
 
+// Index based on name
+objectSchema.index({ name: 1 });
 module.exports = mongoose.model("Object", objectSchema);

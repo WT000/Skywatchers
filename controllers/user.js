@@ -11,7 +11,7 @@ exports.create = async (req, res) => {
         const defaultRank = await Rank.findOne({ rankScoreNeeded: 0 });
         if (!defaultRank) {
             console.log("The default rank wasn't found!");
-            res.render("register", { errors: { rank: { message: "Coudn't make the default rank, contact an admin." } } });
+            res.render("register", { errors: { rank: { message: "Coudn't find the default rank, contact an admin." } } });
             return;
         };
         
