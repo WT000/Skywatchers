@@ -1,5 +1,6 @@
 const User = require("../models/User");
 const Rank = require("../models/Rank");
+const Object = require("../models/Object");
 const bcrypt = require("bcrypt");
 
 // Create - attempt to create a User after registration
@@ -105,19 +106,20 @@ exports.view = async (req, res) => {
     
     try {
         // Attempt to find the user
-        const foundUser = await User.findOne({ username: usernameToFind });
+        const foundUser = await User.findOne({ username: usernameToFind })
+            .populate("createdObjects", { match: { isPublic: true } })
+            .populate("rank");
 
         if (!foundUser) {
             console.log(`Couldn't find username ${usernameToFind}`);
             res.redirect(`/?error=Couldn't find ${usernameToFind}.`);
             return;
         };
-
-        const foundUserrank = await Rank.findById(foundUser.rank._id);
+        
         const foundUserUpdated = new Date(foundUser.updatedAt);
         
         // The user was found
-        res.render("viewProfile", {foundUser: foundUser, foundUserrank: foundUserrank, foundUserUpdated: foundUserUpdated.toDateString()});
+        res.render("viewProfile", {foundUser: foundUser, foundUserUpdated: foundUserUpdated.toDateString()});
 
     } catch (e) {
         // Something went wrong, the username or email may be taken
