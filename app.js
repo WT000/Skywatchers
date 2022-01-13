@@ -59,8 +59,30 @@ mongoose.connection.on("error", e => {
 /*
     SETUP ROUTES
 */
+// Prepare authMiddleware to ensure users don't go where they're not supposed to
+const authMiddleware = async (req, res, next) => {
+    const sessionUser = await User.findById(req.session.userID);
+
+    // Check if they're not signed in
+    if (!sessionUser) {
+        return res.redirect("/?error=You're not permitted to do this.");
+    };
+
+    next();
+};
+
+const singedInMiddleware = async (req, res, next) => {
+    const sessionUser = await User.findById(req.session.userID);
+
+    // Check if they ARE signed in
+    if (sessionUser) {
+        return res.redirect("/?error=You're already signed in.");
+    };
+
+    next();
+};
+
 // Setup the routes across the app
-// ALL USERS
 app.get("/", (req, res) => {
     res.render("index", { message: req.query.message, error: req.query.error });
 });
@@ -79,17 +101,17 @@ app.get("/statistics", (req, res) => {
     res.render("statistics");
 });
 
-app.get("/register", (req, res) => {
+app.get("/register", singedInMiddleware, (req, res) => {
     res.render("register", { errors: {} });
 });
-app.post("/register", userController.create);
+app.post("/register", singedInMiddleware, userController.create);
 
-app.get("/login", (req, res) => {
+app.get("/login", singedInMiddleware, (req, res) => {
     res.render("login", { errors: {}, message: req.query.message });
 });
-app.post("/login", userController.login);
+app.post("/login", singedInMiddleware, userController.login);
 
-app.get("/logout", async (req, res) => {
+app.get("/logout", authMiddleware, async (req, res) => {
     req.session.destroy();
     global.user = false;
     res.redirect("/?message=You've successfully logged out.")

@@ -36,6 +36,13 @@
                               </tr>
                             </tbody>
                         </table>
+                        
+                        <% if (user && user.username == foundUser.username) { %>
+                          <div class="d-flex flex-column justify-content-between">
+                            <a class="profile-btn btn mb-3 btn-secondary" href="/profile/edit/<%= user.username %>">Edit your Account</a>
+                            <a class="profile-btn btn btn-danger" href="/profile/delete/<%= user.username %>">Delete your Account</a>
+                          </div>
+                        <% } %>
                     </div>
                 </div>
             </div>
