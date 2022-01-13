@@ -62,7 +62,7 @@ mongoose.connection.on("error", e => {
     SETUP ROUTES - Setting where the users can go
 */
 // Prepare authMiddleware to ensure users don't go where they're not supposed to
-const authMiddleware = async (req, res, next) => {
+const signedOutMiddleware = async (req, res, next) => {
     const sessionUser = await User.findById(req.session.userID);
 
     // Check if they're not signed in
@@ -73,7 +73,7 @@ const authMiddleware = async (req, res, next) => {
     next();
 };
 
-const singedInMiddleware = async (req, res, next) => {
+const signedInMiddleware = async (req, res, next) => {
     const sessionUser = await User.findById(req.session.userID);
 
     // Check if they ARE signed in
@@ -103,17 +103,17 @@ app.get("/statistics", (req, res) => {
     res.render("statistics");
 });
 
-app.get("/register", singedInMiddleware, (req, res) => {
+app.get("/register", signedInMiddleware, (req, res) => {
     res.render("register", { errors: {} });
 });
-app.post("/register", singedInMiddleware, userController.create);
+app.post("/register", signedInMiddleware, userController.create);
 
-app.get("/login", singedInMiddleware, (req, res) => {
+app.get("/login", signedInMiddleware, (req, res) => {
     res.render("login", { errors: {}, message: req.query.message });
 });
-app.post("/login", singedInMiddleware, userController.login);
+app.post("/login", signedInMiddleware, userController.login);
 
-app.get("/logout", authMiddleware, async (req, res) => {
+app.get("/logout", signedOutMiddleware, async (req, res) => {
     req.session.destroy();
     global.user = false;
     res.redirect("/?message=You've successfully logged out.")
