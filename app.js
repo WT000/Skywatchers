@@ -15,7 +15,7 @@ const userController = require("./controllers/user");
     APP SETUP
 */
 // Create the app and configure what it needs to use (e.g. public folder and cookies)
-// Note that body-parser now comes with Express by default
+// Note that body-parser now comes with Express by default, so we don't need that
 const app = express();
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.json());
