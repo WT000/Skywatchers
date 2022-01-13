@@ -1,6 +1,5 @@
 const User = require("../models/User");
 const Rank = require("../models/Rank");
-const Object = require("../models/Object");
 const bcrypt = require("bcrypt");
 
 // Create - attempt to create a User after registration
@@ -45,7 +44,6 @@ exports.create = async (req, res) => {
         };
     };
 };
-
 
 // Login - attempt to login with a user account
 exports.login = async (req, res) => {
