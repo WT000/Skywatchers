@@ -121,6 +121,10 @@ app.get("/api", (req, res) => {
     res.render("api");
 });
 
+app.get("*", (req, res) => {
+    res.status("404").render("404");
+});
+
 /*
     START THE APP
 */
