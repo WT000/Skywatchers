@@ -1,18 +1,20 @@
 /*
-    REQUIRED CONSTANTS
+    REQUIRED CONSTANTS - Setting the core constants 
 */
 // Requirements
 const express = require("express");
 const path = require("path");
 const mongoose = require("mongoose");
 const expressSession = require("express-session");
+
+// Models
 const User = require("./models/User");
 
 // Controllers
 const userController = require("./controllers/user");
 
 /*
-    APP SETUP
+    APP SETUP - Setting up the application, such as json configuration, cookies, etc
 */
 // Create the app and configure what it needs to use (e.g. public folder and cookies)
 // Note that body-parser now comes with Express by default
@@ -43,7 +45,7 @@ app.use("*", async (req, res, next) => {
 });
 
 /*
-    DB CONNECTION
+    DB CONNECTION - Connecting to the configured .env database
 */
 // Connect to the configured database
 require("dotenv").config();
@@ -57,7 +59,7 @@ mongoose.connection.on("error", e => {
 });
 
 /*
-    SETUP ROUTES
+    SETUP ROUTES - Setting where the users can go
 */
 // Prepare authMiddleware to ensure users don't go where they're not supposed to
 const authMiddleware = async (req, res, next) => {
@@ -126,7 +128,7 @@ app.get("*", (req, res) => {
 });
 
 /*
-    START THE APP
+    START THE APP - The app is now fully ready to listen on the port
 */
 app.listen(PORT, () => {
     console.log(`Running the Space Object application at http://localhost:${PORT}`);
