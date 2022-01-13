@@ -45,11 +45,16 @@ app.use("*", async (req, res, next) => {
 /*
     DB CONNECTION
 */
-// Connect to the configured database
+// Connect to the configured database depending on the run mode
 require("dotenv").config();
-const { PORT, MONGODB_URI } = process.env;
+const { PORT, MONGODB_URI, MONGODB_URI_PRODUCTION } = process.env;
 
-mongoose.connect(MONGODB_URI, { useNewUrlParser: true });
+if (process.env.NODE_ENV === "production") {
+    mongoose.connect(MONGODB_URI_PRODUCTION, { useNewUrlParser: true });
+} else {
+    mongoose.connect(MONGODB_URI, { useNewUrlParser: true });
+};
+
 mongoose.connection.on("error", e => {
     console.error(e);
     console.log("Failed to connect to the database, is MongoDB running?");

@@ -1,5 +1,6 @@
 const User = require("../models/User");
 const Rank = require("../models/Rank");
+const Object = require("../models/Object");
 const bcrypt = require("bcrypt");
 
 // Create - attempt to create a User after registration
