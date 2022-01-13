@@ -10,8 +10,8 @@ p, h1, h2, h3, h4, h5, h6{
     color: #d3d3d3;
 }
 
-a, label{
-    color: #ffffff;
+a{
+    color: #d3d3d3;
 }
 
 main{
@@ -20,6 +20,10 @@ main{
 
 .bg-lightdark{
     background-color: #31373d;
+}
+
+label, a:hover{
+    color:#ffffff
 }
 
 #main-header, main{
@@ -94,6 +98,10 @@ hr{
 }
 
 .user-rank{
+    margin-right: 5px;
+}
+
+input[type=checkbox]{
     margin-right: 5px;
 }
 
