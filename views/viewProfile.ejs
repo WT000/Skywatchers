@@ -6,7 +6,7 @@
         </section>
 
         <div class="py-4 bg-dark">
-            <h2 class="text-center" style="color:<%= foundUserrank.colour %>"><%= foundUser.username %></h2>
+            <h2 class="text-center" style="color:<%= foundUser.rank.colour %>"><%= foundUser.username %></h2>
             
             <div class="container">
                 <div class="row justify-content-center">
@@ -22,20 +22,23 @@
         
                               <tr>
                                 <th>Rank</th>
-                                <td><span class="user-rank"><%= foundUserrank.name %></span><span data-toggle="tooltip" title="<%= foundUserrank.description %>"><img src="/icons/question-circle.svg" alt="RankInfo" width="16" height="16"></span></td>
+                                <td><span class="user-rank"><%= foundUser.rank.name %></span><span data-toggle="tooltip" title="<%= foundUser.rank.description %>"><img src="/icons/question-circle.svg" alt="RankInfo" width="16" height="16"></span></td>
                               </tr>
         
                               <tr>
                                 <th>Last Active</th>
                                 <td><%= foundUserUpdated %></td>
                               </tr>
+
+                              <tr>
+                                <th>Public Discoveries</th>
+                                <td><%= foundUser.createdObjects.length %></td>
+                              </tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
             </div>
-
-            <h2 class="text-center"><%= foundUser.username %>'s statistics</h2>
         </div>
     </main>
 
