@@ -15,7 +15,7 @@ const userController = require("./controllers/user");
     APP SETUP
 */
 // Create the app and configure what it needs to use (e.g. public folder and cookies)
-// Note that body-parser now comes with Express by default, so we don't need that
+// Note that body-parser now comes with Express by default
 const app = express();
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.json());
@@ -45,16 +45,11 @@ app.use("*", async (req, res, next) => {
 /*
     DB CONNECTION
 */
-// Connect to the configured database depending on the run mode
+// Connect to the configured database
 require("dotenv").config();
-const { PORT, MONGODB_URI, MONGODB_URI_PRODUCTION } = process.env;
+const { PORT, MONGODB_URI } = process.env;
 
-if (process.env.NODE_ENV === "production") {
-    mongoose.connect(MONGODB_URI_PRODUCTION, { useNewUrlParser: true });
-} else {
-    mongoose.connect(MONGODB_URI, { useNewUrlParser: true });
-};
-
+mongoose.connect(MONGODB_URI, { useNewUrlParser: true });
 mongoose.connection.on("error", e => {
     console.error(e);
     console.log("Failed to connect to the database, is MongoDB running?");
