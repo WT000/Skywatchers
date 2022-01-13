@@ -1,6 +1,22 @@
 <%- include("common/header") %>
 
     <main>
+        <% if (error) { %>
+          <div class="alert alert-danger text-center fade show" role="alert">
+              <%= error %>
+              <script type="text/javascript">
+                  setTimeout(e=> {$('.alert').alert('close');}, 4000);
+              </script>
+          </div>
+        <% } %>
+        <% if (message) { %>
+          <div class="alert alert-success text-center fade show" role="alert">
+              <%= message %>
+              <script type="text/javascript">
+                  setTimeout(e=> {$('.alert').alert('close');}, 4000);
+              </script>
+          </div>
+        <% } %>
         <section id="main-header" class="py-5 text-center container bg-lightdark">
             <h1>Profile Viewer</h1>
         </section>
@@ -17,7 +33,18 @@
                             <tbody>
                               <tr>
                                 <th>Bio</th>
-                                <td><%= foundUser.bio %></td>
+                                <% if (user && user.username == foundUser.username) { %>
+                                  <td>
+                                    <form id="update-form" action="/profile/view/<%= user.username %>" method="POST" autocomplete="off">
+                                      <input type="hidden" name="username" value="<%= foundUser.username %>">
+                                      <input id="bio" class="form-control" name="bio" value="<%= foundUser.bio %>" required>
+
+                                      <button id="update-bio" class="btn btn-sm btn-primary" type="submit">Update</button>
+                                    </form>
+                                  </td>
+                                <% } else { %>
+                                  <td><%= foundUser.bio %></td>
+                                <% } %>
                               </tr>
         
                               <tr>
@@ -39,7 +66,6 @@
                         
                         <% if (user && user.username == foundUser.username) { %>
                           <div class="d-flex flex-column justify-content-between">
-                            <a class="profile-btn btn mb-3 btn-secondary" href="/profile/edit/<%= user.username %>">Edit your Account</a>
                             <a class="profile-btn btn btn-danger" href="/profile/delete/<%= user.username %>">Delete your Account</a>
                           </div>
                         <% } %>
@@ -48,5 +74,26 @@
             </div>
         </div>
     </main>
+    <% if (user && user.username == foundUser.username) { %>
+      <script>
+        const originalBio = document.getElementById("bio").value;
+        
+        document.getElementById("bio").addEventListener("input", e=>{
+          if (document.getElementById("bio").value !== originalBio) {
+            document.getElementById("update-bio").style.display = "inline-block";
+          } else {
+            document.getElementById("update-bio").style.display = "none";
+          };
+        });
 
+        document.getElementById("update-form").addEventListener("submit", e=>{
+          e.preventDefault();
+
+          if (document.getElementById("bio").value !== originalBio) {
+            document.getElementById("update-form").submit();
+          };
+
+        })
+      </script>
+    <% } %>
     <%- include("common/footer") %>

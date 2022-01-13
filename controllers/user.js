@@ -1,6 +1,7 @@
 const User = require("../models/User");
 const Rank = require("../models/Rank");
 const Object = require("../models/Object");
+const errors = require("../controllers/functions/get-errors.js")
 const bcrypt = require("bcrypt");
 
 // Create - attempt to create a User after registration
@@ -26,15 +27,7 @@ exports.create = async (req, res) => {
         console.log(`Encountered an error when making a user: ${e.message}`);
 
         if (e.code === 11000) {
-            let internalErrors = {};
-
-            for (variable in e.keyValue) {
-                let newMessage = `${variable} is taken.`;
-                newMessage = newMessage[0].toUpperCase() + newMessage.slice(1);
-
-                let newEntry = { message: newMessage };
-                internalErrors[variable] = newEntry;
-            };
+            let internalErrors = errors.getErrors(e);
 
             res.render("register", { errors: internalErrors } );
             return;
@@ -72,28 +65,17 @@ exports.login = async (req, res) => {
         res.render("login", { errors: { username: { message: `Incorrect password for user ${req.body.username}.` } }, message: false });
 
     } catch (e) {
-        // Something went wrong, the username or email may be taken
-        console.log(`Encountered an error when singing into a user: ${e}`);
+        // Something went wrong when signing in
+        console.log(`Encountered an error when signing into a user: ${e}`);
 
         if (e.code === 11000) {
-            console.log(e.message);
-
-            let internalErrors = {};
-
-            for (variable in e.keyValue) {
-                let newMessage = `${variable} is taken.`;
-                newMessage = newMessage[0].toUpperCase() + newMessage.slice(1);
-
-                let newEntry = { message: newMessage };
-                internalErrors[variable] = newEntry;
-            };
+            let internalErrors = errors.getErrors(e);
             
-            res.render("register", { errors: internalErrors } );
+            res.render("login", { errors: internalErrors } );
             return;
             
         } else {
-            console.log(e.message);
-            res.render("register", { errors: e.errors });
+            res.render("login", { errors: e.errors });
             return;
         };
     };
@@ -118,14 +100,43 @@ exports.view = async (req, res) => {
         // The user was found
         const foundUserUpdated = new Date(foundUser.updatedAt);
         
-        res.render("viewProfile", {foundUser: foundUser, foundUserUpdated: foundUserUpdated.toDateString()});
+        res.render("viewProfile", {foundUser: foundUser, foundUserUpdated: foundUserUpdated.toDateString(), message: req.query.message, error: req.query.error});
 
     } catch (e) {
         // Something went wrong, the username or email may be taken
         console.log(`Encountered an error when viewing user: ${e}`);
-        console.log(e.message);
 
         res.redirect("/?error=An error happened when trying to view the profile (roles might be messged up), contact an admin.");
+        return;
+    };
+};
+
+// Edit - attempt to edit a user account (currently just their bio)
+exports.edit = async (req, res) => {
+    const usernameToFind = req.body.username;
+    const bioToSet = req.body.bio;
+    
+    try {
+        // Firstly, ensure the user editing the profile is the user themselves
+        const foundUser = await User.findById(req.session.userID);
+
+        if (!foundUser || foundUser.username !== usernameToFind) {
+            console.log(`Couldn't edit username ${usernameToFind}`);
+            res.redirect(`/profile/view/${foundUser.username}?error=Couldn't edit user ${usernameToFind}.`);
+            return;
+        };
+
+        // If the code reaches here, it's safe to update the bio of foundUser
+        foundUser.bio = bioToSet;
+        await User.updateOne(foundUser);
+        
+        res.redirect(`/profile/view/${foundUser.username}?message=Your bio has been updated!`);
+
+    } catch (e) {
+        // Something went wrong, the bio was most likely too long (this will be replaced with AJAX)
+        console.log(`Encountered an error when editing user: ${e}`);
+
+        res.redirect(`/profile/view/${foundUser.username}?error=Your bio couldn't be updated, it might be too long.`);
         return;
     };
 };

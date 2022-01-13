@@ -98,6 +98,7 @@ app.get("/viewObject", (req, res) => {
 });
 
 app.get("/profile/view/:username", userController.view);
+app.post("/profile/view/:username", signedOutMiddleware, userController.edit);
 
 app.get("/statistics", (req, res) => {
     res.render("statistics");
