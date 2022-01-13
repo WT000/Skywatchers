@@ -36,7 +36,6 @@
                                 <% if (user && user.username == foundUser.username) { %>
                                   <td>
                                     <form id="update-form" action="/profile/view/<%= user.username %>" method="POST" autocomplete="off">
-                                      <input type="hidden" name="username" value="<%= foundUser.username %>">
                                       <input id="bio" class="form-control" name="bio" value="<%= foundUser.bio %>" required>
 
                                       <button id="update-bio" class="btn btn-sm btn-primary" type="submit">Update</button>
@@ -65,8 +64,10 @@
                         </table>
                         
                         <% if (user && user.username == foundUser.username) { %>
-                          <div class="d-flex flex-column justify-content-between">
-                            <a class="profile-btn btn btn-danger" href="/profile/delete/<%= user.username %>">Delete your Account</a>
+                          <div class="d-flex flex-row justify-content-center">
+                            <form id="delete-form" action="/profile/delete" method="POST" autocomplete="off">
+                              <button class="btn btn-danger">Delete your Account</button>
+                            </form>
                           </div>
                         <% } %>
                     </div>
@@ -92,8 +93,15 @@
           if (document.getElementById("bio").value !== originalBio) {
             document.getElementById("update-form").submit();
           };
+        });
 
-        })
+        document.getElementById("delete-form").addEventListener("submit", e=>{
+          e.preventDefault();
+          let deleteConfirm = confirm("Are you sure you want to do this? It'll remove all the objects you've discovered!");
+          if (deleteConfirm) {
+            document.getElementById("delete-form").submit();
+          };
+        });
       </script>
     <% } %>
     <%- include("common/footer") %>
