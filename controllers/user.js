@@ -116,9 +116,9 @@ exports.view = async (req, res) => {
             return;
         };
         
+        // The user was found
         const foundUserUpdated = new Date(foundUser.updatedAt);
         
-        // The user was found
         res.render("viewProfile", {foundUser: foundUser, foundUserUpdated: foundUserUpdated.toDateString()});
 
     } catch (e) {
