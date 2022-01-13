@@ -105,7 +105,7 @@ exports.view = async (req, res) => {
     const usernameToFind = req.params.username;
     
     try {
-        // Attempt to find the user
+        // Attempt to find the user, their rank and publically listed objects
         const foundUser = await User.findOne({ username: usernameToFind })
             .populate("createdObjects", { match: { isPublic: true } })
             .populate("rank");
