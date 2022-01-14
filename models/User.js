@@ -17,7 +17,7 @@ const userSchema = new Schema(
         email: { type: String, required: [true, "Email is required"], unique: true, maxlength: [100, "Email too long"], match: [/^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/, 'Invalid email format'] },
         password: { type: String, required: [true, "Password is required"], minlength: [8, "Password needs a minimum of 8 characters"] },
         createdObjects: [{ type: mongoose.Schema.Types.ObjectId, ref: "Object" }],
-        bio: { type: String, maxlength: [40, "Bio too long"] },
+        bio: { type: String, maxlength: [150, "Bio too long"] },
         rankScore: { type: Number, required: [true, "Rank Score is required"] },
         rank: { type: mongoose.Schema.Types.ObjectId, ref: "Rank", required: [true, "User Rank is required"] },
     },

@@ -11,6 +11,7 @@ const typeSchema = new Schema(
     {
         name: { type: String, required: [true, "Name is required"], unique: true },
         description: { type: String, required: [true, "Description is required"] },
+        rankScore: { type: Number, required: [true, "Rank Score is required"] },
     }
 );
 

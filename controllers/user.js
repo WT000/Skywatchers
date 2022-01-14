@@ -1,7 +1,7 @@
 const User = require("../models/User");
 const Rank = require("../models/Rank");
 const Objects = require("../models/Object");
-const errors = require("../controllers/functions/get-errors.js")
+const errors = require("./functions/get-errors.js");
 const bcrypt = require("bcrypt");
 
 // Create - attempt to create a User after registration (perform the same checks as API in case the API is down / isn't being used)
@@ -16,7 +16,7 @@ exports.create = async (req, res) => {
         };
         
         // Attempt to create the user and save, this will only work if the username and email are unique
-        const user = new User({ username: req.body.username, email: req.body.email, password: req.body.password, bio:"Not given", rankScore: 0, rank: defaultRank});
+        const user = new User({ username: req.body.username.trim(), email: req.body.email.trim(), password: req.body.password, bio:"Not given", rankScore: 0, rank: defaultRank});
         await user.save();
 
         console.log(`${req.body.username} has been registered`);
@@ -91,7 +91,7 @@ exports.view = async (req, res) => {
 
         if (!foundUser) {
             console.log(`Couldn't find username ${usernameToFind}`);
-            res.redirect(`/?error=Couldn't find ${usernameToFind}.`);
+            res.render("404");
             return;
         };
         
@@ -112,10 +112,11 @@ exports.view = async (req, res) => {
 // Edit - attempt to edit a user account (currently just their bio)
 exports.edit = async (req, res) => {
     const bioToSet = req.body.bio;
-    const foundUser = await User.findById(req.session.userID);
     
     try {
         // Firstly, ensure the user editing the profile is the user themselves
+        const foundUser = await User.findById(req.session.userID);
+
         if (!foundUser) {
             console.log(`Couldn't edit user ${req.session.userID}`);
             res.redirect(`/?error=Couldn't edit your account (not found).`);

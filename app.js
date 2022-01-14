@@ -13,6 +13,7 @@ const User = require("./models/User");
 // Controllers
 const userController = require("./controllers/user");
 const apiUserController = require("./controllers/api/user");
+const objectController = require("./controllers/object");
 
 /*
     APP SETUP - Setting up the application, such as json configuration, cookies, etc
@@ -86,26 +87,22 @@ const signedInMiddleware = async (req, res, next) => {
 };
 
 // Setup the routes across the app
+// Index
 app.get("/", (req, res) => {
     res.render("index", { message: req.query.message, error: req.query.error });
 });
 
+// Database
 app.get("/database", (req, res) => {
     res.render("database");
 });
 
+// Object speicifcs (viewing objects, editing objects, etc)
 app.get("/viewObject", (req, res) => {
     res.render("viewObject");
 });
 
-app.get("/profile/view/:username", userController.view);
-app.post("/profile/view/:username", signedOutMiddleware, userController.edit);
-app.post("/profile/delete", signedOutMiddleware, userController.delete);
-
-app.get("/statistics", (req, res) => {
-    res.render("statistics");
-});
-
+// Registration and Login
 app.get("/register", signedInMiddleware, (req, res) => {
     res.render("register");
 });
@@ -123,10 +120,29 @@ app.get("/logout", signedOutMiddleware, async (req, res) => {
     res.redirect("/?message=You've successfully logged out.")
 });
 
+// Users and their personal objects
+app.get("/profile/view/:username", userController.view);
+app.post("/profile/view/:username", signedOutMiddleware, userController.edit);
+app.post("/profile/delete", signedOutMiddleware, userController.delete);
+
+app.get("/my-objects", signedOutMiddleware, (req, res) => {
+    res.render("userObjects");
+});
+
+app.get("/object/add", signedOutMiddleware, objectController.view);
+app.post("/object/add", signedOutMiddleware, objectController.create);
+
+// Object statistics
+app.get("/statistics", (req, res) => {
+    res.render("statistics");
+});
+
+// Public API
 app.get("/api", (req, res) => {
     res.render("api");
 });
 
+// 404
 app.get("*", (req, res) => {
     res.status("404").render("404");
 });

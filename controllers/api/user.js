@@ -2,8 +2,8 @@ const User = require("../../models/User");
 const Rank = require("../../models/Rank");
 
 exports.validate = async (req, res) => {
-    const usernameToFind = req.query.username;
-    const emailToFind = req.query.email;
+    const usernameToFind = req.query.username.trim();
+    const emailToFind = req.query.email.trim();
     const passwordToTry = req.query.password;
     
     if (!usernameToFind) {

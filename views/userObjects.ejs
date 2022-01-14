@@ -2,18 +2,18 @@
 
     <main>
         <section id="main-header" class="py-5 text-center container bg-lightdark">
-            <h1>Database</h1>
+            <h1>Your Objects</h1>
         </section>
         
         <div class="container pt-3 px-4 bg-dark search-area">
             <h4 class="text-center">Object Filter</h4>
             <form>
                 <div class="row">
-                  <div class="col-md-4">
+                  <div class="col-lg-3">
                     <label for="object-name">Object Name</label>
                     <input class="form-control" id="object-name" name="objectName">
                   </div>
-                  <div class="col-md-4">
+                  <div class="col-lg-3">
                     <label for="object-type">Object Type</label>
                     <select class="form-select" id="object-type" name="objectType">
                         <option>All</option>
@@ -22,12 +22,19 @@
                         <option>(type)</option>
                     </select>
                   </div>
-                  <div class="col-md-4">
+                  <div class="col-lg-3">
                     <label for="object-order">Object Order</label>
                     <select class="form-select" id="object-order" name="objectOrder">
                         <option>A-Z</option>
                         <option>Z-A</option>
                         <option>Date Added</option>
+                    </select>
+                  </div>
+                  <div class="col-lg-3">
+                    <label for="object-order">Only show public objects</label>
+                    <select class="form-select" id="object-order" name="objectOrder">
+                        <option>False</option>
+                        <option>True</option>
                     </select>
                   </div>
                 </div>
@@ -46,7 +53,7 @@
 
                             <div class="card-body">
                                 <p class="card-text text-center card-title">(name)</p>
-                                <p class="mb-2 card-text text-center">(type)</p>
+                                <p class="mb-2 card-text text-center">(description)</p>
                                 <small class="text-muted discoverer">Discovered by (user)</small>
                             </div>
                         </div>

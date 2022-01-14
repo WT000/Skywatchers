@@ -113,6 +113,15 @@ input[type=checkbox]{
     display: none;
 }
 
+#clear-img{
+    display: none;
+}
+
+.checkbox-lg{
+    width: 20px;
+    height: 20px;
+}
+
 @media (min-width: 768px) {
     .bd-placeholder-img-lg {
       font-size: 3.5rem;

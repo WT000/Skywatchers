@@ -42,7 +42,7 @@ const typesInsert = [
     },
     {
         name: "Stellar Remnant",
-        description: "The remnants of dead stars, common examples of such are white dwarfs, neutron stars, and stellar black holes.",
+        description: "The remnants of dead stars such as white dwarfs, neutron stars, and stellar black holes.",
         rankScore: 3,
     },
     {
