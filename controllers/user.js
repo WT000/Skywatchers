@@ -86,7 +86,7 @@ exports.view = async (req, res) => {
     try {
         // Attempt to find the user, their rank and publically listed objects
         const foundUser = await User.findOne({ username: usernameToFind })
-            .populate("createdObjects", { match: { isPublic: true } })
+            .populate({ path: "createdObjects", match: { isPrivate: "false" } })
             .populate("rank");
 
         if (!foundUser) {
@@ -94,7 +94,7 @@ exports.view = async (req, res) => {
             res.render("404");
             return;
         };
-        
+
         // The user was found
         const foundUserUpdated = new Date(foundUser.updatedAt);
         
