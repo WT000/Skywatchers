@@ -50,15 +50,20 @@
                                 <th>Rank</th>
                                 <td><span class="user-rank" style="color:<%= foundUser.rank.colour %>"><%= foundUser.rank.name %></span><span data-toggle="tooltip" title="<%= foundUser.rank.description %>"><img src="/icons/question-circle.svg" alt="RankInfo" width="16" height="16"></span></td>
                               </tr>
-        
+
                               <tr>
-                                <th>Last Active</th>
-                                <td><%= foundUserUpdated %></td>
+                                <th>Rank Score</th>
+                                <td><span class="user-rank" style="color:<%= foundUser.rank.colour %>"><%= foundUser.rankScore %></span></td>
                               </tr>
 
                               <tr>
                                 <th>Public Discoveries</th>
                                 <td><%= foundUser.createdObjects.length %></td>
+                              </tr>
+        
+                              <tr>
+                                <th>Last Active</th>
+                                <td><%= foundUserUpdated %></td>
                               </tr>
                             </tbody>
                         </table>
