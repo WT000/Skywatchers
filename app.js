@@ -107,7 +107,7 @@ app.get("/statistics", (req, res) => {
 });
 
 app.get("/register", signedInMiddleware, (req, res) => {
-    res.render("register", { errors: {} });
+    res.render("register");
 });
 app.post("/register", signedInMiddleware, userController.create);
 app.get("/api/validate/register", apiUserController.validate);

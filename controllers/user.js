@@ -4,14 +4,14 @@ const Objects = require("../models/Object");
 const errors = require("../controllers/functions/get-errors.js")
 const bcrypt = require("bcrypt");
 
-// Create - attempt to create a User after registration
+// Create - attempt to create a User after registration (perform the same checks as API in case the API is down / isn't being used)
 exports.create = async (req, res) => {
     try {
         // Get the default rank from the database
         const defaultRank = await Rank.findOne({ rankScoreNeeded: 0 });
         if (!defaultRank) {
             console.log("The default rank wasn't found!");
-            res.render("register", { errors: { rank: { message: "Coudn't find the default rank, contact an admin." } } });
+            res.render("register");
             return;
         };
         
@@ -27,13 +27,11 @@ exports.create = async (req, res) => {
         console.log(`Encountered an error when making a user: ${e.message}`);
 
         if (e.code === 11000) {
-            let internalErrors = errors.getErrors(e);
-
-            res.render("register", { errors: internalErrors } );
+            res.render("register");
             return;
             
         } else {
-            res.render("register", { errors: e.errors });
+            res.render("register");
             return;
         };
     };

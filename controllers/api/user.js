@@ -22,7 +22,7 @@ exports.validate = async (req, res) => {
         const defaultRank = await Rank.findOne({ rankScoreNeeded: 0 });
         if (!defaultRank) {
             console.log("The default rank wasn't found!");
-            res.json({ "errors": { "rank": { "message": "Coudn't find the default rank, contact an admin." } } });
+            res.json({ "errors": { "rank": { "message": "Coudn't find the default rank, contact an admin" } } });
             return;
         };
 
@@ -30,12 +30,25 @@ exports.validate = async (req, res) => {
         // to not POST the user), else allow the user to be added to the database
         const user = new User({ username: usernameToFind, email: emailToFind, password: passwordToTry, bio:"Not given", rankScore: 0, rank: defaultRank});
         await user.validate();
+
+        // Now attempt to see if the username and email are valid
+        const foundUsername = await User.findOne({ username: usernameToFind });
+        if (foundUsername) {
+            res.json({ "errors": { "username": { "message": "The username is taken" } } });
+            return;
+        }
+
+        const foundEmail = await User.findOne({ email: emailToFind });
+        if (foundEmail) {
+            res.json({ "errors": { "email": { "message": "The email is being used by another account" } } });
+            return;
+        }
         
         // If it was a success, errors will be empty
         res.json({ "errors": {} });
 
     } catch (e) {
-        console.log(e);
+        console.log(e.message);
         // Something went wrong, the username or email may be taken / the password is too short
         if (e.code === 11000) {
             let internalErrors = errors.getErrors(e);

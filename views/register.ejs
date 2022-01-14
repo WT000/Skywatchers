@@ -1,28 +1,7 @@
 <%- include("common/header") %>
 
     <main>
-        <% if (errors["username"] || errors["email"] || errors["password"]) { %>
-            <div class="alert alert-danger text-center fade show" role="alert">
-                <% if (errors["username"]) { %>
-                <%= errors["username"].message %>
-                <% } %>
-
-                <% if (errors["email"]) { %>
-                <%= errors["email"].message %>
-                <% } %>
-
-                <% if (errors["password"]) { %>
-                <%= errors["password"].message %>
-                <% } %>
-
-                <% if (errors["rank"]) { %>
-                    <%= errors["rank"].message %>
-                <% } %>
-                <script type="text/javascript">
-                    setTimeout(e=> {$('.alert').alert('close');}, 4000);
-                </script>
-            </div>
-        <% } %>
+        <div id="error-results" class="alert alert-danger text-center fade show" role="alert"></div>
         
         <section id="main-header" class="py-5 text-center container bg-lightdark">
             <h1>Register</h1>
@@ -50,7 +29,7 @@
                     </div>
                     <div class="row justify-content-center">
                         <div class="col-md-4 bg-lightdark text-center">
-                            <button class="w-100 mb-2 btn btn-lg btn-primary" type="submit">Sign up</button>
+                            <button class="w-100 mb-2 btn btn-lg btn-primary" onclick="handleValidation()" type="submit">Sign up</button>
                             <p><a class="text-decoration-none" href="/login">Return to Login</a></p>
                         </div>
                     </div>
