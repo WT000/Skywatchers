@@ -14,6 +14,7 @@ const User = require("./models/User");
 const userController = require("./controllers/user");
 const apiUserController = require("./controllers/api/user");
 const objectController = require("./controllers/object");
+const apiObjectController = require("./controllers/api/object");
 
 /*
     APP SETUP - Setting up the application, such as json configuration, cookies, etc
@@ -93,9 +94,8 @@ app.get("/", (req, res) => {
 });
 
 // Database
-app.get("/database", (req, res) => {
-    res.render("database");
-});
+app.get("/database", objectController.database);
+app.get("/api/database/search", apiObjectController.find);
 
 // Object speicifcs (viewing objects, editing objects, etc)
 app.get("/viewObject", (req, res) => {

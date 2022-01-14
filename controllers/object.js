@@ -39,12 +39,12 @@ exports.create = async (req, res) => {
         };
 
         // Required data
-        let name = req.body.name.trim();
+        let name = req.body.name;
         let type = req.body.type;
         let isPrivate = true;
 
         // Optional data
-        let description = req.body.description.trim();
+        let description = req.body.description;
         let otherNames = req.body.otherNames;
         let apparentMagnitude = req.body.apparentMagnitude;
         //let image = req.body.image;
@@ -55,7 +55,7 @@ exports.create = async (req, res) => {
         };
 
         // Convert data to the correct format (type)
-        const foundType = await Type.findOne({ name: req.body.type });
+        const foundType = await Type.findOne({ _id: req.body.type });
         if (!foundType) {
             console.log(`Couldn't find type ${req.body.type}`);
             res.redirect(`/?error=We couldn't find the type, it may be deleted.`);
@@ -88,7 +88,7 @@ exports.create = async (req, res) => {
         // Convert data to the correct format (image (png, gif, jpeg))
 
         // Attempt to create the object and save, this will only work if the username and email are unique
-        const newObject = new Objects({ name: name, otherNames: otherNames, type: type, description: description, apparentMagnitude: apparentMagnitude, uploader: foundUser, isPrivate: isPrivate });
+        const newObject = new Objects({ name: name.trim(), otherNames: otherNames, type: type, description: description, apparentMagnitude: apparentMagnitude, uploader: foundUser, isPrivate: isPrivate });
         
         if (!isPrivate) {
             // Verify that the name is unique before making it publically saved
@@ -133,5 +133,26 @@ exports.create = async (req, res) => {
             res.redirect("/?error=The object couldn't be created");
             return;
         };
+    };
+};
+
+// Database - display all the public objects in A-Z order by default
+exports.database = async (req, res) => {
+    try {        
+        const currentTypes = await Type.find({});
+        if (!currentTypes) {
+            console.log("Couldn't find the types, they're not in the database!");
+            res.redirect("/?error=Something went wrong with types, contact an admin");
+            return;
+        };
+        
+        res.render("database", {types: currentTypes});
+
+    } catch (e) {
+        // Something went wrong
+        console.log(`Encountered an error when viewing the database: ${e}`);
+
+        res.redirect("/?error=An error happened when trying to connect to the database, contact an admin.");
+        return;
     };
 };

@@ -7,7 +7,7 @@
         
         <div class="container pt-3 px-4 bg-dark search-area">
             <h4 class="text-center">Object Filter</h4>
-            <form>
+            <form id="search-form" autocomplete="off">
                 <div class="row">
                   <div class="col-md-4">
                     <label for="object-name">Object Name</label>
@@ -17,9 +17,9 @@
                     <label for="object-type">Object Type</label>
                     <select class="form-select" id="object-type" name="objectType">
                         <option>All</option>
-                        <option>(type)</option>
-                        <option>(type)</option>
-                        <option>(type)</option>
+                        <% types.forEach(type => { %>
+                        <option value="<%= type.name %>"><%= type.name %> (<%= type.description %>)</option>
+                        <% }); %>
                     </select>
                   </div>
                   <div class="col-md-4">
@@ -27,7 +27,7 @@
                     <select class="form-select" id="object-order" name="objectOrder">
                         <option>A-Z</option>
                         <option>Z-A</option>
-                        <option>Date Added</option>
+                        <option value="Date">Date Added</option>
                     </select>
                   </div>
                 </div>
@@ -35,27 +35,14 @@
         </div>
 
         <div class="album py-4 bg-dark">
-            <h2 class="text-center">Results (num)</h2>
+            <h2 id="results-count" class="text-center"></h2>
             <div class="container">
-                <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-3">
+                <div id="results-container" class="row row-cols-2 row-cols-sm-3 row-cols-md-4 g-3">
 
-                    <div class="col">
-                        <a class="text-decoration-none" href="./viewObject">
-                        <div class="card shadow-sm bg-lightdark">
-                            <img src="images/defaultImage.png" class="img-fluid" alt="...">
-
-                            <div class="card-body">
-                                <p class="card-text text-center card-title">(name)</p>
-                                <p class="mb-2 card-text text-center">(type)</p>
-                                <small class="text-muted discoverer">Discovered by (user)</small>
-                            </div>
-                        </div>
-                        </a>
-                    </div>
-                    
                 </div>
             </div>
         </div>
     </main>
 
-    <%- include("common/footer") %>
+    <script src="/scripts/object-search.js"></script>
+<%- include("common/footer") %>

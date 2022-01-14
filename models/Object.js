@@ -15,7 +15,7 @@ const objectSchema = new Schema(
     {
         name: { type: String, required: [true, "Name is required"], maxlength: [50, "Name too long"] },
         otherNames: [{ type: String, maxlength: [50, "Other Name too long"] }],
-        type: { type: mongoose.Schema.Types.ObjectId, ref: "Objecttype", required: [true, "Object Type is required"] },
+        type: { type: mongoose.Schema.Types.ObjectId, ref: "Type", required: [true, "Object Type is required"] },
         description: { type: String, maxlength: [100, "Description too long"] },
         apparentMagnitude: { type: Number },
         uploader: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: [true, "Uploader is required"] },
@@ -26,5 +26,5 @@ const objectSchema = new Schema(
 );
 
 // Index based on name
-objectSchema.index({ name: 1 });
+objectSchema.index({ name: "text" });
 module.exports = mongoose.model("Object", objectSchema);

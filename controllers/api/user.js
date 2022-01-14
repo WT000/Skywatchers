@@ -2,8 +2,8 @@ const User = require("../../models/User");
 const Rank = require("../../models/Rank");
 
 exports.validate = async (req, res) => {
-    const usernameToFind = req.query.username.trim();
-    const emailToFind = req.query.email.trim();
+    const usernameToFind = req.query.username;
+    const emailToFind = req.query.email;
     const passwordToTry = req.query.password;
     
     if (!usernameToFind) {
@@ -28,7 +28,7 @@ exports.validate = async (req, res) => {
 
         // Test if the user will be valid in the database, this will generate an exception if it isn't (meaning we know
         // to not POST the user), else allow the user to be added to the database
-        const user = new User({ username: usernameToFind, email: emailToFind, password: passwordToTry, bio:"Not given", rankScore: 0, rank: defaultRank});
+        const user = new User({ username: usernameToFind.trim(), email: emailToFind.trim(), password: passwordToTry, bio:"Not given", rankScore: 0, rank: defaultRank});
         await user.validate();
 
         // Now attempt to see if the username and email are valid
