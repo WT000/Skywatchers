@@ -68,6 +68,9 @@ exports.find = async (req, res) => {
         if (isNaN(finalPerPage) || isNaN(finalPage)) {
             res.json({ errors: { page: { message: "Invalid perPage or page (must be a whole number)" }, objects: {} } });
             return;
+        } else if (finalPerPage < 1 || finalPage < 1) {
+            res.json({ errors: { page: { message: "Invalid perPage or page (must be a positive number greater than 0)" }, objects: {} } });
+            return;
         }
 
         let queryResults = undefined;
