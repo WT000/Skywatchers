@@ -23,10 +23,16 @@
                     <li><strong>objectName</strong> - The name of the object you're looking for (can be left blank)</li>
                     <li><strong>objectType</strong> - The type of object you're looking for (use "All" if it doesn't matter)</li>
                     <li><strong>sortBy</strong> - The sorting of the objects ("A-Z" or "Date")</li>
-                    <li><strong>page</strong> - The current page, you can tell if there's no more pages if results are less than 24</li>
+                    <li><strong>perPage</strong> - How many results you want to see on each page (the site uses 24)</li>
+                    <li><strong>page</strong> - The current page, you can tell if there's no more pages if results are less than perPage</li>
                 </ul>
 
                 <p>Examples:</p>
+                <ol type=1>
+                    <li><a href="./api/database/search?objectName=&objectType=All&sortBy=A-Z&perPage=1000&page=1" target="_blank">Searching for ALL items</a></li>
+                    <li><a href="./api/database/search?objectName=&objectType=Star&sortBy=Date&perPage=1000&page=1" target="_blank">Searching for ALL recently added stars</a></li>
+                    <li><a href="./api/database/search?objectName=Jupiter&objectType=Planet&sortBy=A-Z&perPage=1000&page=1" target="_blank">Searching for ALL planets named Jupiter</a></li>
+                </ol>
             </div>
         </div>
     </main>

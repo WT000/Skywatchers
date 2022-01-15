@@ -18,7 +18,7 @@ exports.find = async (req, res) => {
     let finalPerPage = undefined;
     
     // Ensure essential values are present
-    if (!typeToFind || !sortBy || !page || !perPage) {
+    if (nameToFind == undefined || !typeToFind || !sortBy || !page || !perPage) {
         res.json({ errors: { query: { message: "Invalid query" }}, objects: {}});
         return;
     };
@@ -71,7 +71,7 @@ exports.find = async (req, res) => {
         } else if (finalPerPage < 1 || finalPage < 1) {
             res.json({ errors: { page: { message: "Invalid perPage or page (must be a positive number greater than 0)" }, objects: {} } });
             return;
-        }
+        };
 
         let queryResults = undefined;
 
