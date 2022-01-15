@@ -5,13 +5,16 @@ const Type = require("../../models/Type");
 const errors = require(".././functions/get-errors.js");
 
 exports.find = async (req, res) => {
+    // Per page locked at 24, ensures nobody enters a ridiculous perPage number and slows down the system
     const perPage = 24;
     
     const nameToFind = req.query.objectName;
     const typeToFind = req.query.objectType;
+    const sortBy = req.query.sortBy;
     const page = req.query.page;
 
     let finalType = undefined;
+    let finalSort = undefined;
     
     // Ensure essential values are present
     if (!typeToFind || !page) {
@@ -34,6 +37,29 @@ exports.find = async (req, res) => {
             finalType = typeToFind;
         };
 
+        // Prepare the sortBy for search
+        // Looking for all objects in A-Z order
+        if ((sortBy === "A-Z" && typeToFind === "All") || (sortBy === "A-Z" && typeToFind !== "" && nameToFind === "")) {
+            finalSort = { name: 1 };
+        
+        // Looking for all objects in Date order
+        } else if ((sortBy === "Date" && typeToFind === "All") || (sortBy === "Date" && typeToFind !== "" && nameToFind === "")) {
+            finalSort = { updatedAt: -1 };
+        
+        // Looking for specific objects in A-Z order (priority given to textScore)
+        } else if (sortBy === "A-Z") {
+            finalSort = { score: { $meta: "textScore" }, name: 1 };
+
+        // Looking for speicifc objects in date order (priority given to date)
+        } else if (sortBy === "Date") {
+            finalSort = { updatedAt: -1, score: { $meta: "textScore" }};
+        
+        // None of the valid options were given
+        } else {
+            res.json({ errors: { sortBy: { message: "Invalid sort" }, objects: {} } });
+            return;
+        };
+
         let queryResults = undefined;
 
         if (finalType === "All") {
@@ -44,13 +70,13 @@ exports.find = async (req, res) => {
                     { score: { $meta: "textScore" } }
                     ).populate("type", "name")
                     .populate({ path: "uploader", populate: { path: "rank", select: "colour" }, select: "username" })
-                    .sort({ score: { $meta: "textScore" } }).skip((page-1) * perPage).limit(perPage);
+                    .sort(finalSort).skip((page-1) * perPage).limit(perPage);
             } else {
                 // Search for everything (no name provided)
                 queryResults = await Objects.find({ isPrivate: "false" }
                 ).populate("type", "name")
                 .populate({ path: "uploader", populate: { path: "rank", select: "colour" }, select: "username" })
-                .sort({ name: 1 }).skip((page-1) * perPage).limit(perPage);
+                .sort(finalSort).skip((page-1) * perPage).limit(perPage);
             }
             
         } else {
@@ -61,13 +87,13 @@ exports.find = async (req, res) => {
                     { score: { $meta: "textScore" } }
                     ).populate("type", "name")
                     .populate({ path: "uploader", populate: { path: "rank", select: "colour" }, select: "username" })
-                    .sort({ score: { $meta: "textScore" } }).skip((page-1) * perPage).limit(perPage);
+                    .sort(finalSort).skip((page-1) * perPage).limit(perPage);
             } else {
                 // Search for everything under the SPECIFIC type (no name provided)
                 queryResults = await Objects.find({ isPrivate: "false", type: finalType }
                 ).populate("type", "name")
                 .populate({ path: "uploader", populate: { path: "rank", select: "colour" }, select: "username" })
-                .sort({ name: 1 }).skip((page-1) * perPage).limit(perPage);
+                .sort(finalSort).skip((page-1) * perPage).limit(perPage);
             }
         }
         

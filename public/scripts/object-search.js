@@ -29,12 +29,17 @@ document.getElementById("object-type").addEventListener("input", e => {
     handleSearch();
 });
 
+document.getElementById("object-order").addEventListener("input", e => {
+    handleSearch();
+});
+
 const handleSearch = async () => {
     let objectName = document.getElementById("object-name").value;
     let objectType = document.getElementById("object-type").value;
+    let objectOrder = document.getElementById("object-order").value;
     
     try {
-        const rawSearchResult = await fetch(`/api/database/search?objectName=${objectName}&objectType=${objectType}&page=${currentPage}`);
+        const rawSearchResult = await fetch(`/api/database/search?objectName=${objectName}&objectType=${objectType}&sortBy=${objectOrder}&page=${currentPage}`);
         const searchResult = await rawSearchResult.json();
 
         let searchHtml = [];
