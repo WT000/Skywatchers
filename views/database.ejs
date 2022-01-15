@@ -18,7 +18,7 @@
                     <select class="form-select" id="object-type" name="objectType">
                         <option>All</option>
                         <% types.forEach(type => { %>
-                        <option value="<%= type.name %>"><%= type.name %> (<%= type.description %>)</option>
+                        <option value="<%= type.name %>"><%= type.name %> - <%= type.description %></option>
                         <% }); %>
                     </select>
                   </div>

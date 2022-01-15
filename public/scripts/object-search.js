@@ -98,9 +98,6 @@ const handleSearch = async () => {
                 finalPage = Math.floor(totalFound / perPage+1);
             };
 
-            console.log(totalFound);
-            console.log(finalPage);
-
             document.getElementById("results-container").innerHTML = searchHtml.join("");
             document.getElementById("results-count").innerHTML = `Results (${totalFound}):`;
         } else {
