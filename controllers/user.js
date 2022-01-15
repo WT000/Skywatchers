@@ -1,10 +1,11 @@
 const User = require("../models/User");
 const Rank = require("../models/Rank");
 const Objects = require("../models/Object");
-const errors = require("./functions/get-errors.js");
 const bcrypt = require("bcrypt");
 
-// Create - attempt to create a User after registration (perform the same checks as API in case the API is down / isn't being used)
+// Create - attempt to create a User after registration
+// Currently uses AJAX for validation and showing errors to users, which is why some errors simply
+// register the page again (checks are kept here in case the API isn't used)
 exports.create = async (req, res) => {
     try {
         // Get the default rank from the database
@@ -65,17 +66,8 @@ exports.login = async (req, res) => {
     } catch (e) {
         // Something went wrong when signing in
         console.log(`Encountered an error when signing into a user: ${e}`);
-
-        if (e.code === 11000) {
-            let internalErrors = errors.getErrors(e);
-            
-            res.render("login", { errors: internalErrors } );
-            return;
-            
-        } else {
-            res.render("login", { errors: e.errors });
-            return;
-        };
+        res.render("login", { errors: e.errors });
+        return;
     };
 };
 

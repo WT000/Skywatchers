@@ -5,7 +5,6 @@ const Type = require("../../models/Type");
 
 exports.find = async (req, res) => {
     // Get the raw values, then prepare to convert them into proper ones
-    
     const nameToFind = req.query.objectName;
     const typeToFind = req.query.objectType;
     const sortBy = req.query.sortBy;

@@ -1,5 +1,6 @@
 const User = require("../../models/User");
 const Rank = require("../../models/Rank");
+const errors = require("../functions/get-errors.js");
 
 exports.validate = async (req, res) => {
     const usernameToFind = req.query.username;
@@ -49,7 +50,7 @@ exports.validate = async (req, res) => {
 
     } catch (e) {
         console.log(e.message);
-        // Something went wrong, the username or email may be taken / the password is too short
+        // Something went wrong, the username or email may be taken and the error wasn't detected above
         if (e.code === 11000) {
             let internalErrors = errors.getErrors(e);
 
