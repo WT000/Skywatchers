@@ -19,7 +19,7 @@ const objectView = (object) => `
 
 document.getElementById("search-form").addEventListener("submit", e => {
     e.preventDefault();
-})
+});
 
 document.getElementById("object-name").addEventListener("input", e => {
     handleSearch();
@@ -38,13 +38,19 @@ const handleSearch = async () => {
         const searchResult = await rawSearchResult.json();
 
         let searchHtml = [];
+        let foundNames = [];
 
         searchResult.objects.forEach(object => {
             searchHtml.push(objectView(object));
+            foundNames.push(object.name);
         });
 
-        document.getElementById("results-container").innerHTML = searchHtml.join("");
-        document.getElementById("results-count").innerHTML = `Results (${searchHtml.length})`
+        if (searchHtml.length > 0) {  
+            document.getElementById("results-container").innerHTML = searchHtml.join("");
+            document.getElementById("results-count").innerHTML = "Results";
+        } else {
+            document.getElementById("results-count").innerHTML = "Currently no results...";
+        };
     
     } catch (e) {
         console.log("Something went wrong with the API");

@@ -146,7 +146,7 @@ exports.database = async (req, res) => {
             return;
         };
         
-        res.render("database", {types: currentTypes});
+        res.render("database", {types: currentTypes, query: req.query});
 
     } catch (e) {
         // Something went wrong
