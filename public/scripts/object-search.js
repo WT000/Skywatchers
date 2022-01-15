@@ -39,7 +39,7 @@ const handleSearch = async () => {
     let objectOrder = document.getElementById("object-order").value;
     
     try {
-        const rawSearchResult = await fetch(`/api/database/search?objectName=${objectName}&objectType=${objectType}&sortBy=${objectOrder}&page=${currentPage}`);
+        const rawSearchResult = await fetch(`/api/database/search?objectName=${objectName}&objectType=${objectType}&sortBy=${objectOrder}&perPage=${perPage}&page=${currentPage}`);
         const searchResult = await rawSearchResult.json();
 
         let searchHtml = [];

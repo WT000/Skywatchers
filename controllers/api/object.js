@@ -2,22 +2,23 @@ const User = require("../../models/User");
 const Rank = require("../../models/Rank");
 const Objects = require("../../models/Object");
 const Type = require("../../models/Type");
-const errors = require(".././functions/get-errors.js");
 
 exports.find = async (req, res) => {
-    // Per page locked at 24, ensures nobody enters a ridiculous perPage number and slows down the system
-    const perPage = 24;
+    // Get the raw values, then prepare to convert them into proper ones
     
     const nameToFind = req.query.objectName;
     const typeToFind = req.query.objectType;
     const sortBy = req.query.sortBy;
     const page = req.query.page;
+    const perPage = req.query.perPage;
 
     let finalType = undefined;
     let finalSort = undefined;
+    let finalPage = undefined;
+    let finalPerPage = undefined;
     
     // Ensure essential values are present
-    if (!typeToFind || !page) {
+    if (!typeToFind || !sortBy || !page || !perPage) {
         res.json({ errors: { query: { message: "Invalid query" }}, objects: {}});
         return;
     };
@@ -38,11 +39,11 @@ exports.find = async (req, res) => {
         };
 
         // Prepare the sortBy for search
-        // Looking for all objects in A-Z order
+        // Looking for all objects in A-Z order / all objects in a specific type in A-Z order
         if ((sortBy === "A-Z" && typeToFind === "All") || (sortBy === "A-Z" && typeToFind !== "" && nameToFind === "")) {
             finalSort = { name: 1 };
         
-        // Looking for all objects in Date order
+        // Looking for all objects in Date order / all objects in a specific type in Date order
         } else if ((sortBy === "Date" && typeToFind === "All") || (sortBy === "Date" && typeToFind !== "" && nameToFind === "")) {
             finalSort = { updatedAt: -1 };
         
@@ -60,6 +61,15 @@ exports.find = async (req, res) => {
             return;
         };
 
+        // Ensure page and perPage are numbers (will fail if they're not)
+        finalPage = Math.floor(page);
+        finalPerPage = Math.floor(perPage);
+
+        if (isNaN(finalPerPage) || isNaN(finalPage)) {
+            res.json({ errors: { page: { message: "Invalid perPage or page (must be a whole number)" }, objects: {} } });
+            return;
+        }
+
         let queryResults = undefined;
 
         if (finalType === "All") {
@@ -70,13 +80,13 @@ exports.find = async (req, res) => {
                     { score: { $meta: "textScore" } }
                     ).populate("type", "name")
                     .populate({ path: "uploader", populate: { path: "rank", select: "colour" }, select: "username" })
-                    .sort(finalSort).skip((page-1) * perPage).limit(perPage);
+                    .sort(finalSort).skip((finalPage-1) * finalPerPage).limit(finalPerPage);
             } else {
                 // Search for everything (no name provided)
                 queryResults = await Objects.find({ isPrivate: "false" }
                 ).populate("type", "name")
                 .populate({ path: "uploader", populate: { path: "rank", select: "colour" }, select: "username" })
-                .sort(finalSort).skip((page-1) * perPage).limit(perPage);
+                .sort(finalSort).skip((finalPage-1) * finalPerPage).limit(finalPerPage);
             }
             
         } else {
@@ -87,13 +97,13 @@ exports.find = async (req, res) => {
                     { score: { $meta: "textScore" } }
                     ).populate("type", "name")
                     .populate({ path: "uploader", populate: { path: "rank", select: "colour" }, select: "username" })
-                    .sort(finalSort).skip((page-1) * perPage).limit(perPage);
+                    .sort(finalSort).skip((finalPage-1) * finalPerPage).limit(finalPerPage);
             } else {
                 // Search for everything under the SPECIFIC type (no name provided)
                 queryResults = await Objects.find({ isPrivate: "false", type: finalType }
                 ).populate("type", "name")
                 .populate({ path: "uploader", populate: { path: "rank", select: "colour" }, select: "username" })
-                .sort(finalSort).skip((page-1) * perPage).limit(perPage);
+                .sort(finalSort).skip((finalPage-1) * finalPerPage).limit(finalPerPage);
             }
         }
         
@@ -101,14 +111,6 @@ exports.find = async (req, res) => {
 
     } catch (e) {
         console.log(e.message);
-        // Something went wrong, the username or email may be taken / the password is too short
-        if (e.code === 11000) {
-            let internalErrors = errors.getErrors(e);
-
-            res.json({ errors: internalErrors } );
-            
-        } else {
-            res.json({ errors: e.errors });
-        };
+        res.json({ errors: e.errors });
     };
 };
