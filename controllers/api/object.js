@@ -71,6 +71,9 @@ exports.find = async (req, res) => {
         } else if (finalPerPage < 1 || finalPage < 1) {
             res.json({ errors: { page: { message: "Invalid perPage or page (must be a positive number greater than 0)" }, objects: {} } });
             return;
+        } else if (!Number.isSafeInteger(finalPage) || !Number.isSafeInteger(finalPerPage) || !Number.isSafeInteger((finalPage-1) * finalPerPage)) {
+            res.json({ errors: { page: { message: "Invalid perPage or page number (lower the numbers)" }, objects: {} } });
+            return;
         };
 
         let queryResults = undefined;
