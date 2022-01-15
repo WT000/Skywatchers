@@ -12,10 +12,10 @@ exports.find = async (req, res) => {
     const page = req.query.page;
     const perPage = req.query.perPage;
 
-    let finalType = undefined;
-    let finalSort = undefined;
-    let finalPage = undefined;
-    let finalPerPage = undefined;
+    let finalType;
+    let finalSort;
+    let finalPage;
+    let finalPerPage;
     
     // Ensure essential values are present
     if (nameToFind == undefined || !typeToFind || !sortBy || !page || !perPage) {
