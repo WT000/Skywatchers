@@ -52,9 +52,9 @@ const handleSearch = async () => {
 
         if (searchHtml.length > 0) {  
             document.getElementById("results-container").innerHTML = searchHtml.join("");
-            document.getElementById("results-count").innerHTML = "Results";
+            document.getElementById("results-count").innerHTML = "Results:";
         } else {
-            document.getElementById("results-count").innerHTML = "Currently no results...";
+            document.getElementById("results-count").innerHTML = `"${objectName}"`;
         };
     
     } catch (e) {
