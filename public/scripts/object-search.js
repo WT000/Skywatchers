@@ -1,5 +1,5 @@
 let currentPage = 1;
-let perPage = 24;
+let perPage = document.getElementById("objects-per-page").value;
 let totalFound;
 let finalPage;
 let currentPageElement = document.getElementById("current-page-text");
@@ -34,6 +34,12 @@ document.getElementById("object-type").addEventListener("input", e => {
 });
 
 document.getElementById("object-order").addEventListener("input", e => {
+    handleSearch();
+});
+
+document.getElementById("objects-per-page").addEventListener("input", e => {
+    currentPage = 1;
+    perPage = document.getElementById("objects-per-page").value;
     handleSearch();
 });
 

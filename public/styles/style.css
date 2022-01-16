@@ -31,6 +31,7 @@ label, a:hover{
     border-color: #212529;
     color: #d3d3d3;
     transition: none;
+    cursor: pointer;
 }
 
 .page-link:hover{
@@ -150,7 +151,6 @@ input[type=checkbox]{
 .nav-link{
     transition: none;
 }
-
 
 @media (min-width: 768px) {
     .bd-placeholder-img-lg {

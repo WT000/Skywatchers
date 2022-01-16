@@ -9,11 +9,11 @@
             <h4 class="text-center">Object Filter</h4>
             <form id="search-form" autocomplete="off">
                 <div class="row">
-                  <div class="col-md-4">
+                  <div class="col-md-3">
                     <label for="object-name">Object Name</label>
                     <input class="form-control" id="object-name" name="objectName" placeholder="(Type the full name)">
                   </div>
-                  <div class="col-md-4">
+                  <div class="col-md-3">
                     <label for="object-type">Object Type</label>
                     <select class="form-select" id="object-type" name="objectType">
                         <option>All</option>
@@ -22,11 +22,19 @@
                         <% }); %>
                     </select>
                   </div>
-                  <div class="col-md-4">
+                  <div class="col-md-3">
                     <label for="object-order">Object Order</label>
                     <select class="form-select" id="object-order" name="objectOrder">
                         <option value="Date">Date Added</option>
                         <option>A-Z</option>
+                    </select>
+                  </div>
+                  <div class="col-md-3">
+                    <label for="objects-per-page">Per Page</label>
+                    <select class="form-select" id="objects-per-page" name="objectsPerPage">
+                      <option>8</option>
+                      <option selected>24</option>
+                      <option>48</option>
                     </select>
                   </div>
                 </div>
@@ -42,11 +50,11 @@
             </div>
 
             <ul class="mt-3 pagination justify-content-center bg-dark">
-                <li id="first-page" class="page-item"><a class="page-link" href="#results-container">First</a></li>
-                <li id="prev-page" class="page-item"><a class="page-link" href="#results-container">&lt;</a></li>
+                <li id="first-page" class="page-item"><a class="page-link">First</a></li>
+                <li id="prev-page" class="page-item"><a class="page-link">&lt;</a></li>
                 <li id="current-page" class="page-item"><a id="current-page-text" class="page-link">( Loading )</a></li>
-                <li id="next-page" class="page-item"><a class="page-link" href="#results-container">&gt;</a></li>
-                <li id="last-page" class="page-item"><a class="page-link" href="#results-container">Last</a></li>
+                <li id="next-page" class="page-item"><a class="page-link">&gt;</a></li>
+                <li id="last-page" class="page-item"><a class="page-link">Last</a></li>
               </ul>
         </div>
     </main>
