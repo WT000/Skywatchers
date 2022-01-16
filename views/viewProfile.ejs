@@ -32,9 +32,9 @@
                             </thead>
                             <tbody>
                               <tr>
-                                <th>Bio</th>
+                                <th class="align-middle">Bio</th>
                                 <% if (user && user.username == foundUser.username) { %>
-                                  <td>
+                                  <td class="align-middle">
                                     <form id="update-form" action="/profile/view/<%= user.username %>" method="POST" autocomplete="off">
                                       <input id="bio" class="form-control" name="bio" value="<%= foundUser.bio %>" required>
                                       <button id="update-bio" class="mt-2 btn btn-sm btn-success" type="submit">Update</button>
@@ -46,23 +46,23 @@
                               </tr>
         
                               <tr>
-                                <th>Rank</th>
-                                <td><span class="user-rank" style="color:<%= foundUser.rank.colour %>"><%= foundUser.rank.name %></span><span data-toggle="tooltip" title="<%= foundUser.rank.description %>"><img src="/icons/question-circle.svg" alt="RankInfo" width="16" height="16"></span></td>
+                                <th class="align-middle">Rank</th>
+                                <td class="align-middle"><span class="user-rank" style="color:<%= foundUser.rank.colour %>"><%= foundUser.rank.name %></span><span data-toggle="tooltip" title="<%= foundUser.rank.description %>"><img src="/icons/question-circle.svg" alt="RankInfo" width="16" height="16"></span></td>
                               </tr>
 
                               <tr>
-                                <th>Rank Score <span data-toggle="tooltip" title="Gain Rank Score by publicly listing your objects. The rarer they are, the more you earn."><img src="/icons/question-circle.svg" alt="RankInfo" width="16" height="16"></th>
-                                <td><span class="user-rank" style="color:<%= foundUser.rank.colour %>"><%= foundUser.rankScore %></span></td>
+                                <th class="align-middle">Rank Score <span data-toggle="tooltip" title="Gain Rank Score by publicly listing your objects. The rarer they are, the more you earn."><img src="/icons/question-circle.svg" alt="RankInfo" width="16" height="16"></th>
+                                <td class="align-middle"><span class="user-rank" style="color:<%= foundUser.rank.colour %>"><%= foundUser.rankScore %></span></td>
                               </tr>
 
                               <tr>
-                                <th>Public Discoveries</th>
-                                <td><%= foundUser.createdObjects.length %></td>
+                                <th class="align-middle">Public Discoveries</th>
+                                <td class="align-middle"><%= foundUser.createdObjects.length %></td>
                               </tr>
         
                               <tr>
-                                <th>Last Active</th>
-                                <td><%= foundUserUpdated %></td>
+                                <th class="align-middle">Last Active</th>
+                                <td class="align-middle"><%= foundUserUpdated %></td>
                               </tr>
                             </tbody>
                         </table>

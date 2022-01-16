@@ -99,9 +99,11 @@ app.get("/", (req, res) => {
     res.render("index", { message: req.query.message, error: req.query.error });
 });
 
-// Database
+// Database and object specifics
 app.get("/database", objectController.database);
 app.get("/api/database/search", apiObjectController.find);
+
+app.get("/object/view/:id", objectController.view);
 
 // Object speicifcs (viewing objects, editing objects, etc)
 app.get("/viewObject", (req, res) => {
@@ -131,7 +133,7 @@ app.get("/profile/view/:username", userController.view);
 app.post("/profile/view/:username", signedOutMiddleware, userController.edit);
 app.post("/profile/delete", signedOutMiddleware, userController.delete);
 
-app.get("/object/add", signedOutMiddleware, objectController.view);
+app.get("/object/add", signedOutMiddleware, objectController.createForm);
 app.post("/object/add", signedOutMiddleware, objectController.create);
 
 app.get("/my-objects", signedOutMiddleware, objectController.personal);

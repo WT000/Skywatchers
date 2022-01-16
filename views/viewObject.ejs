@@ -6,9 +6,9 @@
         </section>
 
         <div class="py-4 bg-dark">
-            <h2 class="text-center">(name)</h2>
+            <h2 class="text-center"><%= object.name %></h2>
             <div class="container text-center">
-                <img src="images/defaultImage.png" class="img-fluid text-center" alt="...">
+                <img src="/images/defaultImage.png" class="mb-3 img-fluid text-center" alt="<%= object.name %>">
             </div>
             
             <div class="container">
@@ -19,32 +19,38 @@
                             </thead>
                             <tbody>
                               <tr>
-                                <th class="align-middle">Other Names</th>
-                                <td class="align-middle">...</td>
-                              </tr>
-        
-                              <tr>
                                 <th class="align-middle">Type</th>
-                                <td class="align-middle">...</td>
+                                <td class="align-middle"><%= object.type.name %> <span data-toggle="tooltip" title="<%= object.type.description %>"><img src="/icons/question-circle.svg" alt="Tooltip" width="16" height="16"></span></td>
                               </tr>
-        
+   
                               <tr>
                                 <th class="align-middle">Description</th>
-                                <td class="align-middle">...</td>
+                                <td class="align-middle"><%= object.description %></td>
+                              </tr>
+
+                              <tr>
+                                <th class="align-middle">Other Names</th>
+                                <td class="align-middle"><%= foundObjectNames %></td>
                               </tr>
 
                               <tr>
                                 <th class="align-middle">Apparent Magnitude</th>
-                                <td class="align-middle">...</td>
+                                <td class="align-middle">
+                                  <% if (object.apparentMagnitude !== null) { %>
+                                    <%= object.apparentMagnitude %>
+                                  <% } else { %>
+                                    Not given
+                                  <% } %>
+                                </td>
                               </tr>
 
                               <tr>
                                 <th class="align-middle">Last Updated</th>
-                                <td class="align-middle">...</td>
+                                <td class="align-middle"><%= foundObjectUpdated %></td>
                               </tr>
                             </tbody>
                         </table>
-                        <p>Discovered by <a href="./viewProfile">(user)</a>.</p>
+                        <p>Discovered by <a style="color:<%= object.uploader.rank.colour %>" href="/profile/view/<%= object.uploader.username %>"><%= object.uploader.username %></a></p>
                     </div>
                 </div>
             </div>

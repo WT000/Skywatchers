@@ -4,7 +4,7 @@ const Objects = require("../models/Object");
 const Type = require("../models/Type");
 const errors = require("./functions/get-errors.js")
 
-exports.view = async (req, res) => {
+exports.createForm = async (req, res) => {
     // Simply get the available Type's for the select option
     try {
         // Get the default types from the database
@@ -69,10 +69,11 @@ exports.create = async (req, res) => {
         };
 
         // Convert data to the correct format (other names)
-        if (req.body.otherNames) {
+        if (req.body.otherNames && req.body.otherNames !== "") {
             let names = req.body.otherNames.replace(/\s/g,'');
             otherNames = names.split(",");
-            console.log(otherNames);
+        } else {
+            otherNames = "Not given";
         };
 
         // Convert data to the correct format (magnitude)
@@ -181,6 +182,44 @@ exports.personal = async (req, res) => {
         console.log(`Encountered an error when viewing the database: ${e}`);
 
         res.redirect("/?error=An error happened when trying to connect to the database, contact an admin.");
+        return;
+    };
+};
+
+// View - view an object in the database
+exports.view = async (req, res) => {
+    const objectToFind = req.params.id;
+    
+    try {
+        // Attempt to find the object and populate the type and uploader
+        const foundObject = await Objects.findById(objectToFind)
+            .populate("type", "name description")
+            .populate({ path: "uploader", populate: { path: "rank", select: "colour" }, select: "username" });
+
+        if (!foundObject) {
+            console.log(`Couldn't find object ${objectToFind}`);
+            res.render("404");
+            return;
+        };
+
+        // If it's not public, we need to ensure the session user is the uploader
+        if (foundObject.isPrivate && req.session.userID !== foundObject.uploader.id) {
+            console.log(`User ID "${req.session.userID}" tried to access a private object`);
+            res.render("404");
+            return;
+        };
+
+        // Otherwise, it's safe to view the object
+        const foundObjectUpdated = new Date(foundObject.updatedAt);
+        const foundObjectNames = foundObject.otherNames.toString().replace(/,(?=[^\s])/g, ", ");
+
+        res.render("viewObject", { object: foundObject, foundObjectUpdated: foundObjectUpdated.toDateString(), foundObjectNames: foundObjectNames });
+
+    } catch (e) {
+        // Something went wrong
+        console.log(`Encountered an error when viewing object: ${e}`);
+
+        res.redirect("/?error=An error happened when trying to view the object, contact an admin.");
         return;
     };
 };

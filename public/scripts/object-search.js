@@ -6,9 +6,9 @@ let currentPageElement = document.getElementById("current-page-text");
 
 const objectView = (object) => `
 <div class="col">
-    <a class="text-decoration-none" href="./viewObject">
+    <a class="text-decoration-none" href="./object/view/${object._id}">
     <div class="card h-100 shadow-sm bg-lightdark">
-        <img src="images/defaultImage.png" class="img-fluid" alt="...">
+        <img src="/images/defaultImage.png" class="img-fluid" alt="...">
 
         <div class="card-body">
             <p class="card-text text-center card-title">${object.name}</p>
