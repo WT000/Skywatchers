@@ -23,6 +23,7 @@ const objectView = (object) => `
 // Handling the searches
 document.getElementById("search-form").addEventListener("submit", e => {
     e.preventDefault();
+    $(document.activeElement).filter(':input:focus').blur();
 });
 
 document.getElementById("object-name").addEventListener("input", e => {

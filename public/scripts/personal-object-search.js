@@ -39,6 +39,7 @@ const publicObjectView = (object) => `
 // Handling the searches
 document.getElementById("search-form").addEventListener("submit", e => {
     e.preventDefault();
+    $(document.activeElement).filter(':input:focus').blur();
 });
 
 document.getElementById("object-name").addEventListener("input", e => {
@@ -143,7 +144,7 @@ const handleSearch = async () => {
         currentPageElement.innerHTML = `( ${currentPage} / ${finalPage} )`;
     
     } catch (e) {
-        console.log("Something went wrong with the API");
+        console.log("Invalid Query");
     };
 };
 
