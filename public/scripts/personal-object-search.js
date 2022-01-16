@@ -4,7 +4,7 @@ let totalFound;
 let finalPage;
 let currentPageElement = document.getElementById("current-page-text");
 
-const objectView = (object) => `
+const privateObjectView = (object) => `
 <div class="col">
     <a class="text-decoration-none" href="./viewObject">
     <div class="card h-100 shadow-sm bg-lightdark">
@@ -13,7 +13,23 @@ const objectView = (object) => `
         <div class="card-body">
             <p class="card-text text-center card-title">${object.name}</p>
             <p class="mb-2 card-text text-center">Type: ${object.type.name}</p>
-            <small class="text-muted discoverer">Discovered by <span class="user-rank" style="color:${object.uploader.rank.colour}">${object.uploader.username}</span></small>
+            <small class="text-muted discoverer"><span class="user-rank" style="color:red">PRIVATE</span></small>
+        </div>
+    </div>
+    </a>
+</div>
+`;
+
+const publicObjectView = (object) => `
+<div class="col">
+    <a class="text-decoration-none" href="./viewObject">
+    <div class="card h-100 shadow-sm bg-lightdark">
+        <img src="images/defaultImage.png" class="img-fluid" alt="...">
+
+        <div class="card-body">
+            <p class="card-text text-center card-title">${object.name}</p>
+            <p class="mb-2 card-text text-center">Type: ${object.type.name}</p>
+            <small class="text-muted discoverer"><span class="user-rank" style="color:lawngreen">PUBLIC (${object.type.rankScore} Rank Score)</span></small>
         </div>
     </div>
     </a>
@@ -76,13 +92,17 @@ const handleSearch = async () => {
     let objectOrder = document.getElementById("object-order").value;
     
     try {
-        const rawSearchResult = await fetch(`/api/database/search?objectName=${objectName}&objectType=${objectType}&sortBy=${objectOrder}&perPage=${perPage}&page=${currentPage}`);
+        const rawSearchResult = await fetch(`/api/database/personal?objectName=${objectName}&objectType=${objectType}&sortBy=${objectOrder}&perPage=${perPage}&page=${currentPage}`);
         const searchResult = await rawSearchResult.json();
 
         let searchHtml = [];
 
         searchResult.objects.forEach(object => {
-            searchHtml.push(objectView(object));
+            if (object.isPrivate == true) {
+                searchHtml.push(privateObjectView(object));
+            } else {
+                searchHtml.push(publicObjectView(object));
+            };
         });
 
         if (searchHtml.length > 0) {  

@@ -146,7 +146,28 @@ exports.database = async (req, res) => {
             return;
         };
         
-        res.render("database", {types: currentTypes, query: req.query});
+        res.render("database", {types: currentTypes});
+
+    } catch (e) {
+        // Something went wrong
+        console.log(`Encountered an error when viewing the database: ${e}`);
+
+        res.redirect("/?error=An error happened when trying to connect to the database, contact an admin.");
+        return;
+    };
+};
+
+// Database - display all the personal objects of a user in Date order by default
+exports.personal = async (req, res) => {
+    try {        
+        const currentTypes = await Type.find({});
+        if (!currentTypes) {
+            console.log("Couldn't find the types, they're not in the database!");
+            res.redirect("/?error=Something went wrong with types, contact an admin");
+            return;
+        };
+        
+        res.render("userObjects", {types: currentTypes, query: req.query});
 
     } catch (e) {
         // Something went wrong

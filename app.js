@@ -125,12 +125,11 @@ app.get("/profile/view/:username", userController.view);
 app.post("/profile/view/:username", signedOutMiddleware, userController.edit);
 app.post("/profile/delete", signedOutMiddleware, userController.delete);
 
-app.get("/my-objects", signedOutMiddleware, (req, res) => {
-    res.render("userObjects");
-});
-
 app.get("/object/add", signedOutMiddleware, objectController.view);
 app.post("/object/add", signedOutMiddleware, objectController.create);
+
+app.get("/my-objects", signedOutMiddleware, objectController.personal);
+app.get("/api/database/personal", signedOutMiddleware, apiObjectController.personal);
 
 // Object statistics
 app.get("/statistics", (req, res) => {
