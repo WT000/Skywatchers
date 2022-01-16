@@ -5,7 +5,7 @@ const bcrypt = require("bcrypt");
 
 // Create - attempt to create a User after registration
 // Currently uses AJAX for validation and showing errors to users, which is why some errors simply
-// register the page again (checks are kept here in case the API isn't used)
+// reload the page again (checks are kept here in case the API isn't used / JavaScript is disabled)
 exports.create = async (req, res) => {
     try {
         // Get the default rank from the database
