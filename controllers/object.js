@@ -82,7 +82,14 @@ exports.create = async (req, res) => {
             } catch (e) {
                 res.redirect(`/?error=Invalid magnitude.`);
                 return;
-            }
+            };
+        };
+
+        // Convert data to the correct format (description)
+        if (!req.body.description || req.body.description === "") {
+            description = "Not given";
+        } else {
+            description = req.body.description.trim();
         };
 
         // Convert data to the correct format (image (png, gif, jpeg))
@@ -92,7 +99,7 @@ exports.create = async (req, res) => {
         
         if (!isPrivate) {
             // Verify that the name is unique before making it publically saved
-            const publicDuplicateCheck = await Objects.find({ name: name, isPrivate: false });
+            const publicDuplicateCheck = await Objects.find({ name: name.trim(), isPrivate: false });
             if (publicDuplicateCheck.length > 0) {
                 console.log(`Duplicate public object attempted to be made: ${name}`);
                 res.redirect(`/?error=The object has already been publicly listed by another user.`);
