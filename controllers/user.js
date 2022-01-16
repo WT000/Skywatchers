@@ -103,7 +103,7 @@ exports.view = async (req, res) => {
 
 // Edit - attempt to edit a user account (currently just their bio)
 exports.edit = async (req, res) => {
-    const bioToSet = req.body.bio;
+    let bioToSet = req.body.bio;
     
     try {
         // Firstly, ensure the user editing the profile is the user themselves
@@ -113,6 +113,10 @@ exports.edit = async (req, res) => {
             console.log(`Couldn't edit user ${req.session.userID}`);
             res.redirect(`/?error=Couldn't edit your account (not found).`);
             return;
+        };
+
+        if (!bioToSet || bioToSet === "") {
+            bioToSet = "Not given";
         };
 
         // If the code reaches here, it's safe to update the bio of foundUser
