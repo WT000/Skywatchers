@@ -22,7 +22,7 @@ const privateObjectView = (object) => `
 
 const publicObjectView = (object) => `
 <div class="col">
-    <a class="text-decoration-none" href="./object/view/${object.id}">
+    <a class="text-decoration-none" href="./object/view/${object._id}">
     <div class="card h-100 shadow-sm bg-lightdark">
         <img src="images/defaultImage.png" class="img-fluid" alt="...">
 
