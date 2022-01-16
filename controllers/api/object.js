@@ -255,7 +255,7 @@ exports.personal = async (req, res) => {
 
             } else {
                 // Search for everything under the SPECIFIC type (no name provided)
-                queryResults = await Objects.find({ isPrivate: "false", type: finalType }
+                queryResults = await Objects.find({ uploader: userId, type: finalType }
                 ).populate("type", "name rankScore")
                 .sort(finalSort).skip((finalPage - 1) * finalPerPage).limit(finalPerPage);
                 
