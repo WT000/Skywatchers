@@ -2,57 +2,57 @@
 const typesInsert = [
     {
         name: "Star",
-        description: "a massive ball of hydrogen and helium, reaching temperatures which turn it into plasma.",
+        description: "Massive objects of hydrogen and helium, reaching temperatures which turn it into plasma.",
         rankScore: 1,
     },
     {
         name: "Planet",
-        description: "spherical objects made from rock, water, gas or ice which usually orbit a star.",
+        description: "Spherical objects made from rock, water, gas or ice which usually orbit a star.",
         rankScore: 2,
     },
     {
         name: "Moon",
-        description: "objects usually made from rock in orbit around a planet.",
+        description: "Objects usually made from rock in orbit around a planet.",
         rankScore: 1,
     },
     {
         name: "Nebula",
-        description: "beautiful clouds of gas, some of which are formed from dying stars.",
+        description: "Beautiful clouds of gas, some of which are formed from dying stars.",
         rankScore: 2,
     },
     {
         name: "Galaxy",
-        description: "huge collections of stars ranging from dwarf galaxies to giant elliptical galaxies.",
+        description: "Huge collections of stars ranging from dwarf galaxies to giant elliptical galaxies.",
         rankScore: 3,
     },
     {
         name: "Dwarf Planet",
-        description: "moon-sized objects which aren't big enough to be considered a planet.",
+        description: "Moon-sized objects which aren't big enough to be considered a planet.",
         rankScore: 1,
     },
     {
         name: "Comet",
-        description: "objects made from dust and ice, revealing a tail due to the heat of a star.",
+        description: "Objects made from dust and ice, revealing a tail due to the heat of a star.",
         rankScore: 2,
     },
     {
         name: "Asteroid",
-        description: "small, rocky objects which are common between the orbits of Mars and Jupiter.",
+        description: "Small, rocky objects which are common between the orbits of Mars and Jupiter.",
         rankScore: 1,
     },
     {
         name: "Stellar Remnant",
-        description: "the remnants of dead stars such as white dwarfs, neutron stars, and stellar black holes.",
+        description: "Remnants of dead stars such as white dwarfs, neutron stars, and stellar black holes.",
         rankScore: 3,
     },
     {
         name: "Supermassive Black Hole",
-        description: "the gigantic black holes found at the core of galaxies.",
+        description: "Gigantic black holes found at the core of galaxies.",
         rankScore: 10,
     },
     {
         name: "Other",
-        description: "something which doesn't match any of the given types.",
+        description: "Something which doesn't match any of the given types.",
         rankScore: 0,
     },
 ];
