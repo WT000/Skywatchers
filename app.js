@@ -6,6 +6,7 @@ const express = require("express");
 const path = require("path");
 const mongoose = require("mongoose");
 const expressSession = require("express-session");
+const MemoryStore = require("memorystore")(expressSession);
 
 // Models
 const User = require("./models/User");
@@ -27,10 +28,15 @@ app.use(express.json());
 app.use(express.urlencoded({
     extended: true
 }));
+
+// Sesssion lasts for 24 hours, extends to 30 days if remember me is checked,
+// expired cookies are purged every 24 hours
 app.use(expressSession({
     secret: "Space is very cool!",
-    // Lats for 1 day, extends to 30 days if remember me is checked
     cookie: { maxAge: 1000 * 60 * 60 * 24 },
+    store: new MemoryStore({
+        checkPeriod: 1000 * 60 * 60 * 24
+    }),
     resave: true,
     saveUninitialized: true,
 }));
