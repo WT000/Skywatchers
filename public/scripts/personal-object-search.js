@@ -40,6 +40,7 @@ const publicObjectView = (object) => `
 document.getElementById("search-form").addEventListener("submit", e => {
     e.preventDefault();
     $(document.activeElement).filter(':input:focus').blur();
+    document.getElementById("results-container").scrollIntoView();
 });
 
 document.getElementById("object-name").addEventListener("input", e => {
