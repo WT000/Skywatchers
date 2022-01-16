@@ -122,9 +122,6 @@ const handleSearch = async () => {
                 finalPage = Math.ceil(totalFound / perPage);
             };
 
-            console.log(totalFound);
-            console.log(finalPage);
-
             document.getElementById("results-container").innerHTML = searchHtml.join("");
             document.getElementById("results-count").innerHTML = `Results (${totalFound}):`;
         } else {
