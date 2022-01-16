@@ -8,7 +8,7 @@ const typesInsert = [
     {
         name: "Planet",
         description: "spherical objects made from rock, water, gas or ice which usually orbit a star.",
-        rankScore: 1,
+        rankScore: 2,
     },
     {
         name: "Moon",
@@ -114,17 +114,17 @@ async function main() {
 
         // The database already exists, reset the collection(s)
         if (types || ranks) {
-            if (types) {
-                console.log("Clearing old types...");
-                await db.collection("types").drop();
-            };
-            if (ranks) {
-                console.log("Clearing old ranks...");
-                await db.collection("ranks").drop();
-            };
+            console.log("Clearing old types...");
+            await db.collection("types").drop();
             
+
+            console.log("Clearing old ranks...");
+            await db.collection("ranks").drop();
+
+
             console.log("Clearing old users...");
             await db.collection("users").drop();
+
 
             console.log("Clearing old objects...");
             await db.collection("objects").drop();
