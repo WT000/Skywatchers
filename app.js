@@ -29,8 +29,8 @@ app.use(express.urlencoded({
     extended: true
 }));
 
-// Sesssion lasts for 24 hours, extends to 30 days if remember me is checked,
-// expired cookies are purged every 24 hours
+// Sesssion lasts for 24 hours, extends to 30 days if remember me is checked
+// Expired cookies are purged every 24 hours
 app.use(expressSession({
     secret: "Space is very cool!",
     cookie: { maxAge: 1000 * 60 * 60 * 24 },
