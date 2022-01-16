@@ -78,7 +78,7 @@ document.getElementById("prev-page").addEventListener("click", e => {
 
 // Next page
 document.getElementById("next-page").addEventListener("click", e => {
-    if (currentPage + 1 < (finalPage + 1)) {
+    if (currentPage + 1 <= finalPage) {
         currentPage += 1;
         handleSearch();
     };
@@ -119,8 +119,11 @@ const handleSearch = async () => {
             if (totalFound < perPage) {
                 finalPage = 1;
             } else {
-                finalPage = Math.floor(totalFound / perPage+1);
+                finalPage = Math.ceil(totalFound / perPage);
             };
+
+            console.log(totalFound);
+            console.log(finalPage);
 
             document.getElementById("results-container").innerHTML = searchHtml.join("");
             document.getElementById("results-count").innerHTML = `Results (${totalFound}):`;
