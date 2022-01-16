@@ -96,6 +96,11 @@ const handleSearch = async () => {
     let objectName = document.getElementById("object-name").value;
     let objectType = document.getElementById("object-type").value;
     let objectOrder = document.getElementById("object-order").value;
+
+    if (objectName.includes("#")) {
+        document.getElementById("results-count").innerHTML = "Name cannot contain a hashtag";
+        return;
+    };
     
     try {
         const rawSearchResult = await fetch(`/api/database/personal?objectName=${objectName}&objectType=${objectType}&sortBy=${objectOrder}&perPage=${perPage}&page=${currentPage}`);

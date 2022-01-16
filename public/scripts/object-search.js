@@ -80,6 +80,11 @@ const handleSearch = async () => {
     let objectName = document.getElementById("object-name").value;
     let objectType = document.getElementById("object-type").value;
     let objectOrder = document.getElementById("object-order").value;
+
+    if (objectName.includes("#")) {
+        document.getElementById("results-count").innerHTML = "Name cannot contain a hashtag";
+        return;
+    };
     
     try {
         const rawSearchResult = await fetch(`/api/database/search?objectName=${objectName}&objectType=${objectType}&sortBy=${objectOrder}&perPage=${perPage}&page=${currentPage}`);
@@ -118,7 +123,7 @@ const handleSearch = async () => {
         currentPageElement.innerHTML = `( ${currentPage} / ${finalPage} )`;
     
     } catch (e) {
-        console.log("Something went wrong with the API");
+        console.log("Invalid Query");
     };
 };
 
