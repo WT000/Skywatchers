@@ -19,15 +19,15 @@
                             <thead></thead>
                             <tbody>
                               <tr>
-                                <th style="width: 20%">Name <span data-toggle="tooltip" title="What's the most well-known name for the object?"><img src="/icons/question-circle.svg" alt="Tooltip" width="16" height="16"></span></th>
-                                <td>
+                                <th class="align-middle" style="width: 20%">Name <span data-toggle="tooltip" title="What's the most well-known name for the object?"><img src="/icons/question-circle.svg" alt="Tooltip" width="16" height="16"></span></th>
+                                <td class="align-middle">
                                   <input id="name-input" class="form-control" name="name" required>
                                 </td>
                               </tr>
 
                               <tr>
-                                <th>Type <span data-toggle="tooltip" title="What type of object did you observe?"><img src="/icons/question-circle.svg" alt="Tooltip" width="16" height="16"></span></th>
-                                <td>
+                                <th class="align-middle">Type <span data-toggle="tooltip" title="What type of object did you observe?"><img src="/icons/question-circle.svg" alt="Tooltip" width="16" height="16"></span></th>
+                                <td class="align-middle">
                                   <select id="object-type" class="form-select" name="type" required>
                                     <% types.forEach(type => { %>
                                     <option value="<%= type.id %>"><%= type.name %> - <%= type.description %></option>
@@ -37,9 +37,9 @@
                               </tr>
 
                               <tr>
-                                <th>Show Publicly <span data-toggle="tooltip" title="Add the item to our public database and build your Rank Score!"><img src="/icons/question-circle.svg" alt="Tooltip" width="16" height="16"></span></th>
-                                <td>
-                                  <input type="checkbox" class="checkbox-lg" name="showPublic">
+                                <th class="align-middle">Show Publicly <span data-toggle="tooltip" title="Add the item to our public database and build your Rank Score!"><img src="/icons/question-circle.svg" alt="Tooltip" width="16" height="16"></span></th>
+                                <td class="align-middle">
+                                  <input type="checkbox" class="form-check-input checkbox-lg" name="showPublic">
                                 </td>
                               </tr>
                             </tbody>
@@ -52,27 +52,27 @@
                       <table class="table table-dark">
                         <thead></thead>
                         <tr>
-                          <th style="width: 20%">Description</th>
-                          <td>
+                          <th class="align-middle" style="width: 20%">Description</th>
+                          <td class="align-middle">
                             <input id="description-input" class="form-control" name="description">
                           </td>
                         </tr>
 
                         <tr>
-                          <th>Other Names</th>
-                          <td>
+                          <th class="align-middle">Other Names</th>
+                          <td class="align-middle">
                             <input id="other-names" class="form-control" name="otherNames" placeholder="(seperated by a comma)">
                           </td>
                         </tr>
 
                         <tr>
-                          <th>Apparent Magnitude</th>
-                          <td><input id="magnitude-input" class="form-control" name="apparentMagnitude"></td>
+                          <th class="align-middle">Apparent Magnitude</th>
+                          <td class="align-middle"><input id="magnitude-input" class="form-control" name="apparentMagnitude"></td>
                         </tr>
 
                         <tr>
-                          <th>Image</th>
-                          <td>
+                          <th class="align-middle">Image</th>
+                          <td class="align-middle">
                             <input type="file" id="image-input" class="form-control-file" accept="image/png, image/gif, image/jpeg" name="image">
                             <button id="clear-img" class="btn btn-sm btn-danger" type="button">Clear</button>
                           </td>
