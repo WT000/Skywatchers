@@ -109,6 +109,7 @@ const handleSearch = async () => {
                 finalPage = Math.ceil(totalFound / perPage);
             };
 
+            document.getElementById("results-count").style.color = "#169c14";
             document.getElementById("results-container").innerHTML = searchHtml.join("");
             document.getElementById("results-count").innerHTML = `Results (${totalFound}):`;
         } else {
@@ -116,8 +117,10 @@ const handleSearch = async () => {
             finalPage = 1;
 
             if (objectName === "") {
+                document.getElementById("results-count").style.color = "#9c1a11";
                 document.getElementById("results-count").innerHTML = `Type "${objectType}" is empty`;
             } else {
+                document.getElementById("results-count").style.color = "#c79c26";
                 document.getElementById("results-count").innerHTML = `"${objectName}"`;
             }
         };
