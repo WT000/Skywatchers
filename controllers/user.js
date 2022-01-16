@@ -104,10 +104,11 @@ exports.view = async (req, res) => {
 // Edit - attempt to edit a user account (currently just their bio)
 exports.edit = async (req, res) => {
     let bioToSet = req.body.bio;
+    let foundUser;
     
     try {
         // Firstly, ensure the user editing the profile is the user themselves
-        const foundUser = await User.findById(req.session.userID);
+        foundUser = await User.findById(req.session.userID);
 
         if (!foundUser) {
             console.log(`Couldn't edit user ${req.session.userID}`);
