@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
-const bcrypt = require('bcrypt');
+const bcrypt = require("bcrypt");
+const uniqueValidator = require("mongoose-unique-validator");
 
 const userSchema = new Schema(
     /*
@@ -13,8 +14,8 @@ const userSchema = new Schema(
     rank - The current UserRank of the user
     */
     {
-        username: { type: String, required: [true, "Username is required"], unique: true, maxlength: [25, "Username too long"] },
-        email: { type: String, required: [true, "Email is required"], unique: true, maxlength: [100, "Email too long"], match: [/^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/, 'Invalid email format'] },
+        username: { type: String, required: [true, "Username is required"], unique: true, maxlength: [25, "Username too long"], uniqueCaseInsensitive: true },
+        email: { type: String, required: [true, "Email is required"], unique: true, maxlength: [100, "Email too long"], match: [/^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/, 'Invalid email format'], uniqueCaseInsensitive: true },
         password: { type: String, required: [true, "Password is required"], minlength: [8, "Password needs a minimum of 8 characters"] },
         createdObjects: [{ type: mongoose.Schema.Types.ObjectId, ref: "Object" }],
         bio: { type: String, maxlength: [150, "Bio too long"] },
@@ -34,6 +35,9 @@ userSchema.pre("save", async function (next) {
         throw Error("Something went wrong hashing the password");
     };
 });
+
+// Apply this plugin to handle validation errors in a better way and detect usernames with different case
+userSchema.plugin(uniqueValidator, { message: "The {PATH} is taken and needs to be unique." });
 
 // Numbers represent sort order
 userSchema.index({ name: 1, email: -1 });

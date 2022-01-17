@@ -100,7 +100,7 @@ exports.create = async (req, res) => {
         
         if (!isPrivate) {
             // Verify that the name is unique before making it publically saved
-            const publicDuplicateCheck = await Objects.find({ name: name.trim(), isPrivate: false });
+            const publicDuplicateCheck = await Objects.find({ name: new RegExp(`^${name.trim()}$`, 'i'), isPrivate: false });
             if (publicDuplicateCheck.length > 0) {
                 console.log(`Duplicate public object attempted to be made: ${name}`);
                 res.redirect(`/?error=The object has already been publicly listed by another user.`);
