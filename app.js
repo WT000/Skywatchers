@@ -104,6 +104,7 @@ app.get("/database", objectController.database);
 app.get("/api/database/search", apiObjectController.find);
 
 app.get("/object/view/:id", objectController.view);
+app.post("/object/delete", signedOutMiddleware, objectController.delete);
 
 // Object speicifcs (viewing objects, editing objects, etc)
 app.get("/viewObject", (req, res) => {
@@ -128,7 +129,7 @@ app.get("/logout", signedOutMiddleware, async (req, res) => {
     res.redirect("/?message=You've successfully logged out.")
 });
 
-// Users and their personal objects
+// Users and their objects
 app.get("/profile/view/:username", userController.view);
 app.post("/profile/view/:username", signedOutMiddleware, userController.edit);
 app.post("/profile/delete", signedOutMiddleware, userController.delete);

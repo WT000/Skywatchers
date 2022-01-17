@@ -175,7 +175,7 @@ exports.personal = async (req, res) => {
             return;
         };
         
-        res.render("userObjects", {types: currentTypes, query: req.query});
+        res.render("userObjects", { types: currentTypes, message: req.query.message, error: req.query.error });
 
     } catch (e) {
         // Something went wrong
@@ -220,6 +220,49 @@ exports.view = async (req, res) => {
         console.log(`Encountered an error when viewing object: ${e}`);
 
         res.redirect("/?error=An error happened when trying to view the object, contact an admin.");
+        return;
+    };
+};
+
+
+// Delete - delete an object based on the ID given
+exports.delete = async (req, res) => {
+    try {
+        // Firstly, ensure the user is deleting their own object
+        const foundUser = await User.findById(req.session.userID);
+        const foundObject = await Objects.findById(req.body.toDelete).populate("type", "rankScore").populate("uploader", "_id");
+
+        if (!foundUser || !foundObject || foundUser.id !== foundObject.uploader.id) {
+            console.log(`Couldn't delete object ${req.body.toDelete}`);
+            res.redirect(`/my-objects/?error=Couldn't delete the object, it might already be deleted or you don't have access to do this.`);
+            return;
+        };
+
+        // If the code reaches here, it's safe to delete the object
+        await Objects.deleteOne(foundObject);
+
+        // Decrement the users rank score and potentially derank them
+        await User.updateOne(foundUser, { $pull: { createdObjects: foundObject.id } });
+
+        if (!foundObject.isPrivate) {
+            const upgradeRank = await Rank.findOne({ rankScoreNeeded: { $lte: foundUser.rankScore - foundObject.type.rankScore } }).sort({ rankScoreNeeded: -1 });
+
+            if (upgradeRank.name === foundUser.rank.name) {
+                await User.findByIdAndUpdate(foundUser.id, { $inc: { rankScore: -foundObject.type.rankScore } });
+            } else {        
+                console.log(`${foundUser.username} has been deranked to ${upgradeRank.name}`);
+                await User.findByIdAndUpdate(foundUser.id, { $inc: { rankScore: -foundObject.type.rankScore }, rank: upgradeRank.id });
+            };
+        };
+
+        console.log(`${foundObject.name} has been deleted`);
+        res.redirect(`/my-objects/?message=The object has been deleted.`);
+
+    } catch (e) {
+        // Something went wrong
+        console.log(`Encountered an error when delelting object: ${e}`);
+
+        res.redirect(`/my-objects/?error=The object couldn't be deleted, it may already be gone.`);
         return;
     };
 };

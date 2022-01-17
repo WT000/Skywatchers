@@ -17,7 +17,7 @@ exports.create = async (req, res) => {
         };
 
         // Useranmes with a hashtag are banned as they can mess up GET requests
-        if (username.includes("#")) {
+        if (req.body.username.includes("#")) {
             console.log("Someone attempted to register with a banned character");
             res.render("register");
             return;

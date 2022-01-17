@@ -33,7 +33,7 @@
                             <tbody>
                               <tr>
                                 <th class="align-middle">Bio</th>
-                                <% if (user && user.username == foundUser.username) { %>
+                                <% if (user && user.id == foundUser.id) { %>
                                   <td class="align-middle">
                                     <form id="update-form" action="/profile/view/<%= user.username %>" method="POST" autocomplete="off">
                                       <input id="bio" class="form-control" name="bio" value="<%= foundUser.bio %>" required>
@@ -67,7 +67,7 @@
                             </tbody>
                         </table>
                         
-                        <% if (user && user.username == foundUser.username) { %>
+                        <% if (user && user.id == foundUser.id) { %>
                           <div class="d-flex flex-row justify-content-center">
                             <form id="delete-form" action="/profile/delete" method="POST" autocomplete="off">
                               <button class="btn btn-danger">Delete your Account</button>
@@ -79,7 +79,7 @@
             </div>
         </div>
     </main>
-    <% if (user && user.username == foundUser.username) { %>
+    <% if (user && user.id == foundUser.id) { %>
       <script>
         const originalBio = document.getElementById("bio").value;
         
@@ -108,4 +108,5 @@
         });
       </script>
     <% } %>
-    <%- include("common/footer") %>
+
+<%- include("common/footer") %>

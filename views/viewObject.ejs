@@ -51,6 +51,15 @@
                             </tbody>
                         </table>
                         <p>Discovered by <a style="color:<%= object.uploader.rank.colour %>" href="/profile/view/<%= object.uploader.username %>"><%= object.uploader.username %></a></p>
+
+                        <% if (user && user.id == object.uploader.id) { %>
+                          <div class="d-flex flex-row justify-content-center">
+                            <form id="delete-form" action="/object/delete" method="POST" autocomplete="off">
+                              <input type="hidden" value="<%= object.id %>" name="toDelete">
+                              <button class="btn btn-danger">Delete this Object</button>
+                            </form>
+                          </div>
+                        <% } %>
                     </div>
                 </div>
             </div>

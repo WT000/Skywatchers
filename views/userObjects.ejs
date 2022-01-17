@@ -1,6 +1,23 @@
 <%- include("common/header") %>
 
     <main>
+        <% if (error) { %>
+            <div class="alert alert-danger text-center fade show" role="alert">
+                <%= error %>
+                <script type="text/javascript">
+                    setTimeout(e=> {$('.alert').alert('close');}, 4000);
+                </script>
+            </div>
+        <% } %>
+        <% if (message) { %>
+            <div class="alert alert-success text-center fade show" role="alert">
+                <%= message %>
+                <script type="text/javascript">
+                    setTimeout(e=> {$('.alert').alert('close');}, 4000);
+                </script>
+            </div>
+        <% } %>
+      
         <section id="main-header" class="py-5 text-center container bg-lightdark">
             <h1>Your Objects</h1>
         </section>
