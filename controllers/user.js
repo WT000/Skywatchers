@@ -15,6 +15,13 @@ exports.create = async (req, res) => {
             res.render("register");
             return;
         };
+
+        // Useranmes with a hashtag are banned as they can mess up GET requests
+        if (username.includes("#")) {
+            console.log("Someone attempted to register with a banned character");
+            res.render("register");
+            return;
+        };
         
         // Attempt to create the user and save, this will only work if the username and email are unique
         const user = new User({ username: req.body.username.trim(), email: req.body.email.trim(), password: req.body.password, bio:"Not given", rankScore: 0, rank: defaultRank});

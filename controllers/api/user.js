@@ -7,8 +7,8 @@ exports.validate = async (req, res) => {
     const emailToFind = req.query.email;
     const passwordToTry = req.query.password;
     
-    if (!usernameToFind) {
-        res.json({ "errors": { "username": { "message": "Invalid Username" } } });
+    if (!usernameToFind || usernameToFind.includes("#")) {
+        res.json({ "errors": { "username": { "message": "Invalid Username (ensure it doesn't have a #)" } } });
         return;
     } else if (!emailToFind) {
         res.json({ "errors": { "email": { "message": "Invalid Email" } } });
