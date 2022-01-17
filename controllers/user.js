@@ -114,7 +114,7 @@ exports.edit = async (req, res) => {
     let foundUser;
     
     try {
-        // Firstly, ensure the user editing the profile is the user themselves
+        // Firstly, get the user and their username (as we'll need to redirect back to their page)
         foundUser = await User.findById(req.session.userID);
 
         if (!foundUser) {
@@ -128,15 +128,15 @@ exports.edit = async (req, res) => {
         };
 
         // If the code reaches here, it's safe to update the bio of foundUser
-        await User.updateOne(foundUser, {bio: bioToSet}, { runValidators: true });
+        await User.updateOne(foundUser, {bio: bioToSet.trim()}, { runValidators: true });
         
         res.redirect(`/profile/view/${foundUser.username}?message=Your bio has been updated!`);
 
     } catch (e) {
-        // Something went wrong, the bio was most likely too long (this will be replaced with AJAX)
+        // Something went wrong, the bio was most likely too long
         console.log(`Encountered an error when editing user: ${e}`);
 
-        res.redirect(`/profile/view/${foundUser.username}?error=Your bio couldn't be updated, it might be too long.`);
+        res.redirect(`/profile/view/${foundUser.username}?error=Your bio couldn't be updated, it might be too long or your account no longer exists.`);
         return;
     };
 };

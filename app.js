@@ -104,6 +104,10 @@ app.get("/database", objectController.database);
 app.get("/api/database/search", apiObjectController.find);
 
 app.get("/object/view/:id", objectController.view);
+
+app.get("/object/edit/:id", signedOutMiddleware, objectController.editForm);
+app.post("/object/edit/:id", signedOutMiddleware, objectController.edit);
+
 app.post("/object/delete", signedOutMiddleware, objectController.delete);
 
 // Object speicifcs (viewing objects, editing objects, etc)

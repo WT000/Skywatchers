@@ -13,7 +13,7 @@
             
             <div class="container">
                 <div class="row justify-content-center">
-                    <div class="table-responsive col-6">
+                    <div class="table-responsive col-xl-7">
                         <table class="table table-dark">
                             <thead>
                             </thead>
@@ -48,15 +48,32 @@
                                 <th class="align-middle">Last Updated</th>
                                 <td class="align-middle"><%= foundObjectUpdated %></td>
                               </tr>
+
+                              <% if (user && user.id == object.uploader.id) { %>
+                                <tr>
+                                  <th class="align-middle">Publicity</th>
+                                  <td class="align-middle">
+                                    <% if (object.isPrivate) { %>
+                                      <span style="color:red">PRIVATE</span>
+                                    <% } else { %>
+                                      <span style="color:lawngreen">PUBLIC</span>
+                                    <% } %>
+                                  </td>
+                                </tr>
+                              <% } %>
                             </tbody>
                         </table>
                         <p>Discovered by <a style="color:<%= object.uploader.rank.colour %>" href="/profile/view/<%= object.uploader.username %>"><%= object.uploader.username %></a></p>
 
                         <% if (user && user.id == object.uploader.id) { %>
+                          <div class="mb-3 d-flex flex-row justify-content-center">
+                            <a class="px-3 btn btn-success" href="/object/edit/<%= object.id %>">Edit this Object</a>
+                          </div>
+
                           <div class="d-flex flex-row justify-content-center">
                             <form id="delete-form" action="/object/delete" method="POST" autocomplete="off">
                               <input type="hidden" value="<%= object.id %>" name="toDelete">
-                              <button class="btn btn-danger">Delete this Object</button>
+                              <button class="px-2 btn btn-danger">Delete this Object</button>
                             </form>
                           </div>
                         <% } %>
