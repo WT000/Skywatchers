@@ -155,7 +155,7 @@ exports.create = async (req, res) => {
             return;
             
         } else {
-            res.redirect("/?error=The object couldn't be created");
+            res.redirect("/?error=The object couldn't be created as you've most likely put too much characters into a field");
             return;
         };
     };
@@ -431,7 +431,7 @@ exports.edit = async (req, res) => {
             return;
             
         } else {
-            res.redirect("/?error=The object couldn't be edited");
+            res.redirect("/?error=The object couldn't be edited as you've most likely put too much characters into a field");
             return;
         };
     };

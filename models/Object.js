@@ -14,9 +14,9 @@ const objectSchema = new Schema(
     */
     {
         name: { type: String, required: [true, "Name is required"], maxlength: [50, "Name too long"] },
-        otherNames: [{ type: String, maxlength: [50, "Other Name too long"] }],
+        otherNames: [{ type: String, maxlength: [70, "Other Name too long"] }],
         type: { type: mongoose.Schema.Types.ObjectId, ref: "Type", required: [true, "Object Type is required"] },
-        description: { type: String, maxlength: [100, "Description too long"] },
+        description: { type: String, maxlength: [400, "Description too long"] },
         apparentMagnitude: { type: Number },
         uploader: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: [true, "Uploader is required"] },
         isPrivate: { type: Boolean },
