@@ -7,7 +7,7 @@ const errors = require("./functions/get-errors.js")
 exports.index = async (req, res) => {
     // Get the 4 most recent objects, then render the page
     try {
-        const recentObjects = await Objects.find({})
+        const recentObjects = await Objects.find({ isPrivate: "false" })
             .populate("type", "name")
             .populate({ path: "uploader", populate: { path: "rank", select: "colour" }, select: "username" })
             .sort({ updatedAt: -1 }).limit(4);

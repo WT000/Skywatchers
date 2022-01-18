@@ -28,6 +28,9 @@
 
         <div class="album py-3 bg-dark">
             <h2 class="text-center">Recently discovered objects</h2>
+            <% if (objects.length == 0) { %>
+                <p class="text-center">Nothing's here, will you be the first to find an object?</p>
+            <% } %>
             <div class="container">
                 <div id="objectPreviews" class="carousel slide" data-bs-ride="carousel">
                     <div class="carousel-indicators">
