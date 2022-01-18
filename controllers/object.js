@@ -369,13 +369,9 @@ exports.edit = async (req, res) => {
                     userRankScore = 0;
                 } else {
                     await User.findByIdAndUpdate(foundUser.id, { $inc: { rankScore: -editObject.type.rankScore } });
-                    //userRankScore = foundUser.rankScore - editObject.type.rankScore;
                     userRankScore = foundUser.rankScore - editObject.type.rankScore;
                 };
             };
-
-            // const updatedUser = await User.findById(foundUser.id);
-            // console.log(`1the new rank score should be ${updatedUser.rankScore + foundType.rankScore}`)
 
             // We need to get the updated user rankScore to prevent a level up exploit
             const upgradeRank = await Rank.findOne({ rankScoreNeeded: { $lte: userRankScore + foundType.rankScore } }).sort({ rankScoreNeeded: -1 });
