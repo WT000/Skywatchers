@@ -9,7 +9,18 @@ const handleValidation = async () => {
 
     if (username !== "" && email !== "" && password !== "") {
         try {
-            const rawValidationResult = await fetch(`/api/validate/register?username=${username}&email=${email}&password=${password}`);
+            // Use post to avoid issues when a user puts a # in their username or password
+            const rawValidationResult = await fetch("/api/validate/register", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    username: username,
+                    email: email,
+                    password: password
+                })
+            });
             const validationResult = await rawValidationResult.json();
 
             if (Object.keys(validationResult.errors).length == 0) {

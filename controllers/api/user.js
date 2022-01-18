@@ -3,10 +3,11 @@ const Rank = require("../../models/Rank");
 const errors = require("../functions/get-errors.js");
 const bcrypt = require("bcrypt");
 
+// Uses POST to avoid # errors
 exports.validateRegister = async (req, res) => {
-    const usernameToFind = req.query.username;
-    const emailToFind = req.query.email;
-    const passwordToTry = req.query.password;
+    const usernameToFind = req.body.username;
+    const emailToFind = req.body.email;
+    const passwordToTry = req.body.password;
     
     if (!usernameToFind || usernameToFind.includes("#")) {
         res.json({ "errors": { "username": { "message": "Invalid Username (ensure it doesn't have a #)" } } });
@@ -63,9 +64,10 @@ exports.validateRegister = async (req, res) => {
     };
 };
 
+// Uses POST to avoid # errors
 exports.validateLogin = async (req, res) => {
-    const usernameToFind = req.query.username;
-    const passwordToTry = req.query.password;
+    const usernameToFind = req.body.username;
+    const passwordToTry = req.body.password;
     
     if (!usernameToFind || usernameToFind.includes("#")) {
         res.json({ "errors": { "username": { "message": "Invalid Username (ensure it doesn't have a #)" } } });
@@ -84,10 +86,10 @@ exports.validateLogin = async (req, res) => {
         };
 
         // Now, attempt to match the username and the password
-        if (bcrypt.compare(foundUsername.password, passwordToTry)) {
+        if (await bcrypt.compare(passwordToTry, foundUsername.password)) {
             res.json({ "errors": {} });
             return;
-        };
+        }
         
         res.json({ "errors": { "password": { "message": "The password is invalid" } } });
         return;

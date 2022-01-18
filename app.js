@@ -120,12 +120,12 @@ app.get("/register", signedInMiddleware, (req, res) => {
     res.render("register");
 });
 app.post("/register", signedInMiddleware, userController.create);
-app.get("/api/validate/register", apiUserController.validateRegister);
+app.post("/api/validate/register", apiUserController.validateRegister);
 
 app.get("/login", signedInMiddleware, (req, res) => {
     res.render("login", { errors: {}, message: req.query.message });
 });
-app.get("/api/validate/login", apiUserController.validateLogin);
+app.post("/api/validate/login", apiUserController.validateLogin);
 app.post("/login", signedInMiddleware, userController.login);
 
 app.get("/logout", signedOutMiddleware, async (req, res) => {

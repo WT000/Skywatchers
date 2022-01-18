@@ -45,14 +45,14 @@ exports.create = async (req, res) => {
     };
 };
 
-// Login - attempt to login with a user account
+// Login - attempt to login with a user account (messages not needed due to AJAX)
 exports.login = async (req, res) => {
     try {
         // Get the default rank from the database
         const foundUser = await User.findOne({ username: req.body.username });
         if (!foundUser) {
             console.log(`Couldn't find username ${req.body.username}`);
-            res.render("login", { errors: { username: { message: `The user "${req.body.username}" doesn't exist.` } }, message: false });
+            res.render("login", { message: false });
             return;
         };
         
@@ -68,12 +68,12 @@ exports.login = async (req, res) => {
             return;
         };
 
-        res.render("login", { errors: { username: { message: `Incorrect password for user ${req.body.username}.` } }, message: false });
+        res.render("login", { message: false });
 
     } catch (e) {
         // Something went wrong when signing in
         console.log(`Encountered an error when signing into a user: ${e}`);
-        res.render("login", { errors: e.errors });
+        res.render("login", { message: false });
         return;
     };
 };

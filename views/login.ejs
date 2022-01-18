@@ -2,20 +2,6 @@
 
     <main>
         <div id="error-results" class="alert alert-danger text-center fade show" role="alert"></div>
-        <% if (errors["username"] || errors["password"]) { %>
-            <div class="alert alert-danger text-center fade show" role="alert">
-                <% if (errors["username"]) { %>
-                <%= errors["username"].message %>
-                <% } %>
-    
-                <% if (errors["password"]) { %>
-                <%= errors["password"].message %>
-                <% } %>
-                <script type="text/javascript">
-                    setTimeout(e=> {$('.alert').alert('close');}, 4000);
-                </script>
-            </div>
-        <% } %>
         <% if (message) { %>
             <div class="alert alert-success text-center fade show" role="alert">
                 <%= message %>

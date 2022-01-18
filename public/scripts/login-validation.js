@@ -8,11 +8,23 @@ const handleValidation = async () => {
 
     if (username !== "" && password !== "") {
         try {
-            const rawValidationResult = await fetch(`/api/validate/login?username=${username}&password=${password}`);
+            // Use post to avoid issues when a user puts a # in their username or password
+            const rawValidationResult = await fetch("/api/validate/login", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    username: username,
+                    password: password
+                })
+            });
             const validationResult = await rawValidationResult.json();
 
+            console.log(validationResult.errors);
+
             if (Object.keys(validationResult.errors).length == 0) {
-                document.getElementById("login-form").submit()
+                //document.getElementById("login-form").submit()
             } else {
                 let errorHtml = [];
 
