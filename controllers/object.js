@@ -368,7 +368,9 @@ exports.edit = async (req, res) => {
                 await User.findByIdAndUpdate(foundUser.id, { $inc: { rankScore: -editObject.type.rankScore } });
             };
 
-            const upgradeRank = await Rank.findOne({ rankScoreNeeded: { $lte: foundUser.rankScore + foundType.rankScore } }).sort({ rankScoreNeeded: -1 });
+            // We need to get the updated user rankScore to prevent a level up exploit
+            const updatedUser = await User.findById(req.session.userID);
+            const upgradeRank = await Rank.findOne({ rankScoreNeeded: { $lte: updatedUser.rankScore + foundType.rankScore } }).sort({ rankScoreNeeded: -1 });
 
             if (upgradeRank.name === foundUser.rank.name) {
                 await User.findByIdAndUpdate(foundUser.id, { $inc: { rankScore: foundType.rankScore } });
@@ -379,7 +381,13 @@ exports.edit = async (req, res) => {
 
         // The user is making the object private, we need to rank them down by the CURRENT type if the save goes through
         } else {
-            const upgradeRank = await Rank.findOne({ rankScoreNeeded: { $lte: foundUser.rankScore - editObject.type.rankScore } }).sort({ rankScoreNeeded: -1 });
+            // Ensure that this number never falls below 0
+            let calculation = foundUser.rankScore - editObject.type.rankScore;
+            if (calculation < 0) {
+                calculation = 0;
+            };
+            
+            const upgradeRank = await Rank.findOne({ rankScoreNeeded: { $lte: calculation } }).sort({ rankScoreNeeded: -1 });
 
             if (upgradeRank.name === foundUser.rank.name) {
                 await User.findByIdAndUpdate(foundUser.id, { $inc: { rankScore: -editObject.type.rankScore } });
@@ -394,14 +402,14 @@ exports.edit = async (req, res) => {
 
     } catch (e) {
         // Something went wrong when making the object
-        console.log(`Encountered an error when making an object: ${e.message}`);
+        console.log(`Encountered an error when editing the object: ${e.message}`);
 
         if (e.code === 11000) {
-            res.redirect("/?error=The object has already been created");
+            res.redirect("/?error=The object already exists");
             return;
             
         } else {
-            res.redirect("/?error=The object couldn't be created");
+            res.redirect("/?error=The object couldn't be edited");
             return;
         };
     };
