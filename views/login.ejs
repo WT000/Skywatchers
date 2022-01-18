@@ -1,6 +1,7 @@
 <%- include("common/header") %>
 
     <main>
+        <div id="error-results" class="alert alert-danger text-center fade show" role="alert"></div>
         <% if (errors["username"] || errors["password"]) { %>
             <div class="alert alert-danger text-center fade show" role="alert">
                 <% if (errors["username"]) { %>
@@ -31,7 +32,7 @@
         <div class="py-4 bg-dark">
             <h2 class="text-center">Ready to continue your adventure?</h2>
             <div class="container">
-                <form action="/login" method="post" autocomplete="off">
+                <form id="login-form" action="/login" method="post" autocomplete="off">
                     <div class="row justify-content-center">
                         <div class="col-md-4 bg-lightdark">
                             <div class="form-group mt-2">
@@ -50,7 +51,7 @@
                     </div>
                     <div class="row justify-content-center">
                         <div class="entry-form col-md-4 bg-lightdark text-center">
-                            <button class="w-100 mb-2 btn btn-lg btn-primary" type="submit">Sign in</button>
+                            <button class="w-100 mb-2 btn btn-lg btn-primary" onclick="handleValidation()" type="submit">Sign in</button>
                             <p><a class="text-decoration-none" href="/register">Create an account</a></p>
                         </div>
                     </div>
@@ -59,4 +60,5 @@
         </div>
     </main>
 
+<script src="/scripts/login-validation.js"></script>
 <%- include("common/footer") %>
