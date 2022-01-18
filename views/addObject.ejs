@@ -1,7 +1,7 @@
 <%- include("common/header") %>
 
     <main>
-        <div id="error-results" class="mb-5 fixed-bottom position-fixed alert alert-danger text-center fade show" role="alert"></div>
+        <div id="error-results" class="mb-0 fixed-bottom position-fixed alert alert-danger text-center fade show" role="alert"></div>
         <section id="main-header" class="py-5 text-center container bg-lightdark">
             <h1>Object Creator</h1>
         </section>
@@ -12,7 +12,7 @@
             </div>
             
             <div class="container">
-              <form id="add-form" action="/object/add" method="post" autocomplete="off">
+              <form id="object-form" action="/object/add" method="post" autocomplete="off">
                 <div class="row justify-content-center">
                     <div class="table-responsive col-lg-7">
                         <h4 class="mt-2 text-center">Required data</h4>

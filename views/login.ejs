@@ -1,9 +1,9 @@
 <%- include("common/header") %>
 
     <main>
-        <div id="error-results" class="mb-5 fixed-bottom position-fixed alert alert-danger text-center fade show" role="alert"></div>
+        <div id="error-results" class="mb-0 fixed-bottom position-fixed alert alert-danger text-center fade show" role="alert"></div>
         <% if (message) { %>
-            <div class="mb-5 fixed-bottom position-fixed alert alert-success text-center fade show" role="alert">
+            <div class="mb-0 fixed-bottom position-fixed alert alert-success text-center fade show" role="alert">
                 <%= message %>
                 <script type="text/javascript">
                     setTimeout(e=> {$('.alert').alert('close');}, 3000);

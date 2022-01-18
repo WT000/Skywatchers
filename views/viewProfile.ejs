@@ -2,7 +2,7 @@
 
     <main>
         <% if (error) { %>
-          <div class="mb-5 fixed-bottom position-fixed alert alert-danger text-center fade show" role="alert">
+          <div class="mb-0 fixed-bottom position-fixed alert alert-danger text-center fade show" role="alert">
               <%= error %>
               <script type="text/javascript">
                   setTimeout(e=> {$('.alert').alert('close');}, 3000);
@@ -10,7 +10,7 @@
           </div>
         <% } %>
         <% if (message) { %>
-          <div class="mb-5 fixed-bottom position-fixed alert alert-success text-center fade show" role="alert">
+          <div class="mb-0 fixed-bottom position-fixed alert alert-success text-center fade show" role="alert">
               <%= message %>
               <script type="text/javascript">
                   setTimeout(e=> {$('.alert').alert('close');}, 3000);
