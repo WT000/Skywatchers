@@ -89,7 +89,7 @@ exports.validateLogin = async (req, res) => {
         if (await bcrypt.compare(passwordToTry, foundUsername.password)) {
             res.json({ "errors": {} });
             return;
-        }
+        };
         
         res.json({ "errors": { "password": { "message": "The password is invalid" } } });
         return;

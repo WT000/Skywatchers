@@ -125,8 +125,8 @@ exports.create = async (req, res) => {
             };
         };
 
-        console.log(`${req.body.name} has been created`);
-        res.redirect(`/?message=${req.body.name} has been created!`);
+        console.log(`${name} has been created`);
+        res.redirect(`/object/view/${newObject.id}`);
 
     } catch (e) {
         // Something went wrong when making the object

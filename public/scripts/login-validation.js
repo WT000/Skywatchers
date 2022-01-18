@@ -21,10 +21,8 @@ const handleValidation = async () => {
             });
             const validationResult = await rawValidationResult.json();
 
-            console.log(validationResult.errors);
-
             if (Object.keys(validationResult.errors).length == 0) {
-                //document.getElementById("login-form").submit()
+                document.getElementById("login-form").submit()
             } else {
                 let errorHtml = [];
 
