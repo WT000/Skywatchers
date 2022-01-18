@@ -45,7 +45,6 @@ const handleValidation = async (editorId) => {
                 };
             
             } catch (e) {
-                console.log(e);
                 console.log("Something went wrong with the API");
             };
         } else {
