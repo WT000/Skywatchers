@@ -29,54 +29,38 @@
         <div class="album py-3 bg-dark">
             <h2 class="text-center">Recently discovered objects</h2>
             <div class="container">
-                <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
+                <div id="objectPreviews" class="carousel slide" data-bs-ride="carousel">
                     <div class="carousel-indicators">
-                        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0"
-                            class="active" aria-current="true" aria-label="Slide 1"></button>
-                        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1"
-                            aria-label="Slide 2"></button>
-                        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2"
-                            aria-label="Slide 3"></button>
-                        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="3"
-                            aria-label="Slide 4"></button>
+                        <% for (objectCount=0; objectCount < objects.length; objectCount++) { %>
+                            <% if (objectCount == 0) { %>
+                                <button type="button" data-bs-target="#objectPreviews" data-bs-slide-to="0"
+                                    class="active" aria-current="true" aria-label="Slide 1"></button>
+                            <% } else { %>
+                                <button type="button" data-bs-target="#objectPreviews" data-bs-slide-to="<%= objectCount %>"
+                                    aria-label="Slide <%= objectCount + 1 %>"></button>
+                        <% }} %>
                         <!-- for each... index 0 would be slide_to=0, slide1, slide_to=1, slide2, etc... -->
                     </div>
                     <div class="carousel-inner">
-                        <div class="carousel-item active">
-                            <img src="images/defaultImage.png" class="d-block object-showcase" alt="...">
-                            <div class="carousel-caption d-none d-md-block">
-                                <a href="./viewObject"><h5>(name)</h5></a>
-                                <p>Discovered by (user)</p>
-                            </div>
-                        </div>
-                        <div class="carousel-item">
-                            <img src="images/defaultImage.png" class="d-block object-showcase" alt="...">
-                            <div class="carousel-caption d-none d-md-block">
-                                <a href="./viewObject"><h5>(name)</h5></a>
-                                <p>Discovered by (user)</p>
-                            </div>
-                        </div>
-                        <div class="carousel-item">
-                            <img src="images/defaultImage.png" class="d-block object-showcase" alt="...">
-                            <div class="carousel-caption d-none d-md-block">
-                                <a href="./viewObject"><h5>(name)</h5></a>
-                                <p>Discovered by (user)</p>
-                            </div>
-                        </div>
-                        <div class="carousel-item">
-                            <img src="images/defaultImage.png" class="d-block object-showcase" alt="...">
-                            <div class="carousel-caption d-none d-md-block">
-                                <a href="./viewObject"><h5>(name)</h5></a>
-                                <p>Discovered by (user)</p>
-                            </div>
-                        </div>
-                    </div>
-                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions"
+                        <% for (objectCount=0; objectCount < objects.length; objectCount++) { %>
+                            <% if (objectCount == 0) { %>
+                                <div class="carousel-item active">
+                            <% } else { %>
+                                <div class="carousel-item">
+                            <% } %>
+                                    <a href="/object/view/<%= objects[objectCount].id %>"><img src="/images/defaultImage.png" class="d-block object-showcase" alt="<%= objects[objectCount].name %>"></a>
+                                    <div class="carousel-caption d-none d-md-block">
+                                        <h5><%= objects[objectCount].name %></h5>
+                                        <p>Discovered by <span class="user-rank" style="color:<%= objects[objectCount].uploader.rank.colour %>"><%= objects[objectCount].uploader.username %></span></p>
+                                    </div>
+                                </div>
+                        <% } %>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#objectPreviews"
                         data-bs-slide="prev">
                         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                         <span class="visually-hidden">Previous</span>
                     </button>
-                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions"
+                    <button class="carousel-control-next" type="button" data-bs-target="#objectPreviews"
                         data-bs-slide="next">
                         <span class="carousel-control-next-icon" aria-hidden="true"></span>
                         <span class="visually-hidden">Next</span>

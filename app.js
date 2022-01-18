@@ -95,9 +95,7 @@ const signedInMiddleware = async (req, res, next) => {
 
 // Setup the routes across the app
 // Index
-app.get("/", (req, res) => {
-    res.render("index", { message: req.query.message, error: req.query.error });
-});
+app.get("/", objectController.index);
 
 // Database and object specifics
 app.get("/database", objectController.database);

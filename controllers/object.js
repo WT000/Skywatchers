@@ -4,6 +4,24 @@ const Objects = require("../models/Object");
 const Type = require("../models/Type");
 const errors = require("./functions/get-errors.js")
 
+exports.index = async (req, res) => {
+    // Get the 4 most recent objects, then render the page
+    try {
+        const recentObjects = await Objects.find({})
+            .populate("type", "name")
+            .populate({ path: "uploader", populate: { path: "rank", select: "colour" }, select: "username" })
+            .sort({ updatedAt: -1 }).limit(4);
+        
+        res.render("index", { message: req.query.message, error: req.query.error, objects: recentObjects });
+
+    } catch (e) {
+        // Something went wrong, there's nowhere to go to if the index fails so we'll render the 404 page
+        console.log(`Index page couldn't load, this is bad! Reason: ${e.message}`)
+        res.render("404");
+        return;
+    }
+};
+
 exports.createForm = async (req, res) => {
     // Simply get the available Type's for the select option
     try {
