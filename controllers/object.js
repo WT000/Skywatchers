@@ -361,16 +361,19 @@ exports.edit = async (req, res) => {
 
         // The user is making the object public, we need to rank them up by the FOUND type if the save goes through
         if (!isPrivate) {
+            let userRankScore;
+            
             // Take away the current points, but ensure they don't fall below 0
             if (foundUser.rankScore - editObject.type.rankScore < 0) {
                 await User.findByIdAndUpdate(foundUser.id, { rankScore: 0 });
+                userRankScore = 0;
             } else {
                 await User.findByIdAndUpdate(foundUser.id, { $inc: { rankScore: -editObject.type.rankScore } });
+                userRankScore = foundUser.rankScore - editObject.type.rankScore;
             };
 
             // We need to get the updated user rankScore to prevent a level up exploit
-            const updatedUser = await User.findById(req.session.userID);
-            const upgradeRank = await Rank.findOne({ rankScoreNeeded: { $lte: updatedUser.rankScore + foundType.rankScore } }).sort({ rankScoreNeeded: -1 });
+            const upgradeRank = await Rank.findOne({ rankScoreNeeded: { $lte: userRankScore + foundType.rankScore } }).sort({ rankScoreNeeded: -1 });
 
             if (upgradeRank.name === foundUser.rank.name) {
                 await User.findByIdAndUpdate(foundUser.id, { $inc: { rankScore: foundType.rankScore } });
