@@ -48,9 +48,8 @@ exports.create = async (req, res) => {
         let otherNames = req.body.otherNames;
         let apparentMagnitude = req.body.apparentMagnitude;
         //let image = req.body.image;
-
-        if (!name || !type) {
-            res.redirect(`/?error=Invalid entry.`);
+        if (!name || !type || name.includes("#")) {
+            res.redirect(`/?error=Invalid entry, ensure it doesn't have a hashtag in the name.`);
             return;
         };
 
@@ -294,8 +293,8 @@ exports.edit = async (req, res) => {
         let apparentMagnitude = req.body.apparentMagnitude;
         //let image = req.body.image;
 
-        if (!objectId || !name || !type) {
-            res.redirect(`/?error=Invalid entry.`);
+        if (!objectId || !name || !type || name.includes("#")) {
+            res.redirect(`/?error=Invalid entry, ensure it doesn't have a hashtag in the name.`);
             return;
         };
 
