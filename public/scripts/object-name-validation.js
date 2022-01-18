@@ -20,7 +20,7 @@ const handleValidation = async (editorId) => {
 
                 if (searchResult.numObjects == 0) {
                     document.getElementById("object-form").submit();
-                } else {
+                } else if (editorId) {
                     // Check if the brought in editUser matches the uploader id, so we know that the user can attempt to edit the object
                     // Only validaiton is done at this stage, so if someone were to inspect element to change another object, the server-side code would
                     // detect it and not make any changes
@@ -42,9 +42,15 @@ const handleValidation = async (editorId) => {
                         document.getElementById("error-results").style.display = "inline-block";
                         setTimeout(e=> {$('.alert').hide();}, 3000);
                     };
+                } else {
+                    // User isn't editing and is trying to add a new object, simply show the same error as above
+                    document.getElementById("error-results").innerHTML = "The object is already on the public database, consider making it private";
+                    document.getElementById("error-results").style.display = "inline-block";
+                    setTimeout(e=> {$('.alert').hide();}, 3000);
                 };
             
             } catch (e) {
+                console.log(e);
                 console.log("Something went wrong with the API");
             };
         } else {

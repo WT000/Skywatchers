@@ -1,6 +1,15 @@
 <%- include("common/header") %>
 
     <main>
+        <% if (message) { %>
+          <div class="mb-0 fixed-bottom position-fixed alert alert-success text-center fade show" role="alert">
+              <%= message %>
+              <script type="text/javascript">
+                  setTimeout(e=> {$('.alert').alert('close');}, 3000);
+              </script>
+          </div>
+        <% } %>
+      
         <section id="main-header" class="py-5 text-center container bg-lightdark">
             <h1>Object Viewer</h1>
         </section>

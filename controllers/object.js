@@ -126,7 +126,7 @@ exports.create = async (req, res) => {
         };
 
         console.log(`${name} has been created`);
-        res.redirect(`/object/view/${newObject.id}`);
+        res.redirect(`/object/view/${newObject.id}?message=The object has been successfully created`);
 
     } catch (e) {
         // Something went wrong when making the object
@@ -212,7 +212,7 @@ exports.view = async (req, res) => {
         const foundObjectUpdated = new Date(foundObject.updatedAt);
         const foundObjectNames = foundObject.otherNames.toString().replace(/,(?=[^\s])/g, ", ");
 
-        res.render("viewObject", { object: foundObject, foundObjectUpdated: foundObjectUpdated.toDateString(), foundObjectNames: foundObjectNames});
+        res.render("viewObject", { object: foundObject, foundObjectUpdated: foundObjectUpdated.toDateString(), foundObjectNames: foundObjectNames, message: req.query.message});
 
     } catch (e) {
         // Something went wrong
@@ -360,16 +360,22 @@ exports.edit = async (req, res) => {
 
         // The user is making the object public, we need to rank them up by the FOUND type if the save goes through
         if (!isPrivate) {
-            let userRankScore;
+            let userRankScore = foundUser.rankScore;
             
-            // Take away the current points, but ensure they don't fall below 0
-            if (foundUser.rankScore - editObject.type.rankScore < 0) {
-                await User.findByIdAndUpdate(foundUser.id, { rankScore: 0 });
-                userRankScore = 0;
-            } else {
-                await User.findByIdAndUpdate(foundUser.id, { $inc: { rankScore: -editObject.type.rankScore } });
-                userRankScore = foundUser.rankScore - editObject.type.rankScore;
+            // Take away the current points if the object is already public, but ensure they don't fall below 0
+            if (!editObject.isPrivate) {
+                if (foundUser.rankScore - editObject.type.rankScore < 0) {
+                    await User.findByIdAndUpdate(foundUser.id, { rankScore: 0 });
+                    userRankScore = 0;
+                } else {
+                    await User.findByIdAndUpdate(foundUser.id, { $inc: { rankScore: -editObject.type.rankScore } });
+                    //userRankScore = foundUser.rankScore - editObject.type.rankScore;
+                    userRankScore = foundUser.rankScore - editObject.type.rankScore;
+                };
             };
+
+            // const updatedUser = await User.findById(foundUser.id);
+            // console.log(`1the new rank score should be ${updatedUser.rankScore + foundType.rankScore}`)
 
             // We need to get the updated user rankScore to prevent a level up exploit
             const upgradeRank = await Rank.findOne({ rankScoreNeeded: { $lte: userRankScore + foundType.rankScore } }).sort({ rankScoreNeeded: -1 });
@@ -400,7 +406,7 @@ exports.edit = async (req, res) => {
         };
 
         console.log(`${req.body.name} has been edited`);
-        res.redirect(`/object/view/${editObject.id}`);
+        res.redirect(`/object/view/${editObject.id}?message=The object has been successfully edited`);
 
     } catch (e) {
         // Something went wrong when making the object
