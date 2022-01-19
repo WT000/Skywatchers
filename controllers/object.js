@@ -444,8 +444,10 @@ exports.edit = async (req, res) => {
 
         if (!uploadedImage || !previewImage) {
             // The image is being edited to no longer have an image, so we need to delete it from cloudinary
-            await cloudinary.uploader.destroy(`objects/${editObject.id}`);
-            uploadPath = previewPath = "/images/defaultImage.png";
+            if (req.body.keepImage && req.body.keepImage === "false") {
+                await cloudinary.uploader.destroy(`objects/${editObject.id}`);
+                uploadPath = previewPath = "/images/defaultImage.png";
+            };
         };
 
         await Objects.updateOne(editObject, { name: name.trim(), otherNames: otherNames, type: type, description: description, apparentMagnitude: apparentMagnitude, uploader: foundUser, isPrivate: isPrivate, imagePath: uploadPath, previewPath: previewPath }, { runValidators: true });

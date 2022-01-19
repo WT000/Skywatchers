@@ -83,6 +83,7 @@
                         <tr>
                           <th class="align-middle">Image</th>
                           <td class="align-middle">
+                            <input id="keep-image" type="hidden" value="true" name="keepImage">
                             <input type="file" id="image-input" class="form-control-file" accept="image/png, image/gif, image/jpeg" name="image" >
                             <button id="clear-img" class="btn btn-sm btn-danger" type="button">Clear</button>
                           </td>
@@ -100,7 +101,7 @@
     </main>
 
     <script>
-      if (document.getElementById("image-input").src !== "/images/defaultImage.png") {
+      if (document.getElementById("preview-image").src.indexOf("defaultImage.png") == -1) {
         document.getElementById("preview-image").style.width = "30%";
         document.getElementById("clear-img").style.display= "inline-block";
       };
@@ -117,6 +118,7 @@
         document.getElementById("preview-image").style.width = "30%";
         document.getElementById("preview-image").src = "/images/defaultImage.png";
         document.getElementById("clear-img").style.display= "none";
+        document.getElementById("keep-image").value = "false";
       });
     </script>
 

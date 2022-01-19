@@ -11,8 +11,8 @@ const privateObjectView = (object) => `
         <img src="${object.previewPath}" class="img-fluid" alt="${object.name}">
 
         <div class="card-body">
-            <p class="card-text text-center card-title">${object.name}</p>
-            <p class="mb-2 card-text text-center">Type: ${object.type.name}</p>
+            <strong><p class="card-text text-center card-title">${object.name}</p></strong>
+            <i><p class="mb-2 card-text text-center"><small>${object.type.name}</small></p></i>
             <small class="text-muted discoverer"><span class="user-rank" style="color:red">PRIVATE</span></small>
         </div>
     </div>
@@ -27,8 +27,8 @@ const publicObjectView = (object) => `
         <img src="${object.previewPath}" class="img-fluid" alt="${object.name}">
 
         <div class="card-body">
-            <p class="card-text text-center card-title">${object.name}</p>
-            <p class="mb-2 card-text text-center">Type: ${object.type.name}</p>
+            <strong><p class="card-text text-center card-title">${object.name}</p></strong>
+            <i><p class="mb-2 card-text text-center"><small>${object.type.name}</small></p></i>
             <small class="text-muted discoverer"><span class="user-rank" style="color:lawngreen">PUBLIC (${object.type.rankScore} Rank Score)</span></small>
         </div>
     </div>

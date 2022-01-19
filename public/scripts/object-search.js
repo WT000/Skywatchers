@@ -11,8 +11,8 @@ const objectView = (object) => `
         <img src="${object.previewPath}" class="img-fluid" alt="${object.name}">
 
         <div class="card-body">
-            <p class="card-text text-center card-title">${object.name}</p>
-            <p class="mb-2 card-text text-center">Type: ${object.type.name}</p>
+            <strong><p class="card-text text-center card-title">${object.name}</p></strong>
+            <i><p class="mb-2 card-text text-center"><small>${object.type.name}</small></p></i>
             <small class="text-muted discoverer">Discovered by <span class="user-rank" style="color:${object.uploader.rank.colour}">${object.uploader.username}</span></small>
         </div>
     </div>
