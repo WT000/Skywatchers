@@ -152,6 +152,11 @@ input[type=checkbox]{
     transition: none;
 }
 
+.object-img{
+    width: 35%;
+    border-radius: 15px;
+}
+
 @media (min-width: 768px) {
     .bd-placeholder-img-lg {
       font-size: 3.5rem;

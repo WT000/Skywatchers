@@ -131,24 +131,38 @@ exports.create = async (req, res) => {
         // We can now upload the image now that we've got an objectId to work with
         let uploadedImage = false;
         let uploadPath;
+        let previewImage = false;
+        let previewPath;
         
         if (image) {
             try {
-                uploadResult = await cloudinary.uploader.upload(image.path,
-                    { resource_type: "image", public_id: `objects/${newObject.id}` });
+                let uploadResult = await cloudinary.uploader.upload(image.path,
+                    {
+                        format: "png",
+                        resource_type: "image",
+                        public_id: `objects/${newObject.id}`,
+                        eager: [
+                            {width: 1012, height: 784, crop: "pad"},
+                        ]
+                    });
                 uploadPath = uploadResult.secure_url;
                 uploadedImage = true;
+
+                previewPath = uploadResult.eager[0].secure_url;
+                previewImage = true;
                 
             } catch (e) {
+                console.log(e);
                 console.log("Encountered an error when uploading the image (the user may have tried to upload something else)");
             };
         };
 
-        if (!uploadedImage) {
-            uploadPath = "/images/defaultImage.png";
+        if (!uploadedImage || !previewPath) {
+            uploadPath = previewPath = "/images/defaultImage.png";
         };
 
         newObject.imagePath = uploadPath;
+        newObject.previewPath = previewPath;
 
         await newObject.save();
         await User.updateOne(foundUser, { $push: { createdObjects: newObject.id } });
@@ -402,26 +416,39 @@ exports.edit = async (req, res) => {
         // a default image
         let uploadedImage = false;
         let uploadPath;
+        let previewImage = false;
+        let previewPath;
         
         if (image) {
             try {
-                uploadResult = await cloudinary.uploader.upload(image.path,
-                    { resource_type: "image", public_id: `objects/${editObject.id}`, overwrite: true });
+                let uploadResult = await cloudinary.uploader.upload(image.path,
+                    {
+                        format: "png",
+                        resource_type: "image",
+                        public_id: `objects/${editObject.id}`,
+                        overwrite: true,
+                        eager: [
+                            {width: 1012, height: 784, crop: "pad"},
+                        ]
+                    });
                 uploadPath = uploadResult.secure_url;
                 uploadedImage = true;
+
+                previewPath = uploadResult.eager[0].secure_url;
+                previewImage = true;
                 
             } catch (e) {
                 console.log("Encountered an error when uploading the image (the user may have tried to upload something else)");
             };
         };
 
-        if (!uploadedImage) {
+        if (!uploadedImage || !previewImage) {
             // The image is being edited to no longer have an image, so we need to delete it from cloudinary
             await cloudinary.uploader.destroy(`objects/${editObject.id}`);
-            uploadPath = "/images/defaultImage.png";
+            uploadPath = previewPath = "/images/defaultImage.png";
         };
 
-        await Objects.updateOne(editObject, { name: name.trim(), otherNames: otherNames, type: type, description: description, apparentMagnitude: apparentMagnitude, uploader: foundUser, isPrivate: isPrivate, imagePath: uploadPath }, { runValidators: true });
+        await Objects.updateOne(editObject, { name: name.trim(), otherNames: otherNames, type: type, description: description, apparentMagnitude: apparentMagnitude, uploader: foundUser, isPrivate: isPrivate, imagePath: uploadPath, previewPath: previewPath }, { runValidators: true });
 
         // The user is making the object public, we need to rank them up by the FOUND type if the save goes through
         if (!isPrivate) {

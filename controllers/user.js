@@ -159,7 +159,6 @@ exports.delete = async (req, res) => {
 
         // If the code reaches here, it's safe to delete foundUser and their objects
         foundUser.createdObjects.forEach(async (object) => {
-            console.log(object.id);
             await cloudinary.uploader.destroy(`objects/${object.id}`);
         });
 

@@ -11,6 +11,7 @@ const objectSchema = new Schema(
     uploader - The uploader of the object
     isPrivate - Determines if the object should be shown on the front page or not
     imagePath - The path to the image of the object
+    previewPath - The path to the image of the object which is used on the database / personal collection of the user
     */
     {
         name: { type: String, required: [true, "Name is required"], maxlength: [50, "Name too long"] },
@@ -21,6 +22,7 @@ const objectSchema = new Schema(
         uploader: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: [true, "Uploader is required"] },
         isPrivate: { type: Boolean },
         imagePath: { type: String },
+        previewPath: { type: String },
     },
     { timestamps: true }
 );
