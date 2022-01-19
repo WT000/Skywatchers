@@ -144,6 +144,7 @@ app.get("/api/database/personal", signedOutMiddleware, apiObjectController.perso
 app.get("/statistics", (req, res) => {
     res.render("statistics");
 });
+app.get("/api/database/stats", apiObjectController.stats);
 
 // Public API
 app.get("/api", (req, res) => {

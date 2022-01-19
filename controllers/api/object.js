@@ -270,3 +270,47 @@ exports.personal = async (req, res) => {
         res.json({ errors: e.errors });
     };
 };
+
+// Used to aggregate the database objects and get their counts, useful to do here as it means JS only needs to fetch the data once,
+// not before and after the page has loaded (which would be the case when fetching data for visualisation purposes)
+exports.stats = async (req, res) => {
+    let finalResults = {};
+
+    try {
+        // Firstly, find all public objects
+        const allObjects = await Objects.find({ isPrivate: "false" }).count();
+        finalResults["All"] = allObjects;
+
+        // Next, match the other category names to their appropriate counts (largest first)
+        // This has been made to avoid categories that are currently empty, there would be no point adding empty
+        // categories to the data
+        const objectCategories = await Objects.aggregate(
+            [
+                {
+                    $lookup: {
+                        from: "types",
+                        localField: "type",
+                        foreignField: "_id",
+                        as: "type"
+                    }
+                },
+                {
+                    $group: {
+                        _id: "$type.name",
+                        total: { $sum: 1 }
+                    }
+                },
+                { $sort: { _id: -1 } }
+            ]
+        );
+
+        objectCategories.forEach(objectCategory => {
+            finalResults[objectCategory._id[0]] = objectCategory.total;
+        });
+
+        res.json(finalResults);
+    } catch (e) {
+        console.log(e);
+        res.json({});
+    }
+};

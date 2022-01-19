@@ -5,12 +5,33 @@
             <h1>Statistics</h1>
         </section>
 
+        <div class="py-2 bg-dark">
+            <h4 class="text-center">Below are the current statistics based on public objects, empty object categories are omitted.</h4>
+        </div>
+
         <div class="py-4 bg-dark">
-            <h2 class="text-center">(stuff about total objects, objects per type, most contributions by user)</h2>
             <div class="container">
-                
+                <div class="row justify-content-center">
+                    <div class="table-responsive col-md-4">
+                        <table class="table table-dark">
+                            <h5 class="text-center">Objects by Category</h5>
+                            <thead>
+                                <tr>
+                                    <th class="align-middle">Type</th>
+                                    <th class="align-middle">No. Objects</th>
+                                </tr>
+                            </thead>
+                            <tbody id="type-container">
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <h5 class="text-center">Data Visualisation</h5>
             </div>
         </div>
     </main>
 
-    <%- include("common/footer") %>
+<script src="/scripts/display-stats.js"></script>
+<%- include("common/footer") %>

@@ -51,10 +51,10 @@
                             <% } else { %>
                                 <div class="carousel-item">
                             <% } %>
-                                    <a href="/object/view/<%= objects[objectCount].id %>"><img src="/images/defaultImage.png" class="d-block object-showcase" alt="<%= objects[objectCount].name %>"></a>
+                                    <a href="/object/view/<%= objects[objectCount].id %>"><img src="<%= objects[objectCount].imagePath %>" class="d-block object-showcase" alt="<%= objects[objectCount].name %>"></a>
                                     <div class="carousel-caption d-none d-md-block">
-                                        <h5><%= objects[objectCount].name %></h5>
-                                        <p>Discovered by <span class="user-rank" style="color:<%= objects[objectCount].uploader.rank.colour %>"><%= objects[objectCount].uploader.username %></span></p>
+                                        <h4 class="mt-2"><%= objects[objectCount].name %></h4>
+                                        <i><p>Discovered by <span class="user-rank" style="color:<%= objects[objectCount].uploader.rank.colour %>"><%= objects[objectCount].uploader.username %></span></p></i>
                                     </div>
                                 </div>
                         <% } %>
