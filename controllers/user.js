@@ -5,7 +5,7 @@ const bcrypt = require("bcrypt");
 
 // Cloudinary and its .env URL
 require("dotenv").config();
-//const cloudinary = require("cloudinary").v2;
+const cloudinary = require("cloudinary").v2;
 
 // Create - attempt to create a User after registration
 // Currently uses AJAX for validation and showing errors to users, which is why some errors simply
