@@ -3,6 +3,10 @@ const Rank = require("../models/Rank");
 const Objects = require("../models/Object");
 const bcrypt = require("bcrypt");
 
+// Cloudinary and its .env URL
+require("dotenv").config();
+const cloudinary = require("cloudinary").v2;
+
 // Create - attempt to create a User after registration
 // Currently uses AJAX for validation and showing errors to users, which is why some errors simply
 // reload the page again (checks are kept here in case the API isn't used / JavaScript is disabled)
@@ -145,7 +149,7 @@ exports.edit = async (req, res) => {
 exports.delete = async (req, res) => {
     try {
         // Firstly, ensure the user is deleting their own account
-        const foundUser = await User.findById(req.session.userID);
+        const foundUser = await User.findById(req.session.userID).populate("createdObjects", "_id");
 
         if (!foundUser) {
             console.log(`Couldn't delete user ${req.session.userID}`);
@@ -154,6 +158,11 @@ exports.delete = async (req, res) => {
         };
 
         // If the code reaches here, it's safe to delete foundUser and their objects
+        foundUser.createdObjects.forEach(async (object) => {
+            console.log(object.id);
+            await cloudinary.uploader.destroy(`objects/${object.id}`);
+        });
+
         await Objects.deleteMany({ _id: { $in: foundUser.createdObjects } });
         await User.deleteOne(foundUser);
         req.session.destroy();

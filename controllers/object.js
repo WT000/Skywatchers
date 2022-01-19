@@ -2,7 +2,11 @@ const User = require("../models/User");
 const Rank = require("../models/Rank");
 const Objects = require("../models/Object");
 const Type = require("../models/Type");
-const errors = require("./functions/get-errors.js")
+const errors = require("./functions/get-errors.js");
+
+// Cloudinary and its .env URL
+require("dotenv").config();
+const cloudinary = require("cloudinary").v2;
 
 exports.index = async (req, res) => {
     // Get the 4 most recent objects, then render the page
@@ -65,7 +69,8 @@ exports.create = async (req, res) => {
         let description = req.body.description;
         let otherNames = req.body.otherNames;
         let apparentMagnitude = req.body.apparentMagnitude;
-        //let image = req.body.image;
+        let image = req.file;
+
         if (!name || !type || name.includes("#")) {
             res.redirect(`/?error=Invalid entry, ensure it doesn't have a hashtag in the name.`);
             return;
@@ -109,12 +114,7 @@ exports.create = async (req, res) => {
         } else {
             description = req.body.description.trim();
         };
-
-        // Convert data to the correct format (image (png, gif, jpeg))
-
-        // Attempt to create the object
-        const newObject = new Objects({ name: name.trim(), otherNames: otherNames, type: type, description: description, apparentMagnitude: apparentMagnitude, uploader: foundUser, isPrivate: isPrivate });
-        
+                
         if (!isPrivate) {
             // Verify that the name is unique before making it publically saved
             const publicDuplicateCheck = await Objects.find({ name: new RegExp(`^${name.trim()}$`, 'i'), isPrivate: false });
@@ -124,6 +124,31 @@ exports.create = async (req, res) => {
                 return;
             };
         };
+
+        // Attempt to create the object
+        const newObject = new Objects({ name: name.trim(), otherNames: otherNames, type: type, description: description, apparentMagnitude: apparentMagnitude, uploader: foundUser, isPrivate: isPrivate});
+
+        // We can now upload the image now that we've got an objectId to work with
+        let uploadedImage = false;
+        let uploadPath;
+        
+        if (image) {
+            try {
+                uploadResult = await cloudinary.uploader.upload(image.path,
+                    { resource_type: "image", public_id: `objects/${newObject.id}` });
+                uploadPath = uploadResult.secure_url;
+                uploadedImage = true;
+                
+            } catch (e) {
+                console.log("Encountered an error when uploading the image (the user may have tried to upload something else)");
+            };
+        };
+
+        if (!uploadedImage) {
+            uploadPath = "/images/defaultImage.png";
+        };
+
+        newObject.imagePath = uploadPath;
 
         await newObject.save();
         await User.updateOne(foundUser, { $push: { createdObjects: newObject.id } });
@@ -149,6 +174,7 @@ exports.create = async (req, res) => {
     } catch (e) {
         // Something went wrong when making the object
         console.log(`Encountered an error when making an object: ${e.message}`);
+        console.log(e);
 
         if (e.code === 11000) {
             res.redirect("/?error=The object has already been created");
@@ -309,7 +335,7 @@ exports.edit = async (req, res) => {
         let description = req.body.description;
         let otherNames = req.body.otherNames;
         let apparentMagnitude = req.body.apparentMagnitude;
-        //let image = req.body.image;
+        let image = req.file;
 
         if (!objectId || !name || !type || name.includes("#")) {
             res.redirect(`/?error=Invalid entry, ensure it doesn't have a hashtag in the name.`);
@@ -362,8 +388,6 @@ exports.edit = async (req, res) => {
             description = req.body.description.trim();
         };
 
-        // Convert data to the correct format (image (png, gif, jpeg))
-
         // Firstly do a check if the object is going public before editing it and deciding the users rank
         if (!isPrivate) {
             const publicDuplicateCheck = await Objects.find({ _id: {$ne: objectId}, name: new RegExp(`^${name.trim()}$`, 'i'), isPrivate: false });
@@ -374,7 +398,30 @@ exports.edit = async (req, res) => {
             };
         };
 
-        await Objects.updateOne(editObject, { name: name.trim(), otherNames: otherNames, type: type, description: description, apparentMagnitude: apparentMagnitude, uploader: foundUser, isPrivate: isPrivate }, { runValidators: true });
+        // Attempt to upload the file as an image if given, if it works then it's safe to set as the image path, otherwise it'll be
+        // a default image
+        let uploadedImage = false;
+        let uploadPath;
+        
+        if (image) {
+            try {
+                uploadResult = await cloudinary.uploader.upload(image.path,
+                    { resource_type: "image", public_id: `objects/${editObject.id}`, overwrite: true });
+                uploadPath = uploadResult.secure_url;
+                uploadedImage = true;
+                
+            } catch (e) {
+                console.log("Encountered an error when uploading the image (the user may have tried to upload something else)");
+            };
+        };
+
+        if (!uploadedImage) {
+            // The image is being edited to no longer have an image, so we need to delete it from cloudinary
+            await cloudinary.uploader.destroy(`objects/${editObject.id}`);
+            uploadPath = "/images/defaultImage.png";
+        };
+
+        await Objects.updateOne(editObject, { name: name.trim(), otherNames: otherNames, type: type, description: description, apparentMagnitude: apparentMagnitude, uploader: foundUser, isPrivate: isPrivate, imagePath: uploadPath }, { runValidators: true });
 
         // The user is making the object public, we need to rank them up by the FOUND type if the save goes through
         if (!isPrivate) {
@@ -441,7 +488,7 @@ exports.edit = async (req, res) => {
 exports.delete = async (req, res) => {
     try {
         // Firstly, ensure the user is deleting their own object
-        const foundUser = await User.findById(req.session.userID);
+        const foundUser = await (await User.findById(req.session.userID)).populate("rank", "name");
         const foundObject = await Objects.findById(req.body.toDelete).populate("type", "rankScore").populate("uploader", "_id");
 
         if (!foundUser || !foundObject || foundUser.id !== foundObject.uploader.id) {
@@ -451,6 +498,7 @@ exports.delete = async (req, res) => {
         };
 
         // If the code reaches here, it's safe to delete the object
+        await cloudinary.uploader.destroy(`objects/${foundObject.id}`);
         await Objects.deleteOne(foundObject);
 
         // Decrement the users rank score and potentially derank them

@@ -8,7 +8,7 @@ const objectView = (object) => `
 <div class="col">
     <a class="text-decoration-none" href="/object/view/${object._id}">
     <div class="card h-100 shadow-sm bg-lightdark">
-        <img src="/images/defaultImage.png" class="img-fluid" alt="...">
+        <img src="${object.imagePath}" class="img-fluid" alt="${object.name}">
 
         <div class="card-body">
             <p class="card-text text-center card-title">${object.name}</p>

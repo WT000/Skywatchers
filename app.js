@@ -7,6 +7,7 @@ const path = require("path");
 const mongoose = require("mongoose");
 const expressSession = require("express-session");
 const MemoryStore = require("memorystore")(expressSession);
+const multer = require("multer");
 
 // Models
 const User = require("./models/User");
@@ -28,6 +29,7 @@ app.use(express.json());
 app.use(express.urlencoded({
     extended: true
 }));
+const upload = multer({ dest: "/objects" });
 
 // Sesssion lasts for 24 hours, extends to 30 days if remember me is checked
 // Expired cookies are purged every 24 hours, used to prevent memory leaks (the warning of which sometimes appears in the console without this)
@@ -104,14 +106,9 @@ app.get("/api/database/search", apiObjectController.find);
 app.get("/object/view/:id", objectController.view);
 
 app.get("/object/edit/:id", signedOutMiddleware, objectController.editForm);
-app.post("/object/edit/:id", signedOutMiddleware, objectController.edit);
+app.post("/object/edit/:id", signedOutMiddleware, upload.single("image"), objectController.edit);
 
 app.post("/object/delete", signedOutMiddleware, objectController.delete);
-
-// Object speicifcs (viewing objects, editing objects, etc)
-app.get("/viewObject", (req, res) => {
-    res.render("viewObject");
-});
 
 // Registration and Login
 app.get("/register", signedInMiddleware, (req, res) => {
@@ -138,7 +135,7 @@ app.post("/profile/view/:username", signedOutMiddleware, userController.edit);
 app.post("/profile/delete", signedOutMiddleware, userController.delete);
 
 app.get("/object/add", signedOutMiddleware, objectController.createForm);
-app.post("/object/add", signedOutMiddleware, objectController.create);
+app.post("/object/add", signedOutMiddleware, upload.single("image"), objectController.create);
 
 app.get("/my-objects", signedOutMiddleware, objectController.personal);
 app.get("/api/database/personal", signedOutMiddleware, apiObjectController.personal);
