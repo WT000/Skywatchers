@@ -6,7 +6,7 @@ const errors = require("./functions/get-errors.js");
 
 // Cloudinary and its .env URL
 require("dotenv").config();
-const cloudinary = require("cloudinary").v2;
+//const cloudinary = require("cloudinary").v2;
 
 exports.index = async (req, res) => {
     // Get the 4 most recent objects, then render the page
