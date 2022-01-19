@@ -83,7 +83,7 @@
                         <tr>
                           <th class="align-middle">Image</th>
                           <td class="align-middle">
-                            <input type="file" id="image-input" class="form-control-file" accept="image/png, image/gif, image/jpeg" name="image">
+                            <input type="file" id="image-input" class="form-control-file" accept="image/png, image/gif, image/jpeg" name="image" >
                             <button id="clear-img" class="btn btn-sm btn-danger" type="button">Clear</button>
                           </td>
                         </tr>
@@ -100,6 +100,11 @@
     </main>
 
     <script>
+      if (document.getElementById("image-input").src !== "/images/defaultImage.png") {
+        document.getElementById("preview-image").style.width = "30%";
+        document.getElementById("clear-img").style.display= "inline-block";
+      };
+      
       document.getElementById("image-input").addEventListener("input", e=>{
         document.getElementById("preview-image").src = window.URL.createObjectURL(e.target.files[0]);
         document.getElementById("preview-image").style.width = "30%";
@@ -109,7 +114,7 @@
       document.getElementById("clear-img").addEventListener("click", e=>{
         e.preventDefault();
         document.getElementById("image-input").value = null;
-        document.getElementById("preview-image").style.width = "";
+        document.getElementById("preview-image").style.width = "30%";
         document.getElementById("preview-image").src = "/images/defaultImage.png";
         document.getElementById("clear-img").style.display= "none";
       });

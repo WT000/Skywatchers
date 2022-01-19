@@ -477,19 +477,21 @@ exports.edit = async (req, res) => {
 
         // The user is making the object private, we need to rank them down by the CURRENT type if the save goes through
         } else {
-            // Ensure that this number never falls below 0
-            let calculation = foundUser.rankScore - editObject.type.rankScore;
-            if (calculation < 0) {
-                calculation = 0;
-            };
-            
-            const upgradeRank = await Rank.findOne({ rankScoreNeeded: { $lte: calculation } }).sort({ rankScoreNeeded: -1 });
+            if (!editObject.isPrivate) {
+                // Ensure that this number never falls below 0
+                let calculation = foundUser.rankScore - editObject.type.rankScore;
+                if (calculation < 0) {
+                    calculation = 0;
+                };
+                
+                const upgradeRank = await Rank.findOne({ rankScoreNeeded: { $lte: calculation } }).sort({ rankScoreNeeded: -1 });
 
-            if (upgradeRank.name === foundUser.rank.name) {
-                await User.findByIdAndUpdate(foundUser.id, { $inc: { rankScore: -editObject.type.rankScore } });
-            } else {        
-                console.log(`${foundUser.username} has been deranked to ${upgradeRank.name}`);
-                await User.findByIdAndUpdate(foundUser.id, { $inc: { rankScore: -editObject.type.rankScore }, rank: upgradeRank.id });
+                if (upgradeRank.name === foundUser.rank.name) {
+                    await User.findByIdAndUpdate(foundUser.id, { $inc: { rankScore: -editObject.type.rankScore } });
+                } else {        
+                    console.log(`${foundUser.username} has been deranked to ${upgradeRank.name}`);
+                    await User.findByIdAndUpdate(foundUser.id, { $inc: { rankScore: -editObject.type.rankScore }, rank: upgradeRank.id });
+                };
             };
         };
 
