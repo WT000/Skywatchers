@@ -1,3 +1,10 @@
+// Prepare data visualisation
+let typeLabels = [];
+let typeCounts = [];
+let currentType = 0;
+let visualTypes = ["bar", "pie", "polarArea"];
+let myChart;
+
 const statView = (type) => `
 <tr>
     <td class="align-middle">${type.name}</td>
@@ -13,9 +20,12 @@ const handleStats = async () => {
         let statHtml = [];
 
         for (var type in statResult) {
-            statHtml.push(statView({ name: type, count: statResult[type] }))
+            statHtml.push(statView({ name: type, count: statResult[type] }));
+            typeLabels.push(type);
+            typeCounts.push(parseInt(statResult[type]));
         };
 
+        visualStats(currentType);
         document.getElementById("type-container").innerHTML = statHtml.join("");
     
     } catch (e) {
@@ -24,4 +34,60 @@ const handleStats = async () => {
     };
 };
 
-handleStats();
+const visualStats = (typeIndex) => {
+    
+    
+    const data = {
+        labels: typeLabels,
+        datasets: [{
+        label: "No. Objects in category",
+        backgroundColor: [
+            "#EEEEEE",
+            "#CCCCCC",
+            "#666666",
+            "#999999",
+          ],
+          borderColor: [
+            "#EEEEEE",
+            "#CCCCCC",
+            "#666666",
+            "#999999",
+          ],
+        data: typeCounts,
+        }]
+    };
+
+    const config = {
+        type: visualTypes[typeIndex],
+        options: {
+            ticks: {
+                precision: 0
+            },
+            plugins: {
+                legend: {
+                    display: false
+                }
+            },
+        }
+    };
+
+    config["data"] = data
+
+    myChart = new Chart(
+        document.getElementById('myChart'),
+        config
+    );
+};
+
+handleStats(currentType);
+
+document.getElementById("visual-change").addEventListener("click", e => {
+    if (currentType + 1 < visualTypes.length) {
+        currentType += 1;
+    } else {
+        currentType = 0;
+    }
+
+    myChart.destroy();
+    visualStats(currentType);
+});
