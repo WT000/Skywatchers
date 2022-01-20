@@ -18,6 +18,9 @@ const handleValidation = async (editorId) => {
                 const rawSearchResult = await fetch(`/api/database/search?objectName=${objectName}&objectType=All&sortBy=A-Z&perPage=1&page=1`);
                 const searchResult = await rawSearchResult.json();
 
+                console.log(searchResult);
+                console.log(searchResult.numObjects);
+
                 if (searchResult.numObjects == 0) {
                     document.getElementById("object-form").submit();
                 } else if (editorId) {
@@ -50,6 +53,7 @@ const handleValidation = async (editorId) => {
                 };
             
             } catch (e) {
+                console.log(e);
                 console.log("Something went wrong with the API");
             };
         } else {

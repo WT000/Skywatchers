@@ -4,7 +4,7 @@ My prototype program for Advanced Database System's AE1, a web app powered by No
 # KEY FEATURES
 <ul>
     <li>Full CRUD operations on objects and users</li>
-    <li>User authentication for create, update and delete operations</li>
+    <li>User authentication for create, update and delete operations (with a working Remember Me function)</li>
     <li>Rank Score system which rewards users for publicly discovering new objects</li>
     <li>AJAX form validation and API search system</li>
     <li>Image uploads for objects</li>
