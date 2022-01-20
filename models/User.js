@@ -28,7 +28,6 @@ const userSchema = new Schema(
 // Ensure passwords are hashed BEFORE saving the password
 userSchema.pre("save", async function (next) {
     try {
-        // Hash with a salt of 10, that number is no coincidence...
         this.password = await bcrypt.hash(this.password, 10);
         next();
     } catch (e) {
