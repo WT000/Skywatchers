@@ -12,7 +12,7 @@
         </div>
         
         <div class="container">
-          <form id="object-form" action="/object/edit/<%= object.id %>" method="post" autocomplete="off" enctype="multipart/form-data">
+          <form id="object-form" onsubmit="handleValidation('<%= user.id %>')" action="/object/edit/<%= object.id %>" method="post" autocomplete="off" enctype="multipart/form-data">
             <input id="objectId" type="hidden" value="<%= object.id %>" name="objectId">
             <div class="row justify-content-center">
                 <div class="table-responsive col-lg-7">
@@ -93,7 +93,7 @@
               </div>
             </div>
             <div class="container d-flex justify-content-center">
-              <button class="mt-2 w-25 mb-2 btn btn-lg btn-success" onclick="handleValidation('<%= user.id %>')" type="submit">Edit Object</button>
+              <button class="mt-2 w-25 mb-2 btn btn-lg btn-success" type="submit">Edit Object</button>
             </div>
           </form>
         </div>

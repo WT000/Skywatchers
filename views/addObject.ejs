@@ -12,7 +12,7 @@
         </div>
         
         <div class="container">
-          <form id="object-form" action="/object/add" method="post" autocomplete="off" enctype="multipart/form-data">
+          <form id="object-form" onsubmit="handleValidation()" action="/object/add" method="post" autocomplete="off" enctype="multipart/form-data">
             <div class="row justify-content-center">
                 <div class="table-responsive col-lg-7">
                     <h4 class="mt-2 text-center">Required data</h4>
@@ -83,7 +83,7 @@
               </div>
             </div>
             <div class="container d-flex justify-content-center">
-              <button class="mt-2 w-25 mb-2 btn btn-lg btn-success" onclick="handleValidation()" type="submit">Add Object</button>
+              <button class="mt-2 w-25 mb-2 btn btn-lg btn-success" type="submit">Add Object</button>
             </div>
           </form>
         </div>
