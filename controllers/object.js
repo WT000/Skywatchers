@@ -14,7 +14,7 @@ exports.index = async (req, res) => {
         const recentObjects = await Objects.find({ isPrivate: "false" })
             .populate("type", "name")
             .populate({ path: "uploader", populate: { path: "rank", select: "colour" }, select: "username" })
-            .sort({ updatedAt: -1 }).limit(4);
+            .sort({ createdAt: -1 }).limit(4);
         
         res.render("index", { message: req.query.message, error: req.query.error, objects: recentObjects });
 
