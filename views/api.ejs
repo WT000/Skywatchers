@@ -1,40 +1,40 @@
 <%- include("common/header") %>
 
-    <main>
-        <section id="main-header" class="py-5 text-center container bg-lightdark">
-            <h1>API</h1>
-        </section>
+<main>
+    <section id="main-header" class="py-5 text-center container bg-lightdark">
+        <h1>API</h1>
+    </section>
 
-        <div class="py-2 bg-dark">
-            <h4 class="text-center">Use our public data for your projects and research!</h4>
+    <div class="py-2 bg-dark">
+        <h4 class="text-center">Use our public data for your projects and research!</h4>
+    </div>
+
+    <div class="py-2 bg-dark">
+        <div class="container vh-50">
+            <p>Please keep in mind that:</p>
+            <ol type=1>
+                <li>You <strong>cannot</strong> see objects that aren't listed as public.</li>
+                <li>You <strong>cannot</strong> see sensitive user details such as their email.</li>
+            </ol>
+
+            <p>Parameters:</p>
+            <ul>
+                <li><strong>objectName</strong> - The name of the object you're looking for (value can be left blank)</li>
+                <li><strong>objectType</strong> - The type of object you're looking for (use "All" if it doesn't matter)</li>
+                <li><strong>sortBy</strong> - The sorting of the objects ("A-Z" or "Date")</li>
+                <li><strong>perPage</strong> - How many results you want to see on each page (the site uses 24)</li>
+                <li><strong>page</strong> - The current page, this along with your defined perPage and numObjects can be used for pagination</li>
+            </ul>
+
+            <p>Examples:</p>
+            <ol type=1>
+                <li><a href="./api/database/search?objectName=&objectType=All&sortBy=A-Z&perPage=1000&page=1" target="_blank">Searching for ALL items</a></li>
+                <li><a href="./api/database/search?objectName=&objectType=Star&sortBy=Date&perPage=3&page=1" target="_blank">Searching for 3 recently added stars</a></li>
+                <li><a href="./api/database/search?objectName=Jupiter&objectType=Planet&sortBy=A-Z&perPage=1000&page=1" target="_blank">Searching for a planet named Jupiter in the Planet category</a></li>
+                <li><a href="./api/database/stats" target="_blank">Getting the object totals across all categories</a></li>
+            </ol>
         </div>
-
-        <div class="py-2 bg-dark">
-            <div class="container vh-50">
-                <p>Please keep in mind that:</p>
-                <ol type=1>
-                    <li>You <strong>cannot</strong> see objects that aren't listed as public.</li>
-                    <li>You <strong>cannot</strong> see sensitive user details such as their email.</li>
-                </ol>
-
-                <p>Parameters:</p>
-                <ul>
-                    <li><strong>objectName</strong> - The name of the object you're looking for (value can be left blank)</li>
-                    <li><strong>objectType</strong> - The type of object you're looking for (use "All" if it doesn't matter)</li>
-                    <li><strong>sortBy</strong> - The sorting of the objects ("A-Z" or "Date")</li>
-                    <li><strong>perPage</strong> - How many results you want to see on each page (the site uses 24)</li>
-                    <li><strong>page</strong> - The current page, this along with your defined perPage and numObjects can be used for pagination</li>
-                </ul>
-
-                <p>Examples:</p>
-                <ol type=1>
-                    <li><a href="./api/database/search?objectName=&objectType=All&sortBy=A-Z&perPage=1000&page=1" target="_blank">Searching for ALL items</a></li>
-                    <li><a href="./api/database/search?objectName=&objectType=Star&sortBy=Date&perPage=3&page=1" target="_blank">Searching for 3 recently added stars</a></li>
-                    <li><a href="./api/database/search?objectName=Jupiter&objectType=Planet&sortBy=A-Z&perPage=1000&page=1" target="_blank">Searching for a planet named Jupiter in the Planet category</a></li>
-                    <li><a href="./api/database/stats" target="_blank">Getting the object totals across all categories</a></li>
-                </ol>
-            </div>
-        </div>
-    </main>
+    </div>
+</main>
 
 <%- include("common/footer") %>

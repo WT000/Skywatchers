@@ -1,76 +1,76 @@
 <%- include("common/header") %>
 
-    <main>
-        <% if (error) { %>
-            <div class="mb-0 fixed-bottom position-fixed alert alert-danger text-center fade show" role="alert">
-                <%= error %>
-                <script type="text/javascript">
-                    setTimeout(e=> {$('.alert').hide();}, 3000);
-                </script>
-            </div>
-        <% } %>
-        <% if (message) { %>
-            <div class="mb-0 fixed-bottom position-fixed alert alert-success text-center fade show" role="alert">
-                <%= message %>
-                <script type="text/javascript">
-                    setTimeout(e=> {$('.alert').hide();}, 3000);
-                </script>
-            </div>
-        <% } %>
-        
-        <div id="main-header" class="py-5 text-center container bg-lightdark">
-            <img id="main-logo" src="images/logoLight.png" alt="Skywatchers Logo">
+<main>
+    <% if (error) { %>
+        <div class="mb-0 fixed-bottom position-fixed alert alert-danger text-center fade show" role="alert">
+            <%= error %>
+            <script type="text/javascript">
+                setTimeout(e=> {$('.alert').hide();}, 3000);
+            </script>
         </div>
-
-        <div class="py-2 bg-dark">
-            <h5 class="text-center">A place where you can track your observations and show the world what you've caputered to earn Rank Score.</h5>
+    <% } %>
+    <% if (message) { %>
+        <div class="mb-0 fixed-bottom position-fixed alert alert-success text-center fade show" role="alert">
+            <%= message %>
+            <script type="text/javascript">
+                setTimeout(e=> {$('.alert').hide();}, 3000);
+            </script>
         </div>
+    <% } %>
+    
+    <div id="main-header" class="py-5 text-center container bg-lightdark">
+        <img id="main-logo" src="images/logoLight.png" alt="Skywatchers Logo">
+    </div>
 
-        <div class="album py-3 bg-dark">
-            <h2 class="text-center">Recently discovered objects</h2>
-            <% if (objects.length == 0) { %>
-                <p class="text-center">Nothing's here, will you be the first to find an object?</p>
-            <% } %>
-            <div class="container">
-                <div id="objectPreviews" class="carousel slide" data-bs-ride="carousel">
-                    <div class="carousel-indicators">
-                        <% for (objectCount=0; objectCount < objects.length; objectCount++) { %>
-                            <% if (objectCount == 0) { %>
-                                <button type="button" data-bs-target="#objectPreviews" data-bs-slide-to="0"
-                                    class="active" aria-current="true" aria-label="Slide 1"></button>
-                            <% } else { %>
-                                <button type="button" data-bs-target="#objectPreviews" data-bs-slide-to="<%= objectCount %>"
-                                    aria-label="Slide <%= objectCount + 1 %>"></button>
-                        <% }} %>
-                        <!-- for each... index 0 would be slide_to=0, slide1, slide_to=1, slide2, etc... -->
-                    </div>
-                    <div class="carousel-inner">
-                        <% for (objectCount=0; objectCount < objects.length; objectCount++) { %>
-                            <% if (objectCount == 0) { %>
-                                <div class="carousel-item active">
-                            <% } else { %>
-                                <div class="carousel-item">
-                            <% } %>
-                                    <a href="/object/view/<%= objects[objectCount].id %>"><img src="<%= objects[objectCount].imagePath %>" class="d-block object-showcase" alt="<%= objects[objectCount].name %>"></a>
-                                    <div class="carousel-caption d-none d-md-block">
-                                        <h4 class="mt-2"><%= objects[objectCount].name %></h4>
-                                        <i><p>Discovered by <span class="user-rank" style="color:<%= objects[objectCount].uploader.rank.colour %>"><%= objects[objectCount].uploader.username %></span></p></i>
-                                    </div>
-                                </div>
-                        <% } %>
-                    <button class="carousel-control-prev" type="button" data-bs-target="#objectPreviews"
-                        data-bs-slide="prev">
-                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Previous</span>
-                    </button>
-                    <button class="carousel-control-next" type="button" data-bs-target="#objectPreviews"
-                        data-bs-slide="next">
-                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Next</span>
-                    </button>
+    <div class="py-2 bg-dark">
+        <h5 class="text-center">A place where you can track your observations and show the world what you've caputered to earn Rank Score.</h5>
+    </div>
+
+    <div class="album py-3 bg-dark">
+        <h2 class="text-center">Recently discovered objects</h2>
+        <% if (objects.length == 0) { %>
+            <p class="text-center">Nothing's here, will you be the first to find an object?</p>
+        <% } %>
+        <div class="container">
+            <div id="objectPreviews" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-indicators">
+                    <% for (objectCount=0; objectCount < objects.length; objectCount++) { %>
+                        <% if (objectCount == 0) { %>
+                            <button type="button" data-bs-target="#objectPreviews" data-bs-slide-to="0"
+                                class="active" aria-current="true" aria-label="Slide 1"></button>
+                        <% } else { %>
+                            <button type="button" data-bs-target="#objectPreviews" data-bs-slide-to="<%= objectCount %>"
+                                aria-label="Slide <%= objectCount + 1 %>"></button>
+                    <% }} %>
+                    <!-- for each... index 0 would be slide_to=0, slide1, slide_to=1, slide2, etc... -->
                 </div>
+                <div class="carousel-inner">
+                    <% for (objectCount=0; objectCount < objects.length; objectCount++) { %>
+                        <% if (objectCount == 0) { %>
+                            <div class="carousel-item active">
+                        <% } else { %>
+                            <div class="carousel-item">
+                        <% } %>
+                                <a href="/object/view/<%= objects[objectCount].id %>"><img src="<%= objects[objectCount].imagePath %>" class="d-block object-showcase" alt="<%= objects[objectCount].name %>"></a>
+                                <div class="carousel-caption d-none d-md-block">
+                                    <h4 class="mt-2"><%= objects[objectCount].name %></h4>
+                                    <i><p>Discovered by <span class="user-rank" style="color:<%= objects[objectCount].uploader.rank.colour %>"><%= objects[objectCount].uploader.username %></span></p></i>
+                                </div>
+                            </div>
+                    <% } %>
+                <button class="carousel-control-prev" type="button" data-bs-target="#objectPreviews"
+                    data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#objectPreviews"
+                    data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
             </div>
         </div>
-    </main>
+    </div>
+</main>
 
-    <%- include("common/footer") %>
+<%- include("common/footer") %>

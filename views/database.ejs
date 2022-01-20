@@ -1,63 +1,63 @@
 <%- include("common/header") %>
 
-    <main>
-        <section id="main-header" class="py-5 text-center container bg-lightdark">
-            <h1>Database</h1>
-        </section>
-        
-        <div class="container pt-3 px-4 bg-dark search-area">
-            <h4 class="text-center">Object Filter</h4>
-            <form id="search-form" autocomplete="off">
-                <div class="row">
-                  <div class="col-md-3">
-                    <label for="object-name">Object Name</label>
-                    <input class="form-control" id="object-name" name="objectName">
-                  </div>
-                  <div class="col-md-3">
-                    <label for="object-type">Object Type</label>
-                    <select class="form-select" id="object-type" name="objectType">
-                        <option>All</option>
-                        <% types.forEach(type => { %>
-                        <option value="<%= type.name %>"><%= type.name %> - <%= type.description %></option>
-                        <% }); %>
-                    </select>
-                  </div>
-                  <div class="col-md-3">
-                    <label for="object-order">Object Order</label>
-                    <select class="form-select" id="object-order" name="objectOrder">
-                        <option>A-Z</option>
-                        <option value="Date">Date Added</option>
-                    </select>
-                  </div>
-                  <div class="col-md-3">
-                    <label for="objects-per-page">Per Page</label>
-                    <select class="form-select" id="objects-per-page" name="objectsPerPage">
-                      <option>8</option>
-                      <option selected>24</option>
-                      <option>48</option>
-                    </select>
-                  </div>
-                </div>
-            </form>
-        </div>
-
-        <div class="album py-4 bg-dark">
-            <h2 id="results-count" class="text-center"></h2>
-            <div class="container">
-                <div id="results-container" class="row row-cols-2 row-cols-sm-3 row-cols-md-4 g-3">
-
-                </div>
+<main>
+    <section id="main-header" class="py-5 text-center container bg-lightdark">
+        <h1>Database</h1>
+    </section>
+    
+    <div class="container pt-3 px-4 bg-dark search-area">
+        <h4 class="text-center">Object Filter</h4>
+        <form id="search-form" autocomplete="off">
+            <div class="row">
+              <div class="col-md-3">
+                <label for="object-name">Object Name</label>
+                <input class="form-control" id="object-name" name="objectName">
+              </div>
+              <div class="col-md-3">
+                <label for="object-type">Object Type</label>
+                <select class="form-select" id="object-type" name="objectType">
+                    <option>All</option>
+                    <% types.forEach(type => { %>
+                    <option value="<%= type.name %>"><%= type.name %> - <%= type.description %></option>
+                    <% }); %>
+                </select>
+              </div>
+              <div class="col-md-3">
+                <label for="object-order">Object Order</label>
+                <select class="form-select" id="object-order" name="objectOrder">
+                    <option>A-Z</option>
+                    <option value="Date">Date Added</option>
+                </select>
+              </div>
+              <div class="col-md-3">
+                <label for="objects-per-page">Per Page</label>
+                <select class="form-select" id="objects-per-page" name="objectsPerPage">
+                  <option>8</option>
+                  <option selected>24</option>
+                  <option>48</option>
+                </select>
+              </div>
             </div>
+        </form>
+    </div>
 
-            <ul class="mt-3 pagination justify-content-center bg-dark">
-                <li id="first-page" class="page-item"><a class="page-link" href="#results-container">First</a></li>
-                <li id="prev-page" class="page-item"><a class="page-link" href="#results-container">&lt;</a></li>
-                <li id="current-page" class="page-item"><a id="current-page-text" class="page-link">( Loading )</a></li>
-                <li id="next-page" class="page-item"><a class="page-link" href="#results-container">&gt;</a></li>
-                <li id="last-page" class="page-item"><a class="page-link" href="#results-container">Last</a></li>
-              </ul>
+    <div class="album py-4 bg-dark">
+        <h2 id="results-count" class="text-center"></h2>
+        <div class="container">
+            <div id="results-container" class="row row-cols-2 row-cols-sm-3 row-cols-md-4 g-3">
+
+            </div>
         </div>
-    </main>
+
+        <ul class="mt-3 pagination justify-content-center bg-dark">
+            <li id="first-page" class="page-item"><a class="page-link" href="#results-container">First</a></li>
+            <li id="prev-page" class="page-item"><a class="page-link" href="#results-container">&lt;</a></li>
+            <li id="current-page" class="page-item"><a id="current-page-text" class="page-link">( Loading )</a></li>
+            <li id="next-page" class="page-item"><a class="page-link" href="#results-container">&gt;</a></li>
+            <li id="last-page" class="page-item"><a class="page-link" href="#results-container">Last</a></li>
+          </ul>
+    </div>
+</main>
 
 <script src="/scripts/object-search.js"></script>
 <%- include("common/footer") %>

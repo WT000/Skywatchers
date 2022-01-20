@@ -1,126 +1,126 @@
 <%- include("common/header") %>
 
-    <main>
-      <div id="error-results" class="mb-0 fixed-bottom position-fixed alert alert-danger text-center fade show" role="alert"></div>  
-      <section id="main-header" class="py-5 text-center container bg-lightdark">
-            <h1>Object Editor</h1>
-        </section>
+<main>
+  <div id="error-results" class="mb-0 fixed-bottom position-fixed alert alert-danger text-center fade show" role="alert"></div>  
+  <section id="main-header" class="py-5 text-center container bg-lightdark">
+        <h1>Object Editor</h1>
+    </section>
 
-        <div class="py-4 bg-dark">
-            <div class="container text-center">
-                <img id="preview-image" src="<%= object.imagePath %>" class="object-img img-fluid text-center" alt="<%= object.name %>">
-            </div>
-            
-            <div class="container">
-              <form id="object-form" action="/object/edit/<%= object.id %>" method="post" autocomplete="off" enctype="multipart/form-data">
-                <input id="objectId" type="hidden" value="<%= object.id %>" name="objectId">
-                <div class="row justify-content-center">
-                    <div class="table-responsive col-lg-7">
-                        <h4 class="mt-2 text-center">Required data</h4>
-                        <table class="table table-dark">
-                            <thead></thead>
-                            <tbody>
-                              <tr>
-                                <th class="align-middle" style="width: 20%">Name <span data-toggle="tooltip" title="What's the most well-known name for the object?"><img src="/icons/question-circle.svg" alt="Tooltip" width="16" height="16"></span></th>
-                                <td class="align-middle">
-                                  <input id="name-input" class="form-control" name="name" value="<%= object.name %>" required>
-                                </td>
-                              </tr>
-
-                              <tr>
-                                <th class="align-middle">Type <span data-toggle="tooltip" title="What type of object did you observe?"><img src="/icons/question-circle.svg" alt="Tooltip" width="16" height="16"></span></th>
-                                <td class="align-middle">
-                                  <select id="object-type" class="form-select" name="type" required>
-                                    <% types.forEach(type => { %>
-                                      <% if (type.id == object.type.id) { %>
-                                        <option value="<%= type.id %>" selected><%= type.name %> - <%= type.description %></option>
-                                      <% } else { %>
-                                        <option value="<%= type.id %>"><%= type.name %> - <%= type.description %></option>
-                                      <% } %>
-                                    <% }); %>
-                                  </select>
-                                </td>
-                              </tr>
-
-                              <tr>
-                                <th class="align-middle">Show Publicly <span data-toggle="tooltip" title="Add the item to our public database and build your Rank Score!"><img src="/icons/question-circle.svg" alt="Tooltip" width="16" height="16"></span></th>
-                                <td class="align-middle">
-                                  <% if (!object.isPrivate) { %>
-                                    <input id="checkbox-input" type="checkbox" class="form-check-input checkbox-lg" name="showPublic" checked>
-                                  <% } else { %>
-                                    <input id="checkbox-input" type="checkbox" class="form-check-input checkbox-lg" name="showPublic">
-                                  <% } %>
-                                </td>
-                              </tr>
-                            </tbody>
-                        </table>
-                    </div>
-
-                  <div class="row justify-content-center">
-                    <div class="table-responsive col-lg-7">
-                      <h4 class="mt-2 text-center">Optional data</h4>
-                      <table class="table table-dark">
-                        <thead></thead>
-                        <tr>
-                          <th class="align-middle" style="width: 20%">Description</th>
-                          <td class="align-middle">
-                            <input id="description-input" class="form-control" name="description" value="<%= object.description %>">
-                          </td>
-                        </tr>
-
-                        <tr>
-                          <th class="align-middle">Other Names</th>
-                          <td class="align-middle">
-                            <input id="other-names" class="form-control" name="otherNames" placeholder="(seperated by a comma)" value="<%= foundObjectNames %>">
-                          </td>
-                        </tr>
-
-                        <tr>
-                          <th class="align-middle">Apparent Magnitude</th>
-                          <td class="align-middle"><input id="magnitude-input" class="form-control" name="apparentMagnitude" value="<%= object.apparentMagnitude %>" type="number" step="0.01"></td>
-                        </tr>
-
-                        <tr>
-                          <th class="align-middle">Image</th>
-                          <td class="align-middle">
-                            <input id="keep-image" type="hidden" value="true" name="keepImage">
-                            <input type="file" id="image-input" class="form-control-file" accept="image/png, image/gif, image/jpeg" name="image" >
-                            <button id="clear-img" class="btn btn-sm btn-danger" type="button">Clear</button>
-                          </td>
-                        </tr>
-                      </table>
-                    </div>
-                  </div>
-                </div>
-                <div class="container d-flex justify-content-center">
-                  <button class="mt-2 w-25 mb-2 btn btn-lg btn-success" onclick="handleValidation('<%= user.id %>')" type="submit">Edit Object</button>
-                </div>
-              </form>
-            </div>
+    <div class="py-4 bg-dark">
+        <div class="container text-center">
+            <img id="preview-image" src="<%= object.imagePath %>" class="object-img img-fluid text-center" alt="<%= object.name %>">
         </div>
-    </main>
+        
+        <div class="container">
+          <form id="object-form" action="/object/edit/<%= object.id %>" method="post" autocomplete="off" enctype="multipart/form-data">
+            <input id="objectId" type="hidden" value="<%= object.id %>" name="objectId">
+            <div class="row justify-content-center">
+                <div class="table-responsive col-lg-7">
+                    <h4 class="mt-2 text-center">Required data</h4>
+                    <table class="table table-dark">
+                        <thead></thead>
+                        <tbody>
+                          <tr>
+                            <th class="align-middle" style="width: 20%">Name <span data-toggle="tooltip" title="What's the most well-known name for the object?"><img src="/icons/question-circle.svg" alt="Tooltip" width="16" height="16"></span></th>
+                            <td class="align-middle">
+                              <input id="name-input" class="form-control" name="name" value="<%= object.name %>" required>
+                            </td>
+                          </tr>
 
-    <script>
-      if (document.getElementById("preview-image").src.indexOf("defaultImage.png") == -1) {
-        document.getElementById("preview-image").style.width = "30%";
-        document.getElementById("clear-img").style.display= "inline-block";
-      };
-      
-      document.getElementById("image-input").addEventListener("input", e=>{
-        document.getElementById("preview-image").src = window.URL.createObjectURL(e.target.files[0]);
-        document.getElementById("preview-image").style.width = "30%";
-        document.getElementById("clear-img").style.display= "inline-block";
-      });
+                          <tr>
+                            <th class="align-middle">Type <span data-toggle="tooltip" title="What type of object did you observe?"><img src="/icons/question-circle.svg" alt="Tooltip" width="16" height="16"></span></th>
+                            <td class="align-middle">
+                              <select id="object-type" class="form-select" name="type" required>
+                                <% types.forEach(type => { %>
+                                  <% if (type.id == object.type.id) { %>
+                                    <option value="<%= type.id %>" selected><%= type.name %> - <%= type.description %></option>
+                                  <% } else { %>
+                                    <option value="<%= type.id %>"><%= type.name %> - <%= type.description %></option>
+                                  <% } %>
+                                <% }); %>
+                              </select>
+                            </td>
+                          </tr>
 
-      document.getElementById("clear-img").addEventListener("click", e=>{
-        e.preventDefault();
-        document.getElementById("image-input").value = null;
-        document.getElementById("preview-image").style.width = "30%";
-        document.getElementById("preview-image").src = "/images/defaultImage.png";
-        document.getElementById("clear-img").style.display= "none";
-        document.getElementById("keep-image").value = "false";
-      });
-    </script>
+                          <tr>
+                            <th class="align-middle">Show Publicly <span data-toggle="tooltip" title="Add the item to our public database and build your Rank Score!"><img src="/icons/question-circle.svg" alt="Tooltip" width="16" height="16"></span></th>
+                            <td class="align-middle">
+                              <% if (!object.isPrivate) { %>
+                                <input id="checkbox-input" type="checkbox" class="form-check-input checkbox-lg" name="showPublic" checked>
+                              <% } else { %>
+                                <input id="checkbox-input" type="checkbox" class="form-check-input checkbox-lg" name="showPublic">
+                              <% } %>
+                            </td>
+                          </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+              <div class="row justify-content-center">
+                <div class="table-responsive col-lg-7">
+                  <h4 class="mt-2 text-center">Optional data</h4>
+                  <table class="table table-dark">
+                    <thead></thead>
+                    <tr>
+                      <th class="align-middle" style="width: 20%">Description</th>
+                      <td class="align-middle">
+                        <input id="description-input" class="form-control" name="description" value="<%= object.description %>">
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <th class="align-middle">Other Names</th>
+                      <td class="align-middle">
+                        <input id="other-names" class="form-control" name="otherNames" placeholder="(seperated by a comma)" value="<%= foundObjectNames %>">
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <th class="align-middle">Apparent Magnitude</th>
+                      <td class="align-middle"><input id="magnitude-input" class="form-control" name="apparentMagnitude" value="<%= object.apparentMagnitude %>" type="number" step="0.01"></td>
+                    </tr>
+
+                    <tr>
+                      <th class="align-middle">Image</th>
+                      <td class="align-middle">
+                        <input id="keep-image" type="hidden" value="true" name="keepImage">
+                        <input type="file" id="image-input" class="form-control-file" accept="image/png, image/gif, image/jpeg" name="image" >
+                        <button id="clear-img" class="btn btn-sm btn-danger" type="button">Clear</button>
+                      </td>
+                    </tr>
+                  </table>
+                </div>
+              </div>
+            </div>
+            <div class="container d-flex justify-content-center">
+              <button class="mt-2 w-25 mb-2 btn btn-lg btn-success" onclick="handleValidation('<%= user.id %>')" type="submit">Edit Object</button>
+            </div>
+          </form>
+        </div>
+    </div>
+</main>
+
+<script>
+  if (document.getElementById("preview-image").src.indexOf("defaultImage.png") == -1) {
+    document.getElementById("preview-image").style.width = "30%";
+    document.getElementById("clear-img").style.display= "inline-block";
+  };
+  
+  document.getElementById("image-input").addEventListener("input", e=>{
+    document.getElementById("preview-image").src = window.URL.createObjectURL(e.target.files[0]);
+    document.getElementById("preview-image").style.width = "30%";
+    document.getElementById("clear-img").style.display= "inline-block";
+  });
+
+  document.getElementById("clear-img").addEventListener("click", e=>{
+    e.preventDefault();
+    document.getElementById("image-input").value = null;
+    document.getElementById("preview-image").style.width = "30%";
+    document.getElementById("preview-image").src = "/images/defaultImage.png";
+    document.getElementById("clear-img").style.display= "none";
+    document.getElementById("keep-image").value = "false";
+  });
+</script>
 
 <script src="/scripts/object-name-validation.js"></script>
 <%- include("common/footer") %>

@@ -1,112 +1,112 @@
 <%- include("common/header") %>
 
-    <main>
-        <% if (error) { %>
-          <div class="mb-0 fixed-bottom position-fixed alert alert-danger text-center fade show" role="alert">
-              <%= error %>
-              <script type="text/javascript">
-                  setTimeout(e=> {$('.alert').hide();}, 3000);
-              </script>
-          </div>
-        <% } %>
-        <% if (message) { %>
-          <div class="mb-0 fixed-bottom position-fixed alert alert-success text-center fade show" role="alert">
-              <%= message %>
-              <script type="text/javascript">
-                  setTimeout(e=> {$('.alert').hide();}, 3000);
-              </script>
-          </div>
-        <% } %>
-        <section id="main-header" class="py-5 text-center container bg-lightdark">
-            <h1>Profile Viewer</h1>
-        </section>
+<main>
+    <% if (error) { %>
+      <div class="mb-0 fixed-bottom position-fixed alert alert-danger text-center fade show" role="alert">
+          <%= error %>
+          <script type="text/javascript">
+              setTimeout(e=> {$('.alert').hide();}, 3000);
+          </script>
+      </div>
+    <% } %>
+    <% if (message) { %>
+      <div class="mb-0 fixed-bottom position-fixed alert alert-success text-center fade show" role="alert">
+          <%= message %>
+          <script type="text/javascript">
+              setTimeout(e=> {$('.alert').hide();}, 3000);
+          </script>
+      </div>
+    <% } %>
+    <section id="main-header" class="py-5 text-center container bg-lightdark">
+        <h1>Profile Viewer</h1>
+    </section>
 
-        <div class="py-4 bg-dark">
-            <h2 class="text-center"><%= foundUser.username %></h2>
-            
-            <div class="container">
-                <div class="row justify-content-center">
-                    <div class="table-responsive col-6">
-                        <table class="table table-dark">
-                            <thead>
-                            </thead>
-                            <tbody>
-                              <tr>
-                                <th class="align-middle">Bio</th>
-                                <% if (user && user.id == foundUser.id) { %>
-                                  <td class="align-middle">
-                                    <form id="update-form" action="/profile/view/<%= user.username %>" method="POST" autocomplete="off">
-                                      <input id="bio" class="form-control" name="bio" value="<%= foundUser.bio %>" required>
-                                      <button id="update-bio" class="mt-2 btn btn-sm btn-success" type="submit">Update</button>
-                                    </form>
-                                  </td>
-                                <% } else { %>
-                                  <td><%= foundUser.bio %></td>
-                                <% } %>
-                              </tr>
+    <div class="py-4 bg-dark">
+        <h2 class="text-center"><%= foundUser.username %></h2>
         
-                              <tr>
-                                <th class="align-middle">Rank</th>
-                                <td class="align-middle"><span class="user-rank" style="color:<%= foundUser.rank.colour %>"><%= foundUser.rank.name %></span><span data-toggle="tooltip" title="<%= foundUser.rank.description %>"><img src="/icons/question-circle.svg" alt="RankInfo" width="16" height="16"></span></td>
-                              </tr>
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="table-responsive col-6">
+                    <table class="table table-dark">
+                        <thead>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <th class="align-middle">Bio</th>
+                            <% if (user && user.id == foundUser.id) { %>
+                              <td class="align-middle">
+                                <form id="update-form" action="/profile/view/<%= user.username %>" method="POST" autocomplete="off">
+                                  <input id="bio" class="form-control" name="bio" value="<%= foundUser.bio %>" required>
+                                  <button id="update-bio" class="mt-2 btn btn-sm btn-success" type="submit">Update</button>
+                                </form>
+                              </td>
+                            <% } else { %>
+                              <td><%= foundUser.bio %></td>
+                            <% } %>
+                          </tr>
+    
+                          <tr>
+                            <th class="align-middle">Rank</th>
+                            <td class="align-middle"><span class="user-rank" style="color:<%= foundUser.rank.colour %>"><%= foundUser.rank.name %></span><span data-toggle="tooltip" title="<%= foundUser.rank.description %>"><img src="/icons/question-circle.svg" alt="RankInfo" width="16" height="16"></span></td>
+                          </tr>
 
-                              <tr>
-                                <th class="align-middle">Rank Score <span data-toggle="tooltip" title="Gain Rank Score by publicly listing your objects. The rarer they are, the more you earn."><img src="/icons/question-circle.svg" alt="RankInfo" width="16" height="16"></th>
-                                <td class="align-middle"><span class="user-rank" style="color:<%= foundUser.rank.colour %>"><%= foundUser.rankScore %></span></td>
-                              </tr>
+                          <tr>
+                            <th class="align-middle">Rank Score <span data-toggle="tooltip" title="Gain Rank Score by publicly listing your objects. The rarer they are, the more you earn."><img src="/icons/question-circle.svg" alt="RankInfo" width="16" height="16"></th>
+                            <td class="align-middle"><span class="user-rank" style="color:<%= foundUser.rank.colour %>"><%= foundUser.rankScore %></span></td>
+                          </tr>
 
-                              <tr>
-                                <th class="align-middle">Public Discoveries</th>
-                                <td class="align-middle"><%= foundUser.createdObjects.length %></td>
-                              </tr>
-        
-                              <tr>
-                                <th class="align-middle">Last Active</th>
-                                <td class="align-middle"><%= foundUserUpdated %></td>
-                              </tr>
-                            </tbody>
-                        </table>
-                        
-                        <% if (user && user.id == foundUser.id) { %>
-                          <div class="d-flex flex-row justify-content-center">
-                            <form id="delete-form" action="/profile/delete" method="POST" autocomplete="off">
-                              <button class="btn btn-danger">Delete your Account</button>
-                            </form>
-                          </div>
-                        <% } %>
-                    </div>
+                          <tr>
+                            <th class="align-middle">Public Discoveries</th>
+                            <td class="align-middle"><%= foundUser.createdObjects.length %></td>
+                          </tr>
+    
+                          <tr>
+                            <th class="align-middle">Last Active</th>
+                            <td class="align-middle"><%= foundUserUpdated %></td>
+                          </tr>
+                        </tbody>
+                    </table>
+                    
+                    <% if (user && user.id == foundUser.id) { %>
+                      <div class="d-flex flex-row justify-content-center">
+                        <form id="delete-form" action="/profile/delete" method="POST" autocomplete="off">
+                          <button class="btn btn-danger">Delete your Account</button>
+                        </form>
+                      </div>
+                    <% } %>
                 </div>
             </div>
         </div>
-    </main>
-    <% if (user && user.id == foundUser.id) { %>
-      <script>
-        const originalBio = document.getElementById("bio").value;
-        
-        document.getElementById("bio").addEventListener("input", e=>{
-          if (document.getElementById("bio").value !== originalBio) {
-            document.getElementById("update-bio").style.display = "inline-block";
-          } else {
-            document.getElementById("update-bio").style.display = "none";
-          };
-        });
+    </div>
+</main>
+<% if (user && user.id == foundUser.id) { %>
+  <script>
+    const originalBio = document.getElementById("bio").value;
+    
+    document.getElementById("bio").addEventListener("input", e=>{
+      if (document.getElementById("bio").value !== originalBio) {
+        document.getElementById("update-bio").style.display = "inline-block";
+      } else {
+        document.getElementById("update-bio").style.display = "none";
+      };
+    });
 
-        document.getElementById("update-form").addEventListener("submit", e=>{
-          e.preventDefault();
+    document.getElementById("update-form").addEventListener("submit", e=>{
+      e.preventDefault();
 
-          if (document.getElementById("bio").value !== originalBio) {
-            document.getElementById("update-form").submit();
-          };
-        });
+      if (document.getElementById("bio").value !== originalBio) {
+        document.getElementById("update-form").submit();
+      };
+    });
 
-        document.getElementById("delete-form").addEventListener("submit", e=>{
-          e.preventDefault();
-          let deleteConfirm = confirm("Are you sure you want to do this? It'll remove all the objects you've discovered!");
-          if (deleteConfirm) {
-            document.getElementById("delete-form").submit();
-          };
-        });
-      </script>
-    <% } %>
+    document.getElementById("delete-form").addEventListener("submit", e=>{
+      e.preventDefault();
+      let deleteConfirm = confirm("Are you sure you want to do this? It'll remove all the objects you've discovered!");
+      if (deleteConfirm) {
+        document.getElementById("delete-form").submit();
+      };
+    });
+  </script>
+<% } %>
 
 <%- include("common/footer") %>

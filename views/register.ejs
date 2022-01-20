@@ -1,42 +1,42 @@
 <%- include("common/header") %>
 
-    <main>
-        <div id="error-results" class="mb-0 fixed-bottom position-fixed alert alert-danger text-center fade show" role="alert"></div>
-        
-        <section id="main-header" class="py-5 text-center container bg-lightdark">
-            <h1>Register</h1>
-        </section>
-        
-        <div class="py-4 bg-dark">
-            <h2 class="text-center">Ready to start your adventure?</h2>
-            <div class="container">
-                <form id="register-form" action="/register" method="post" autocomplete="off">
-                    <div class="row justify-content-center">
-                        <div class="col-md-4 bg-lightdark">
-                            <div class="form-group mt-2">
-                                <label for="username-input">Username</label>
-                                <input id="username-input" class="form-control" name="username" required>
-                            </div>
-                            <div class="form-group mt-2">
-                                <label for="email-input">Email</label>
-                                <input type="email" id="email-input" class="form-control" name="email" required>
-                            </div>
-                            <div class="form-group mt-2 mb-3">
-                                <label for="password-input">Password</label>
-                                <input type="password" id="password-input"class="form-control" name="password" required>
-                            </div>
+<main>
+    <div id="error-results" class="mb-0 fixed-bottom position-fixed alert alert-danger text-center fade show" role="alert"></div>
+    
+    <section id="main-header" class="py-5 text-center container bg-lightdark">
+        <h1>Register</h1>
+    </section>
+    
+    <div class="py-4 bg-dark">
+        <h2 class="text-center">Ready to start your adventure?</h2>
+        <div class="container">
+            <form id="register-form" action="/register" method="post" autocomplete="off">
+                <div class="row justify-content-center">
+                    <div class="col-md-4 bg-lightdark">
+                        <div class="form-group mt-2">
+                            <label for="username-input">Username</label>
+                            <input id="username-input" class="form-control" name="username" required>
+                        </div>
+                        <div class="form-group mt-2">
+                            <label for="email-input">Email</label>
+                            <input type="email" id="email-input" class="form-control" name="email" required>
+                        </div>
+                        <div class="form-group mt-2 mb-3">
+                            <label for="password-input">Password</label>
+                            <input type="password" id="password-input"class="form-control" name="password" required>
                         </div>
                     </div>
-                    <div class="row justify-content-center">
-                        <div class="col-md-4 bg-lightdark text-center">
-                            <button class="w-100 mb-2 btn btn-lg btn-primary" onclick="handleValidation()" type="submit">Sign up</button>
-                            <p><a class="text-decoration-none" href="/login">Return to Login</a></p>
-                        </div>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="col-md-4 bg-lightdark text-center">
+                        <button class="w-100 mb-2 btn btn-lg btn-primary" onclick="handleValidation()" type="submit">Sign up</button>
+                        <p><a class="text-decoration-none" href="/login">Return to Login</a></p>
                     </div>
-                </form>
-            </div>
+                </div>
+            </form>
         </div>
-    </main>
+    </div>
+</main>
 
 <script src="/scripts/register-validation.js"></script>
 <%- include("common/footer") %>
