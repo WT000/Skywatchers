@@ -162,7 +162,7 @@ input[type=checkbox]{
 }
 
 .w-35{
-    width: 35%;
+    width: 40%;
 }
 
 @media (min-width: 768px) {
