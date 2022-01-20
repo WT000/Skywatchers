@@ -15,7 +15,7 @@ const rankSchema = new Schema(
         description: { type: String, required: [true, "Description is required"] },
         colour: { type: String, required: [true, "Colour is required"] },
         rankScoreNeeded: { type: Number, required: [true, "Rank Score needed is required"] },
-    }//, {collection: "userRanks"} - Set a custom collection name if needed
+    }
 );
 
 module.exports = mongoose.model("Rank", rankSchema);
