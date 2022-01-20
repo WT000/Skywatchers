@@ -59,16 +59,10 @@ app.use("*", async (req, res, next) => {
     DB CONNECTION - Connecting to the configured .env database
 */
 // Connect to the configured database
-// MONGODB_URI_PRODUCTION is present if a developer wants to connect to the production database, which can be done through
-// the npm run production command
 require("dotenv").config();
-const { PORT, MONGODB_URI, MONGODB_URI_PRODUCTION } = process.env;
+const { PORT, MONGODB_URI } = process.env;
 
-if (process.env.NODE_ENV === "production") {
-    mongoose.connect(MONGODB_URI_PRODUCTION, { useNewUrlParser: true });
-} else {
-    mongoose.connect(MONGODB_URI, { useNewUrlParser: true });
-}
+mongoose.connect(MONGODB_URI, { useNewUrlParser: true });
 mongoose.connection.on("error", e => {
     console.error(e);
     console.log("Failed to connect to the database, is MongoDB running?");
