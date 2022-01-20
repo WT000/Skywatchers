@@ -5,7 +5,7 @@
             <div class="mb-0 fixed-bottom position-fixed alert alert-danger text-center fade show" role="alert">
                 <%= error %>
                 <script type="text/javascript">
-                    setTimeout(e=> {$('.alert').alert('close');}, 3000);
+                    setTimeout(e=> {$('.alert').hide();}, 3000);
                 </script>
             </div>
         <% } %>
@@ -13,7 +13,7 @@
             <div class="mb-0 fixed-bottom position-fixed alert alert-success text-center fade show" role="alert">
                 <%= message %>
                 <script type="text/javascript">
-                    setTimeout(e=> {$('.alert').alert('close');}, 3000);
+                    setTimeout(e=> {$('.alert').hide();}, 3000);
                 </script>
             </div>
         <% } %>
