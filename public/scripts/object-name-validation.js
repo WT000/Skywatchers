@@ -18,9 +18,10 @@ const handleValidation = async (editorId) => {
                 const rawSearchResult = await fetch(`/api/database/search?objectName=${objectName}&objectType=All&sortBy=A-Z&perPage=1&page=1`);
                 const searchResult = await rawSearchResult.json();
 
-                console.log(searchResult.numObjects);
+                console.log(`found: ${searchResult.numObjects}`);
 
-                if (searchResult.numObjects == 0) {
+                // In case there's an error with the API or the result is 0, allow the form to submit (as the server-side code will handle the rest)
+                if (Object.keys(searchResult).length == 0 || searchResult.numObjects == 0) {
                     document.getElementById("object-form").submit();
                 } else if (editorId) {
                     // Check if the brought in editUser matches the uploader id, so we know that the user can attempt to edit the object
