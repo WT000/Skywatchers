@@ -36,7 +36,9 @@ const handleStats = async () => {
             }
         };
 
-        visualStats(currentType);
+        if (statHtml.length > 1) {
+            visualStats(currentType);
+        };
         document.getElementById("type-container").innerHTML = statHtml.join("");
     
     } catch (e) {
@@ -91,12 +93,14 @@ const visualStats = (typeIndex) => {
 handleStats(currentType);
 
 document.getElementById("visual-change").addEventListener("click", e => {
-    if (currentType + 1 < visualTypes.length) {
-        currentType += 1;
-    } else {
-        currentType = 0;
-    }
+    if (typeCounts.length > 1) {
+        if (currentType + 1 < visualTypes.length) {
+            currentType += 1;
+        } else {
+            currentType = 0;
+        }
 
-    myChart.destroy();
-    visualStats(currentType);
+        myChart.destroy();
+        visualStats(currentType);
+    };
 });

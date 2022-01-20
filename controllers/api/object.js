@@ -287,6 +287,11 @@ exports.stats = async (req, res) => {
         const objectCategories = await Objects.aggregate(
             [
                 {
+                    $match: {
+                        isPrivate: "false"
+                    }
+                },
+                {
                     $lookup: {
                         from: "types",
                         localField: "type",
