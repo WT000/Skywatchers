@@ -94,6 +94,7 @@ h2{
 .object-showcase{
     width: 30%;
     margin: auto;
+    border-radius: 15px;
 }
 
 .carousel-caption{
