@@ -100,7 +100,7 @@ const visualStats = (typeIndex) => {
     config["data"] = data
     
     myChart = new Chart(
-        document.getElementById('myChart'),
+        document.getElementById("statChart"),
         config
     );
 };
