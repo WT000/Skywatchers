@@ -2,7 +2,6 @@ const User = require("../models/User");
 const Rank = require("../models/Rank");
 const Objects = require("../models/Object");
 const Type = require("../models/Type");
-const errors = require("./functions/get-errors.js");
 
 // Cloudinary and its .env URL
 require("dotenv").config();
