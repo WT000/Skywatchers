@@ -305,7 +305,7 @@ exports.stats = async (req, res) => {
                         total: { $sum: 1 }
                     }
                 },
-                { $sort: { _id: -1 } }
+                { $sort: { total: -1 } }
             ]
         );
 
