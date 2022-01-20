@@ -12,6 +12,13 @@ const statView = (type) => `
 </tr>
 `;
 
+const allView = (type) => `
+<tr>
+    <th class="align-middle">${type.name}</th>
+    <th class="align-middle">${type.count}</th>
+</tr>
+`;
+
 const handleStats = async () => {
     try {
         const rawStatResult = await fetch("/api/database/stats");
@@ -20,9 +27,13 @@ const handleStats = async () => {
         let statHtml = [];
 
         for (var type in statResult) {
-            statHtml.push(statView({ name: type, count: statResult[type] }));
-            typeLabels.push(type);
-            typeCounts.push(parseInt(statResult[type]));
+            if (type !== "All") {
+                statHtml.push(statView({ name: type, count: statResult[type] }));
+                typeLabels.push(type);
+                typeCounts.push(parseInt(statResult[type]));
+            } else {
+                statHtml.push(allView({ name: type, count: statResult[type] }));
+            }
         };
 
         visualStats(currentType);
@@ -35,8 +46,6 @@ const handleStats = async () => {
 };
 
 const visualStats = (typeIndex) => {
-    
-    
     const data = {
         labels: typeLabels,
         datasets: [{
@@ -72,7 +81,7 @@ const visualStats = (typeIndex) => {
     };
 
     config["data"] = data
-
+    
     myChart = new Chart(
         document.getElementById('myChart'),
         config
