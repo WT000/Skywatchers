@@ -288,7 +288,7 @@ exports.stats = async (req, res) => {
             [
                 {
                     $match: {
-                        isPrivate: "false"
+                        isPrivate: false
                     }
                 },
                 {
