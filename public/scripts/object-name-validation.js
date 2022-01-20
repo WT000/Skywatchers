@@ -18,7 +18,6 @@ const handleValidation = async (editorId) => {
                 const rawSearchResult = await fetch(`/api/database/search?objectName=${objectName}&objectType=All&sortBy=A-Z&perPage=1&page=1`);
                 const searchResult = await rawSearchResult.json();
 
-                console.log(searchResult);
                 console.log(searchResult.numObjects);
 
                 if (searchResult.numObjects == 0) {
