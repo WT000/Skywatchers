@@ -61,7 +61,16 @@ const visualStats = (typeIndex) => {
             "#686868",
             "#505050",
           ],
-          borderColor: [
+        borderColor: [
+            "#E8E8E8",
+            "#D3D3D3",
+            "#BEBEBE",
+            "#A0A0A0",
+            "#888888",
+            "#686868",
+            "#505050",
+            ],
+        hoverBackgroundColor: [
             "#E8E8E8",
             "#D3D3D3",
             "#BEBEBE",
