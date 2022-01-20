@@ -102,6 +102,7 @@ app.get("/", objectController.index);
 // Database and object specifics
 app.get("/database", objectController.database);
 app.get("/api/database/search", apiObjectController.find);
+app.get("/api/database/valid", apiObjectController.findExact);
 
 app.get("/object/view/:id", objectController.view);
 

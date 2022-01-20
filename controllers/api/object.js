@@ -319,3 +319,26 @@ exports.stats = async (req, res) => {
         res.json({});
     }
 };
+
+// Used by the API's to find identical objects for the duplicate check
+exports.findExact = async (req, res) => {
+    // Get the raw values, then prepare to convert them into proper ones
+    const name = req.query.objectName;
+    
+    // Ensure essential values are present
+    if (name == undefined) {
+        res.json({ errors: { query: { message: "Invalid query" }}, objects: {}, numObjects: 0});
+        return;
+    };
+    
+    try {
+        let queryResults;
+
+        queryResults = await Objects.find({ name: new RegExp(`^${name.trim()}$`, 'i'), isPrivate: false }).populate("uploader", "username").limit(1);
+        
+        res.json({ errors: {}, objects: queryResults, numObjects: queryResults.length });
+    } catch (e) {
+        console.log(e.message);
+        res.json({ errors: e.errors });
+    };
+};

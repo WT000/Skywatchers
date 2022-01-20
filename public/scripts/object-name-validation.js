@@ -15,7 +15,7 @@ const handleValidation = async (editorId) => {
         } else if (document.getElementById("checkbox-input").checked) {   
             try {
                 // The user wants to make it public, so we need to lookup the object in the public database
-                const rawSearchResult = await fetch(`/api/database/search?objectName=${objectName}&objectType=All&sortBy=A-Z&perPage=1&page=1`);
+                const rawSearchResult = await fetch(`/api/database/valid?objectName=${objectName}`);
                 const searchResult = await rawSearchResult.json();
 
                 console.log(`found: ${searchResult.numObjects}`);
