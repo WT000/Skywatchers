@@ -92,8 +92,10 @@ exports.create = async (req, res) => {
 
         // Convert data to the correct format (other names)
         if (req.body.otherNames && req.body.otherNames !== "") {
-            let names = req.body.otherNames.replace(/\s/g,'');
-            otherNames = names.split(",");
+            let names = req.body.otherNames.split(",");
+            otherNames = names.map(name => {
+                return name.trim();
+            });
         } else {
             otherNames = "Not given";
         };
@@ -379,8 +381,10 @@ exports.edit = async (req, res) => {
 
         // Convert data to the correct format (other names)
         if (req.body.otherNames && req.body.otherNames !== "" && req.body.otherNames !== "Not given") {
-            let names = req.body.otherNames.replace(/\s/g,'');
-            otherNames = names.split(",");
+            let names = req.body.otherNames.split(",");
+            otherNames = names.map(name => {
+                return name.trim();
+            });
         } else {
             otherNames = "Not given";
         };

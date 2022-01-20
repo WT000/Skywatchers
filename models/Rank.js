@@ -14,7 +14,7 @@ const rankSchema = new Schema(
         name: { type: String, required: [true, "Name is required"], unique: true },
         description: { type: String, required: [true, "Description is required"] },
         colour: { type: String, required: [true, "Colour is required"] },
-        rankScoreNeeded: { type: Number, required: [true, "Rank Score needed is required"] },
+        rankScoreNeeded: { type: Number, required: [true, "Rank Score needed is required"], unique: true },
     }
 );
 
