@@ -77,6 +77,7 @@ exports.find = async (req, res) => {
         };
 
         let queryResults;
+        let objectCount;
 
         if (finalType === "All") {
             if (nameToFind) {
@@ -88,12 +89,19 @@ exports.find = async (req, res) => {
                     .populate({ path: "uploader", populate: { path: "rank", select: "colour" }, select: "username" })
                     .sort(finalSort).skip((finalPage-1) * finalPerPage).limit(finalPerPage);
                 
+                objectCount = await Objects.find({
+                    $text: { $search: nameToFind },
+                    isPrivate: "false"}, { score: { $meta: "textScore" } }).count();
+                
             } else {
                 // Search for everything (no name provided)
                 queryResults = await Objects.find({ isPrivate: "false" }
                 ).populate("type", "name")
                 .populate({ path: "uploader", populate: { path: "rank", select: "colour" }, select: "username" })
                 .sort(finalSort).skip((finalPage-1) * finalPerPage).limit(finalPerPage);
+                
+                objectCount = await Objects.find({ isPrivate: "false" }).count();
+
             }
             
         } else {
@@ -105,6 +113,10 @@ exports.find = async (req, res) => {
                     ).populate("type", "name")
                     .populate({ path: "uploader", populate: { path: "rank", select: "colour" }, select: "username" })
                     .sort(finalSort).skip((finalPage - 1) * finalPerPage).limit(finalPerPage);
+                
+                objectCount = await Objects.find({
+                    $text: { $search: nameToFind },
+                    isPrivate: "false", type: finalType}, { score: { $meta: "textScore" } }).count();
 
             } else {
                 // Search for everything under the SPECIFIC type (no name provided)
@@ -112,10 +124,12 @@ exports.find = async (req, res) => {
                 ).populate("type", "name")
                 .populate({ path: "uploader", populate: { path: "rank", select: "colour" }, select: "username" })
                 .sort(finalSort).skip((finalPage - 1) * finalPerPage).limit(finalPerPage);
+                
+                objectCount = await Objects.find({ isPrivate: "false", type: finalType }).count();
             }
         }
         
-        res.json({ errors: {}, objects: queryResults, numObjects: queryResults.length });
+        res.json({ errors: {}, objects: queryResults, numObjects: objectCount });
 
     } catch (e) {
         console.log(e.message);
@@ -200,6 +214,7 @@ exports.personal = async (req, res) => {
         };
 
         let queryResults;
+        let objectCount;
 
         if (finalType === "All") {
             if (nameToFind) {
@@ -212,11 +227,17 @@ exports.personal = async (req, res) => {
                     ).populate("type", "name rankScore")
                     .sort(finalSort).skip((finalPage-1) * finalPerPage).limit(finalPerPage);
                 
+                objectCount = await Objects.find({
+                    $text: { $search: nameToFind }, uploader: userId}, { score: { $meta: "textScore" } }).count();
+                
             } else {
                 // Search for everything (no name provided)
                 queryResults = await Objects.find({ uploader: userId }
                 ).populate("type", "name rankScore")
                 .sort(finalSort).skip((finalPage-1) * finalPerPage).limit(finalPerPage);
+                
+                objectCount = await Objects.find({ uploader: userId }).count();
+
             }
             
         } else {
@@ -227,16 +248,22 @@ exports.personal = async (req, res) => {
                     { score: { $meta: "textScore" } }
                     ).populate("type", "name rankScore")
                     .sort(finalSort).skip((finalPage - 1) * finalPerPage).limit(finalPerPage);
+                
+                objectCount = await Objects.find({
+                    $text: { $search: nameToFind },
+                    uploader: userId, type: finalType}, { score: { $meta: "textScore" } }).count();
 
             } else {
                 // Search for everything under the SPECIFIC type (no name provided)
                 queryResults = await Objects.find({ uploader: userId, type: finalType }
                 ).populate("type", "name rankScore")
                 .sort(finalSort).skip((finalPage - 1) * finalPerPage).limit(finalPerPage);
+                
+                objectCount = await Objects.find({ uploader: userId, type: finalType }).count();
             }
         }
         
-        res.json({ errors: {}, objects: queryResults, numObjects: queryResults.length });
+        res.json({ errors: {}, objects: queryResults, numObjects: objectCount });
 
     } catch (e) {
         console.log(e.message);
