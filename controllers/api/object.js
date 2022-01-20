@@ -175,15 +175,14 @@ exports.personal = async (req, res) => {
             finalType = typeToFind;
         };
 
-        // Prepare the sortBy for search (note that personal objects ordered by date are shown in updatedAt)
-        // order instead of createdAt, making it easy to find and update an object after previously updating it
+        // Prepare the sortBy for search
         // Looking for all objects in A-Z order / all objects in a specific type in A-Z order
         if ((sortBy === "A-Z" && typeToFind === "All") || (sortBy === "A-Z" && typeToFind !== "" && nameToFind === "")) {
             finalSort = { name: 1 };
         
         // Looking for all objects in Date order / all objects in a specific type in Date order
         } else if ((sortBy === "Date" && typeToFind === "All") || (sortBy === "Date" && typeToFind !== "" && nameToFind === "")) {
-            finalSort = { updatedAt: -1 };
+            finalSort = { createdAt: -1 };
         
         // Looking for specific objects in A-Z order (priority given to textScore)
         } else if (sortBy === "A-Z") {
@@ -191,7 +190,7 @@ exports.personal = async (req, res) => {
 
         // Looking for speicifc objects in date order (priority given to date)
         } else if (sortBy === "Date") {
-            finalSort = { updatedAt: -1, score: { $meta: "textScore" }};
+            finalSort = { createdAt: -1, score: { $meta: "textScore" }};
         
         // None of the valid options were given
         } else {
