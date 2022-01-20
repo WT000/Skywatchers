@@ -20,9 +20,9 @@ const objectSchema = new Schema(
         description: { type: String, maxlength: [400, "Description too long"] },
         apparentMagnitude: { type: Number },
         uploader: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: [true, "Uploader is required"] },
-        isPrivate: { type: Boolean },
-        imagePath: { type: String },
-        previewPath: { type: String },
+        isPrivate: { type: Boolean, required: [true, "isPrivate is required"] },
+        imagePath: { type: String, required: [true, "imagePath is required"] },
+        previewPath: { type: String, required: [true, "previewPath is required"] },
     },
     { timestamps: true }
 );
