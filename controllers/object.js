@@ -118,7 +118,9 @@ exports.create = async (req, res) => {
                 
         if (!isPrivate) {
             // Verify that the name is unique before making it publically saved
-            const publicDuplicateCheck = await Objects.find({ name: new RegExp(`^${name.trim()}$`, 'i'), isPrivate: false });
+            const findName = name.trim().replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+            const publicDuplicateCheck = await Objects.find({ name: new RegExp(`^${findName}$`, 'i'), isPrivate: false });
+
             if (publicDuplicateCheck.length > 0) {
                 console.log(`Duplicate public object attempted to be made: ${name}`);
                 res.redirect(`/?error=The object has already been publicly listed by another user.`);
@@ -407,7 +409,8 @@ exports.edit = async (req, res) => {
 
         // Firstly do a check if the object is going public before editing it and deciding the users rank
         if (!isPrivate) {
-            const publicDuplicateCheck = await Objects.find({ _id: {$ne: objectId}, name: new RegExp(`^${name.trim()}$`, 'i'), isPrivate: false });
+            const findName = name.trim().replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+            const publicDuplicateCheck = await Objects.find({ _id: {$ne: objectId}, name: new RegExp(`^${findName}$`, 'i'), isPrivate: false });
             if (publicDuplicateCheck.length > 0) {
                 console.log(`Duplicate public object attempted to be made: ${name}`);
                 res.redirect(`/?error=The object has already been publicly listed by another user.`);

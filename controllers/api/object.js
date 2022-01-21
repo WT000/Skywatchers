@@ -334,7 +334,8 @@ exports.findExact = async (req, res) => {
     try {
         let queryResults;
 
-        queryResults = await Objects.find({ name: new RegExp(`^${name.trim()}$`, 'i'), isPrivate: false }).populate("uploader", "username").limit(1);
+        const findName = name.trim().replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+        queryResults = await Objects.find({ name: new RegExp(`^${findName}$`, 'i'), isPrivate: false }).populate("uploader", "username").limit(1);
         
         res.json({ errors: {}, objects: queryResults, numObjects: queryResults.length });
     } catch (e) {
