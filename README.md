@@ -33,5 +33,5 @@ You're now ready to run the application in development or production mode.
 Ideally you should connect to [this URL](https://skywatchers.herokuapp.com/) or put your production database in MONGODB_URI, but if you wish to run it yourself:
 <ol>
     <li>Use <i>npm run seedProduction</i> to setup the MONGODB_URI_PRODUCTION database</li>
-    <li>Use a service like Heroku where MONGODB_URI is the MONGODB_URI_PRODUCTION database, then make it run the start script</li>
+    <li>Use <i>npm run production</i> to run the app, it should be hosted at <a href="http://localhost:2020/">this URL</a>.</li>
 </ol>
