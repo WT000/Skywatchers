@@ -158,7 +158,7 @@ exports.create = async (req, res) => {
             };
         };
 
-        if (!uploadedImage || !previewPath) {
+        if (!uploadedImage || !previewImage) {
             uploadPath = previewPath = "/images/defaultImage.png";
         };
 
