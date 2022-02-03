@@ -32,6 +32,7 @@ document.getElementById("object-name").addEventListener("input", e => {
 });
 
 document.getElementById("object-type").addEventListener("input", e => {
+    currentPage = 1;
     handleSearch();
 });
 
