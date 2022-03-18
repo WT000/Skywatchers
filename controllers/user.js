@@ -65,7 +65,7 @@ exports.login = async (req, res) => {
             req.session.userID = foundUser._id;
             // Extend the session from 1 day to 15 days if remember me is checked
             if (req.body.rememberMe) {
-                req.session.cookie.maxAge = 1000 * 60 * 60 * 24 * 15;
+                req.session.cookie.maxAge = 60 * 60 * 24 * 15;
             };
 
             res.redirect(`/?message=Welcome to Skywatchers, ${req.body.username}!`);
