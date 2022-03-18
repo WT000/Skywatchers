@@ -35,9 +35,9 @@ const upload = multer({ dest: "/tmp/objects" });
 // Expired cookies are purged every 24 hours to prevent memory leaks (the warning of which sometimes appears in the console without this)
 app.use(expressSession({
     secret: "Space is very cool!",
-    cookie: { maxAge: 1000 * 60 * 60 * 24 },
+    cookie: { maxAge: 60 * 60 * 24 },
     store: new MemoryStore({
-        checkPeriod: 1000 * 60 * 60 * 24
+        checkPeriod: 60 * 60 * 24
     }),
     resave: true,
     saveUninitialized: true,
