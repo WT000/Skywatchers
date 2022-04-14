@@ -1,5 +1,5 @@
-# DATABASESAE1
-My prototype program for Advanced Database System's AE1, a web app powered by Node.js and MongoDB to track astronomical objects and show your findings to the world.
+# Skywatchers
+A web app powered by Node.js and MongoDB to track astronomical objects and show your findings to the world.
 
 # KEY FEATURES
 <ul>
